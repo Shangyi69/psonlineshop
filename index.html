@@ -1,364 +1,354 @@
 <!DOCTYPE html>
-<html>
+<html lang="en" class="scroll-smooth">
 <head>
-    <base target="_top">
+    <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Game Top-Up Center - ML Diamonds & PUBG UC</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700&family=Padauk:wght@400;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;900&display=swap" rel="stylesheet">
     <style>
-        body { font-family: 'Inter', sans-serif; }
-        .interactive-item { cursor: pointer; }
-        .hidden { display: none; }
-        .banner-slide { transition: opacity 1s ease-in-out; }
-        #topupContent { font-family: 'Padauk', sans-serif; }
-        .selected-operator, .selected-amount, .selected-payment {
-            border-color: #3B82F6;
-            box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.5);
-            transform: scale(1.05);
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #0F172A; /* slate-900 */
+        }
+        .glass-card {
+            background: rgba(30, 41, 59, 0.5); /* slate-800 with opacity */
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(51, 65, 85, 0.5); /* slate-700 with opacity */
+        }
+        .hero-bg {
+            background-image: 
+                linear-gradient(to top, rgba(15, 23, 42, 1) 0%, rgba(15, 23, 42, 0) 50%),
+                url('https://placehold.co/1200x800/1E293B/FFFFFF?text=PS+GAME+STORE');
+            background-size: cover;
+            background-position: center top;
+        }
+        .payment-logo {
+            height: 50px;
+            filter: grayscale(100%);
+            opacity: 0.7;
+            transition: all 0.3s ease;
+        }
+        .payment-logo:hover {
+            filter: grayscale(0%);
+            opacity: 1;
+        }
+        /* Style for hidden sections for smooth transition */
+        .hidden-section {
+            display: none;
+            opacity: 0;
+            transition: opacity 0.5s ease-in-out;
+        }
+        .visible-section {
+            display: block;
+            opacity: 1;
         }
     </style>
-    <title>PS Game Store</title>
 </head>
-<body class="bg-slate-800 p-4 sm:p-6">
+<body class="text-white">
 
-<div id="mainContainer" class="bg-gray-200 p-8 w-full min-h-screen rounded-lg shadow-xl mx-auto max-w-6xl">
-    
-    <div class="relative z-20 bg-slate-800 text-white flex items-center justify-between mb-6 p-4 rounded-lg shadow-md">
-        <a id="shop-logo-link" href="#" class="flex-shrink-0 flex items-center gap-2 interactive-item">
-            <img src="https://drive.google.com/thumbnail?id=15MbzA94gFShft3ydeboDN_8Ap9M72K8Q&sz=w500" alt="PS GAME STORE Logo" class="h-12 w-12 rounded-full shadow-md">
-            <h1 class="text-xl font-bold text-white">PS GAME STORE</h1>
-        </a>
-    </div>
-
-    <div id="mainContentWrapper">
-        <div class="flex flex-col items-center mb-6 text-center">
-            <div id="bannerSlideshowContainer" class="relative mb-9 rounded-lg overflow-hidden shadow-md w-full aspect-[21/9]">
-                <img src="https://drive.google.com/thumbnail?id=15PS_2FE1HIbXvis-Mz0cKY5sMZhWlqGt&sz=w500" alt="Banner 1" class="banner-slide absolute top-0 left-0 w-full h-full object-cover opacity-100">
-                <img src="https://drive.google.com/thumbnail?id=14UIpJuoo17jqhq0fu0isWD3DdUR1arT5&sz=w500" alt="Banner 2" class="banner-slide absolute top-0 left-0 w-full h-full object-cover opacity-0">
-                <img src="https://drive.google.com/thumbnail?id=15IL2-gk5pe6xyI9Vrk3GGocxPL2F5TLJ&sz=w500" alt="Banner 3" class="banner-slide absolute top-0 left-0 w-full h-full object-cover opacity-0">
-                <img src="https://placehold.co/600x240/334155/E2E8F0?text=PS+Game+Store" alt="Banner 4" class="banner-slide absolute top-0 left-0 w-full h-full object-cover opacity-0">
+    <!-- Header -->
+    <header class="bg-slate-900/80 backdrop-blur-md sticky top-0 z-50 border-b border-slate-800">
+        <nav class="container mx-auto px-6 py-4 flex justify-between items-center">
+            <a href="#" class="text-2xl font-bold text-cyan-400">PS GAME STORE</a>
+            <div class="flex space-x-6 items-center">
+                <a href="#select-game" class="hidden md:block hover:text-cyan-400 transition duration-300">Select Game</a>
+                <a href="#select-game" class="bg-cyan-500 hover:bg-cyan-600 text-slate-900 font-bold py-2 px-4 rounded-lg transition duration-300">Order Now</a>
             </div>
-        </div>
+        </nav>
+    </header>
 
-        <div id="gameSelectionContainer" class="text-center bg-white p-6 rounded-lg shadow-md mt-6">
-            <h2 class="text-2xl font-bold my-6 text-gray-800">ဝန်ဆောင်မှုတစ်ခု ရွေးချယ်ပါ</h2>
-            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-                <button class="relative flex flex-col items-center p-6 bg-gray-50 rounded-lg shadow-md hover:shadow-lg interactive-item game-btn" data-game-id="mlbb">
-                    <span class="absolute top-2 right-2 bg-red-500 text-white text-xs font-bold px-2 py-1 rounded-full">Hot Sale</span>
-                    <img src="https://drive.google.com/thumbnail?id=14_RThMWD-OWrmD7R2rTM3gsjLMUtzWNL&sz=w500" alt="MLBB Logo" class="h-16 w-auto mb-4 rounded-lg">
-                    <h2 class="text-xl font-bold text-gray-800">Mobile Legends</h2>
-                </button>
-                <button class="relative flex flex-col items-center p-6 bg-gray-50 rounded-lg shadow-md hover:shadow-lg interactive-item game-btn" data-game-id="pubg">
-                    <span class="absolute top-2 right-2 bg-red-500 text-white text-xs font-bold px-2 py-1 rounded-full">Hot Sale</span>
-                    <img src="https://drive.google.com/thumbnail?id=15Dapkfgx8Xy0gnEbXoLK51KcrBH6DDqL&sz=w500" alt="PUBG Logo" class="h-16 w-auto mb-4 rounded-lg">
-                    <h2 class="text-xl font-bold text-gray-800">PUBG Mobile</h2>
-                </button>
-                <button id="topup-btn" class="relative flex flex-col items-center p-6 bg-gray-50 rounded-lg shadow-md hover:shadow-lg interactive-item">
-                    <span class="absolute top-2 right-2 bg-green-500 text-white text-xs font-bold px-2 py-1 rounded-full">SIM Top Up</span>
-                     <svg class="h-16 w-auto mb-4 text-sky-500" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
-                         <path stroke-linecap="round" stroke-linejoin="round" d="M10.5 1.5H8.25A2.25 2.25 0 0 0 6 3.75v16.5a2.25 2.25 0 0 0 2.25 2.25h7.5A2.25 2.25 0 0 0 18 20.25V3.75a2.25 2.25 0 0 0-2.25-2.25H13.5m-3 0V3h3V1.5m-3 0h3m-3 18.75h3" />
-                     </svg>
-                    <h2 class="text-xl font-bold text-gray-800">ဖုန်းဘေလ်ဖြည့်ရန်</h2>
-                </button>
+    <main>
+        <!-- Hero Section -->
+        <section class="hero-bg pt-40 pb-32 text-center">
+            <div class="container mx-auto px-6">
+                <h1 class="text-4xl md:text-6xl font-black mb-4 leading-tight">PS GAME STORE မှ ကြိုဆိုပါတယ်</h1>
+                <p class="text-lg md:text-xl text-slate-300 mb-8 max-w-3xl mx-auto">Mobile Legends နှင့် PUBG Mobile UC အတွက် စိတ်ချယုံကြည်ရဆုံးနှင့် အမြန်ဆန်ဆုံးနေရာ</p>
             </div>
-        </div>
-    </div>
+        </section>
 
-    <div id="mlbbContent" class="hidden"></div>
-    <div id="pubgContent" class="hidden"></div>
-    
-    <div id="topupContent" class="hidden">
-        <form id="topupForm" action="https://formsubmit.co/your-real-email@example.com" method="POST" enctype="multipart/form-data">
-            <div class="flex items-center justify-between mb-6 mt-4">
-                  <button type="button" onclick="goHome()" class="bg-gray-200 text-gray-700 p-2 rounded-full hover:bg-gray-300 interactive-item"> &lt; Back </button>
-                  <h2 class="text-lg font-bold text-gray-800">Myanmar SIM Top Up</h2>
-                  <div class="w-10"></div>
-            </div>
-            <div class="w-full max-w-md bg-white rounded-2xl shadow-lg p-6 md:p-8 space-y-6 mx-auto">
-                <div class="text-center">
-                    <h1 class="text-2xl md:text-3xl font-bold text-gray-800">မိုဘိုင်းလ်ဖုန်း ဘေလ်ဖြည့်ရန်</h1>
-                    <p class="text-gray-500 mt-1">သင်၏ ဖုန်းနံပါတ်ထည့်သွင်းပြီး ဘေလ်ဖြည့်ပါ</p>
+        <!-- Home Layout - Game Selection -->
+        <section id="select-game" class="py-20">
+            <div class="container mx-auto px-6">
+                 <div class="text-center mb-12">
+                    <h2 class="text-3xl md:text-4xl font-bold">Choose Your Game</h2>
+                    <p class="text-slate-400 mt-2">Select a game to see available packages.</p>
                 </div>
-                <div>
-                    <label for="phone" class="block text-sm font-medium text-gray-700 mb-1">ဖုန်းနံပါတ်</label>
-                    <input type="tel" id="phone" name="Phone Number" placeholder="ဥပမာ - 09xxxxxxxxx" class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition duration-200" oninput="detectOperator(this.value)" required>
-                </div>
-                <div>
-                    <h3 class="text-lg font-semibold text-gray-700 mb-3">ဖုန်းလိုင်း ရွေးချယ်ပါ</h3>
-                    <div class="grid grid-cols-4 gap-3">
-                        <div id="op-mpt" class="operator-card flex justify-center items-center p-2 border-2 border-gray-200 rounded-lg cursor-pointer" onclick="selectItem('operator', 'op-mpt')">
-                             <img src="https://upload.wikimedia.org/wikipedia/commons/3/36/MPT_logo_2022.svg" alt="MPT" class="h-10">
-                        </div>
-                        <div id="op-ooredoo" class="operator-card flex justify-center items-center p-2 border-2 border-gray-200 rounded-lg cursor-pointer" onclick="selectItem('operator', 'op-ooredoo')">
-                             <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/f/fa/Ooredoo_logo.svg/2560px-Ooredoo_logo.svg.png" alt="Ooredoo" class="h-8">
-                        </div>
-                        <div id="op-atom" class="operator-card flex justify-center items-center p-2 border-2 border-gray-200 rounded-lg cursor-pointer" onclick="selectItem('operator', 'op-atom')">
-                             <img src="https://www.atom.com.mm/themes/atom/logo.svg" alt="ATOM" class="h-10">
-                        </div>
-                        <div id="op-mytel" class="operator-card flex justify-center items-center p-2 border-2 border-gray-200 rounded-lg cursor-pointer" onclick="selectItem('operator', 'op-mytel')">
-                             <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/3/3e/Mytel_logo.svg/1280px-Mytel_logo.svg.png" alt="Mytel" class="h-10">
-                        </div>
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-8 max-w-4xl mx-auto">
+                    <!-- Mobile Legends Selector Card -->
+                    <div id="select-ml" class="glass-card rounded-2xl p-6 text-center cursor-pointer transition-all duration-300 hover:border-cyan-400 hover:scale-105">
+                        <img src="https://drive.google.com/thumbnail?id=14_RThMWD-OWrmD7R2rTM3gsjLMUtzWNL&sz=w500" alt="Mobile Legends Logo" class="mx-auto mb-4 h-24 w-24 object-contain rounded-2xl">
+                        <h3 class="text-2xl font-bold">Mobile Legends: Bang Bang</h3>
+                    </div>
+                    <!-- PUBG Mobile Selector Card -->
+                    <div id="select-pubg" class="glass-card rounded-2xl p-6 text-center cursor-pointer transition-all duration-300 hover:border-yellow-400 hover:scale-105">
+                        <img src="https://drive.google.com/thumbnail?id=15Dapkfgx8Xy0gnEbXoLK51KcrBH6DDqL&sz=w500" alt="PUBG Mobile Logo" class="mx-auto mb-4 h-24 w-24 object-contain rounded-2xl">
+                        <h3 class="text-2xl font-bold">PUBG Mobile</h3>
                     </div>
                 </div>
-                <div>
-                    <h3 class="text-lg font-semibold text-gray-700 mb-3">ငွေပမာဏ ရွေးချယ်ပါ (ကျပ်)</h3>
-                    <div class="grid grid-cols-3 gap-3">
-                        <div id="amount-1000" class="amount-card text-center font-bold p-4 border-2 rounded-lg cursor-pointer" onclick="selectItem('amount', 'amount-1000', 1000)">1,000</div>
-                        <div id="amount-3000" class="amount-card text-center font-bold p-4 border-2 rounded-lg cursor-pointer" onclick="selectItem('amount', 'amount-3000', 3000)">3,000</div>
-                        <div id="amount-5000" class="amount-card text-center font-bold p-4 border-2 rounded-lg cursor-pointer" onclick="selectItem('amount', 'amount-5000', 5000)">5,000</div>
-                        <div id="amount-10000" class="amount-card text-center font-bold p-4 border-2 rounded-lg cursor-pointer" onclick="selectItem('amount', 'amount-10000', 10000)">10,000</div>
-                        <div id="amount-20000" class="amount-card text-center font-bold p-4 border-2 rounded-lg cursor-pointer" onclick="selectItem('amount', 'amount-20000', 20000)">20,000</div>
-                        <div id="amount-30000" class="amount-card text-center font-bold p-4 border-2 rounded-lg cursor-pointer" onclick="selectItem('amount', 'amount-30000', 30000)">30,000</div>
-                    </div>
-                </div>
-                <div>
-                    <h3 class="text-lg font-semibold text-gray-700 mb-3">ငွေပေးချေမှုစနစ် ရွေးချယ်ပါ</h3>
-                    <div class="grid grid-cols-1 sm:grid-cols-3 gap-4">
-                        <div id="payment-scb" class="payment-card flex flex-col items-center justify-center p-3 border-2 rounded-lg cursor-pointer" onclick="selectItem('payment', 'payment-scb')">
-                             <img src="https://drive.google.com/thumbnail?id=141mrU3g96CgFtE2OtzfNvpCaxHZmnQkA&sz=w500" alt="SCB Logo" class="h-8 mb-2"><span class="font-semibold text-sm">SCB Easy</span>
-                        </div>
-                         <div id="payment-promptpay" class="payment-card flex flex-col items-center justify-center p-3 border-2 rounded-lg cursor-pointer" onclick="selectItem('payment', 'payment-promptpay')">
-                             <img src="https://drive.google.com/thumbnail?id=13DJ6Llz6dl4DehZw1rRZAwMIZFvFaIr8&sz=w500" alt="PromptPay Logo" class="h-8 mb-2"><span class="font-semibold text-sm">PromptPay</span>
-                        </div>
-                         <div id="payment-truemoney" class="payment-card flex flex-col items-center justify-center p-3 border-2 rounded-lg cursor-pointer" onclick="selectItem('payment', 'payment-truemoney')">
-                             <img src="https://drive.google.com/thumbnail?id=149aT4E1C4i-m12DZ9R0iAy8qqkCf4QRC&sz=w500" alt="TrueMoney Logo" class="h-8 mb-2"><span class="font-semibold text-sm">TrueMoney</span>
-                        </div>
-                    </div>
-                </div>
-                <div id="topupPaymentDetailsContainer" class="mt-4">
-                    <div id="topup-scbPaymentDetails" class="payment-detail-topup bg-gray-100 p-6 rounded-lg hidden text-center">... SCB Details ...</div>
-                    <div id="topup-promptpayPaymentDetails" class="payment-detail-topup bg-gray-100 p-6 rounded-lg hidden text-center">... PromptPay Details ...</div>
-                    <div id="topup-truemoneyPaymentDetails" class="payment-detail-topup bg-gray-100 p-6 rounded-lg hidden text-center">... TrueMoney Details ...</div>
-                </div>
-                <div>
-                    <label for="topupPaySlipFile" class="block text-sm font-medium text-gray-700 mb-1">ငွေလွှဲပြေစာထည့်ရန်</label>
-                    <input type="file" id="topupPaySlipFile" name="Attachment" required class="w-full text-sm text-gray-500 file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:text-sm file:font-semibold file:bg-blue-50 file:text-blue-700 hover:file:bg-blue-100">
-                </div>
-                <input type="hidden" id="selectedOperatorInput" name="Operator">
-                <input type="hidden" id="selectedAmountInput" name="Amount (MMK)">
-                <input type="hidden" id="selectedPaymentInput" name="Payment Method">
-                <input type="hidden" name="_subject" value="New SIM Top-up Order!">
-                <input type="hidden" name="_captcha" value="false">
-                
-                <button type="submit" class="w-full bg-blue-600 text-white font-bold py-3 px-4 rounded-lg hover:bg-blue-700">ဘေလ်ဖြည့်မည်</button>
             </div>
-        </form>
-    </div>
-    
-    <div id="paymentAndFormSection" class="hidden">
-        <h2 class="text-2xl font-bold mt-6 mb-4 text-gray-800 text-center">ငွေပေးချေမှုအချက်အလက်များ</h2>
-        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 mb-6 mt-4">
-             <button type="button" class="payment-btn flex items-center justify-between w-full p-3 bg-white rounded-lg shadow-md interactive-item" data-payment-method="scb">...</button>
-             <button type="button" class="payment-btn flex items-center justify-between w-full p-3 bg-white rounded-lg shadow-md interactive-item" data-payment-method="promptpay">...</button>
-             <button type="button" class="payment-btn flex items-center justify-between w-full p-3 bg-white rounded-lg shadow-md interactive-item" data-payment-method="truemoney">...</button>
-             <button type="button" class="payment-btn flex items-center justify-between w-full p-3 bg-white rounded-lg shadow-md interactive-item" data-payment-method="kbz">...</button>
-             <button type="button" class="payment-btn flex items-center justify-between w-full p-3 bg-white rounded-lg shadow-md interactive-item" data-payment-method="wave">...</button>
-        </div>
-        <div id="paymentDetailsContainer">
-             <div id="scbPaymentDetails" class="bg-gray-100 p-6 rounded-lg hidden text-center">... SCB Details ...</div>
-             <div id="promptpayPaymentDetails" class="bg-gray-100 p-6 rounded-lg hidden text-center">... PromptPay Details ...</div>
-             <div id="truemoneyPaymentDetails" class="bg-gray-100 p-6 rounded-lg hidden text-center">... TrueMoney Details ...</div>
-             <div id="kbzPaymentDetails" class="bg-gray-100 p-6 rounded-lg hidden text-center">... KBZ Details ...</div>
-             <div id="wavePaymentDetails" class="bg-gray-100 p-6 rounded-lg hidden text-center">... Wave Details ...</div>
-        </div>
-        <div id="formContainer" class="hidden">
-            <form id="dataForm" action="https://formsubmit.co/your-real-email@example.com" method="POST" enctype="multipart/form-data" class="space-y-4">
-                <input type="hidden" id="selectedItemInput" name="Selected Package">
-                <input type="hidden" id="selectedPaymentMethodInput" name="Payment Method">
-                <input type="hidden" id="selectedGameInput" name="Game">
-                
-                <div><label for="gameIdInput">Game ID:</label><input type="text" id="gameIdInput" name="Game ID" required class="w-full border rounded p-2 mt-1"></div>
-                <div id="serverIdInputContainer"><label for="serverIdInput">Server ID:</label><input type="text" id="serverIdInput" name="Server ID" class="w-full border rounded p-2 mt-1"></div>
-                <div><label for="gmailInput">Gmail:</label><input type="email" id="gmailInput" name="Gmail" required class="w-full border rounded p-2 mt-1"></div>
-                <div><label for="paySlipFileInput">Pay Slip Photo:</label><input type="file" id="paySlipFileInput" name="Attachment" required class="w-full mt-1"></div>
-                
-                <input type="hidden" name="_subject" value="New Game Top-up Order!">
-                <input type="hidden" name="_captcha" value="false">
+        </section>
 
-                <button type="submit" class="w-full bg-blue-600 text-white font-bold py-3 rounded-lg interactive-item">အချက်အလက် တင်ရန်</button>
-            </form>
+        <!-- Mobile Legends Section (Initially Hidden) -->
+        <section id="mobile-legends" class="hidden-section py-20">
+            <div class="container mx-auto px-6">
+                <h2 class="text-3xl md:text-4xl font-bold text-center mb-10">Mobile Legends Packages</h2>
+                <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-4 md:gap-6">
+                    <div class="glass-card text-center p-6 rounded-2xl hover:border-cyan-400 flex flex-col justify-between"><div><div class="flex items-center justify-center gap-2"><p class="text-2xl font-bold">60</p><img src="https://drive.google.com/thumbnail?id=19swB7MydLO3eHR-QMAE3BUJbxBPkTMGd&sz=w1000" alt="Diamond Logo" class="w-6 h-6 object-contain"></div><p class="text-xl font-semibold mt-2">$1.10</p></div><button class="buy-now-btn mt-4 bg-cyan-500/80 hover:bg-cyan-500 text-white font-bold py-2 px-4 rounded-lg transition duration-300" data-game="Mobile Legends" data-package-value="ML_60_Diamonds">Buy Now</button></div>
+                    <div class="glass-card text-center p-6 rounded-2xl hover:border-cyan-400 flex flex-col justify-between"><div><div class="flex items-center justify-center gap-2"><p class="text-2xl font-bold">172</p><img src="https://drive.google.com/thumbnail?id=19swB7MydLO3eHR-QMAE3BUJbxBPkTMGd&sz=w1000" alt="Diamond Logo" class="w-6 h-6 object-contain"></div><p class="text-xl font-semibold mt-2">$2.90</p></div><button class="buy-now-btn mt-4 bg-cyan-500/80 hover:bg-cyan-500 text-white font-bold py-2 px-4 rounded-lg transition duration-300" data-game="Mobile Legends" data-package-value="ML_172_Diamonds">Buy Now</button></div>
+                    <div class="glass-card text-center p-6 rounded-2xl hover:border-cyan-400 flex flex-col justify-between"><div><div class="flex items-center justify-center gap-2"><p class="text-2xl font-bold">257</p><img src="https://drive.google.com/thumbnail?id=19swB7MydLO3eHR-QMAE3BUJbxBPkTMGd&sz=w1000" alt="Diamond Logo" class="w-6 h-6 object-contain"></div><p class="text-xl font-semibold mt-2">$4.30</p></div><button class="buy-now-btn mt-4 bg-cyan-500/80 hover:bg-cyan-500 text-white font-bold py-2 px-4 rounded-lg transition duration-300" data-game="Mobile Legends" data-package-value="ML_257_Diamonds">Buy Now</button></div>
+                    <div class="glass-card text-center p-6 rounded-2xl hover:border-cyan-400 flex flex-col justify-between"><div><div class="flex items-center justify-center gap-2"><p class="text-2xl font-bold">514</p><img src="https://drive.google.com/thumbnail?id=19swB7MydLO3eHR-QMAE3BUJbxBPkTMGd&sz=w1000" alt="Diamond Logo" class="w-6 h-6 object-contain"></div><p class="text-xl font-semibold mt-2">$8.50</p></div><button class="buy-now-btn mt-4 bg-cyan-500/80 hover:bg-cyan-500 text-white font-bold py-2 px-4 rounded-lg transition duration-300" data-game="Mobile Legends" data-package-value="ML_514_Diamonds">Buy Now</button></div>
+                    <div class="glass-card text-center p-6 rounded-2xl hover:border-cyan-400 flex flex-col justify-between"><div><div class="flex items-center justify-center gap-2"><p class="text-2xl font-bold">1050</p><img src="https://drive.google.com/thumbnail?id=19swB7MydLO3eHR-QMAE3BUJbxBPkTMGd&sz=w1000" alt="Diamond Logo" class="w-6 h-6 object-contain"></div><p class="text-xl font-semibold mt-2">$17.00</p></div><button class="buy-now-btn mt-4 bg-cyan-500/80 hover:bg-cyan-500 text-white font-bold py-2 px-4 rounded-lg transition duration-300" data-game="Mobile Legends" data-package-value="ML_1050_Diamonds">Buy Now</button></div>
+                </div>
+            </div>
+        </section>
+
+        <!-- PUBG Mobile Section (Initially Hidden) -->
+        <section id="pubg" class="hidden-section py-20 bg-slate-900/50">
+            <div class="container mx-auto px-6">
+                <h2 class="text-3xl md:text-4xl font-bold text-center mb-10">PUBG Mobile Packages</h2>
+                <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-4 md:gap-6">
+                    <div class="glass-card text-center p-6 rounded-2xl hover:border-yellow-400 flex flex-col justify-between"><div><div class="flex items-center justify-center gap-2"><p class="text-2xl font-bold">60</p><img src="https://drive.google.com/thumbnail?id=19tdT_DgDbgHOxr3tv2KaO3vwesNbrjFw&sz=w1000" alt="UC Logo" class="w-16 h-16 object-contain"></div><p class="text-xl font-semibold mt-2">$0.99</p></div><button class="buy-now-btn mt-4 bg-yellow-500/80 hover:bg-yellow-500 text-white font-bold py-2 px-4 rounded-lg transition duration-300" data-game="PUBG Mobile" data-package-value="PUBG_60_UC">Buy Now</button></div>
+                    <div class="glass-card text-center p-6 rounded-2xl hover:border-yellow-400 flex flex-col justify-between"><div><div class="flex items-center justify-center gap-2"><p class="text-2xl font-bold">325</p><img src="https://drive.google.com/thumbnail?id=19tdT_DgDbgHOxr3tv2KaO3vwesNbrjFw&sz=w1000" alt="UC Logo" class="w-16 h-16 object-contain"></div><p class="text-xl font-semibold mt-2">$4.99</p></div><button class="buy-now-btn mt-4 bg-yellow-500/80 hover:bg-yellow-500 text-white font-bold py-2 px-4 rounded-lg transition duration-300" data-game="PUBG Mobile" data-package-value="PUBG_325_UC">Buy Now</button></div>
+                    <div class="glass-card text-center p-6 rounded-2xl hover:border-yellow-400 flex flex-col justify-between"><div><div class="flex items-center justify-center gap-2"><p class="text-2xl font-bold">660</p><img src="https://drive.google.com/thumbnail?id=19tdT_DgDbgHOxr3tv2KaO3vwesNbrjFw&sz=w1000" alt="UC Logo" class="w-16 h-16 object-contain"></div><p class="text-xl font-semibold mt-2">$9.99</p></div><button class="buy-now-btn mt-4 bg-yellow-500/80 hover:bg-yellow-500 text-white font-bold py-2 px-4 rounded-lg transition duration-300" data-game="PUBG Mobile" data-package-value="PUBG_660_UC">Buy Now</button></div>
+                    <div class="glass-card text-center p-6 rounded-2xl hover:border-yellow-400 flex flex-col justify-between"><div><div class="flex items-center justify-center gap-2"><p class="text-2xl font-bold">1800</p><img src="https://drive.google.com/thumbnail?id=19tdT_DgDbgHOxr3tv2KaO3vwesNbrjFw&sz=w1000" alt="UC Logo" class="w-16 h-16 object-contain"></div><p class="text-xl font-semibold mt-2">$24.99</p></div><button class="buy-now-btn mt-4 bg-yellow-500/80 hover:bg-yellow-500 text-white font-bold py-2 px-4 rounded-lg transition duration-300" data-game="PUBG Mobile" data-package-value="PUBG_1800_UC">Buy Now</button></div>
+                    <div class="glass-card text-center p-6 rounded-2xl hover:border-yellow-400 flex flex-col justify-between"><div><div class="flex items-center justify-center gap-2"><p class="text-2xl font-bold">8100</p><img src="https://drive.google.com/thumbnail?id=19tdT_DgDbgHOxr3tv2KaO3vwesNbrjFw&sz=w1000" alt="UC Logo" class="w-16 h-16 object-contain"></div><p class="text-xl font-semibold mt-2">$99.99</p></div><button class="buy-now-btn mt-4 bg-yellow-500/80 hover:bg-yellow-500 text-white font-bold py-2 px-4 rounded-lg transition duration-300" data-game="PUBG Mobile" data-package-value="PUBG_8100_UC">Buy Now</button></div>
+                </div>
+            </div>
+        </section>
+        
+        <!-- Order Form Section -->
+        <section id="order" class="hidden-section py-20 bg-slate-900/50">
+            <div class="container mx-auto px-6">
+                <div class="text-center mb-12">
+                    <h2 class="text-3xl md:text-4xl font-bold">အော်ဒါတင်ရန်</h2>
+                    <p class="text-slate-400 mt-2">သင်၏မှာယူမှုကို အပြီးသတ်ရန် အောက်ပါဖောင်ကို ဖြည့်စွက်ပါ။</p>
+                </div>
+                
+                <div class="max-w-2xl mx-auto glass-card p-8 rounded-2xl">
+                    <form action="https://formsubmit.co/your@email.com" method="POST" enctype="multipart/form-data">
+                        <input type="hidden" name="_subject" value="New Game Top-Up Order!">
+                        <input type="hidden" name="_captcha" value="false">
+                        <input type="hidden" name="_next" value="https://yourwebsite.com/thankyou.html"> 
+                        
+                        <div class="mb-6 hidden">
+                            <label class="block mb-2 font-bold text-slate-300">၁. ဂိမ်းရွေးချယ်ပါ</label>
+                             <input type="radio" name="game" value="Mobile Legends" id="game-ml">
+                             <input type="radio" name="game" value="PUBG Mobile" id="game-pubg">
+                        </div>
+
+                        <div class="mb-6">
+                            <label for="package" class="block mb-2 font-bold text-slate-300">၁. Package ရွေးချယ်ပါ</label>
+                            <select id="package" name="package" class="w-full p-3 bg-slate-700 border border-slate-600 rounded-lg focus:outline-none focus:ring-2 focus:ring-cyan-500" required>
+                                <option value="" disabled selected>-- အရင်ဆုံး ဂိမ်းရွေးပါ --</option>
+                            </select>
+                        </div>
+                        
+                        <!-- Form Details that appear after package selection -->
+                        <div id="form-details" class="opacity-0 max-h-0 overflow-hidden transition-all duration-700 ease-in-out">
+                            <div id="player-info-fields" class="space-y-4 mb-6"></div>
+
+                            <div class="mb-6">
+                                <label for="contact" class="block mb-2 font-bold text-slate-300">၃. သင်၏ WhatsApp နံပါတ်</label>
+                                <input type="tel" id="contact" name="whatsapp_number" class="w-full p-3 bg-slate-700 border border-slate-600 rounded-lg focus:outline-none focus:ring-2 focus:ring-cyan-500" placeholder="e.g., +959..." required>
+                            </div>
+                            
+                            <div class="mb-6">
+                                <label for="payment-proof" class="block mb-2 font-bold text-slate-300">၄. ငွေလွှဲပြေစာ ပုံတင်ရန်</label>
+                                <input type="file" id="payment-proof" name="attachment" accept="image/*" class="w-full text-sm text-slate-400 file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:text-sm file:font-semibold file:bg-cyan-50 file:text-cyan-700 hover:file:bg-cyan-100" required>
+                            </div>
+                            
+                            <button type="submit" class="w-full bg-gradient-to-r from-cyan-500 to-blue-500 hover:from-cyan-600 hover:to-blue-600 text-white font-bold py-3 px-6 rounded-lg text-lg transition duration-300">
+                                အော်ဒါတင်မည်
+                            </button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </section>
+
+        <!-- Payment Methods Section -->
+        <section id="payment" class="hidden-section py-20">
+            <div class="container mx-auto px-6">
+                <div class="text-center mb-12">
+                    <h2 class="text-3xl md:text-4xl font-bold">ငွေပေးချေမှုများ</h2>
+                    <p class="text-slate-400 mt-2">ကျွန်ုပ်တို့လက်ခံသော ငွေပေးချေမှုနည်းလမ်းများ</p>
+                </div>
+                <div class="flex justify-center items-center gap-8 md:gap-12 flex-wrap max-w-3xl mx-auto">
+                    <img src="https://placehold.co/200x100/FFFFFF/000000?text=KBZPay" alt="KBZPay Logo" class="payment-logo">
+                    <img src="https://placehold.co/200x100/FFFFFF/000000?text=WavePay" alt="WavePay Logo" class="payment-logo">
+                    <img src="https://placehold.co/200x100/FFFFFF/000000?text=AYAPay" alt="AYAPay Logo" class="payment-logo">
+                    <img src="https://placehold.co/200x100/FFFFFF/000000?text=CBPay" alt="CBPay Logo" class="payment-logo">
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- Footer -->
+    <footer class="bg-slate-900 border-t border-slate-800">
+        <div class="container mx-auto px-6 py-6 text-center text-slate-400">
+            <p>&copy; 2025 Gamer's Hub. All Rights Reserved.</p>
         </div>
-    </div>
-    
-    <div id="notesSection" class="bg-white p-6 rounded-lg shadow-md mt-6 text-left">... Important Notes ...</div>
-    <div id="contactSection" class="bg-white p-6 rounded-lg shadow-md mt-6 text-center">... Contact Info ...</div>
-    
-</div>
+    </footer>
 
 <script>
-document.addEventListener('DOMContentLoaded', function() {
-    goHome();
-    attachAllEventListeners();
-    startBannerSlideshow();
-});
+    // Data for game packages
+    const packages = {
+        "Mobile Legends": [
+            { text: "60 Diamonds - $1.10", value: "ML_60_Diamonds" },
+            { text: "172 Diamonds - $2.90", value: "ML_172_Diamonds" },
+            { text: "257 Diamonds - $4.30", value: "ML_257_Diamonds" },
+            { text: "514 Diamonds - $8.50", value: "ML_514_Diamonds" },
+            { text: "1050 Diamonds - $17.00", value: "ML_1050_Diamonds" },
+        ],
+        "PUBG Mobile": [
+            { text: "60 UC - $0.99", value: "PUBG_60_UC" },
+            { text: "325 UC - $4.99", value: "PUBG_325_UC" },
+            { text: "660 UC - $9.99", value: "PUBG_660_UC" },
+            { text: "1800 UC - $24.99", value: "PUBG_1800_UC" },
+            { text: "8100 UC - $99.99", value: "PUBG_8100_UC" },
+        ]
+    };
 
-function startBannerSlideshow() { /* ... Same as before ... */ }
+    // DOM Elements
+    const selectMlCard = document.getElementById('select-ml');
+    const selectPubgCard = document.getElementById('select-pubg');
+    const mlPackageSection = document.getElementById('mobile-legends');
+    const pubgPackageSection = document.getElementById('pubg');
+    const orderFormSection = document.getElementById('order');
+    
+    const gameMlRadio = document.getElementById('game-ml');
+    const gamePubgRadio = document.getElementById('game-pubg');
+    const packageSelect = document.getElementById('package');
+    const playerInfoFieldsContainer = document.getElementById('player-info-fields');
+    const formDetailsContainer = document.getElementById('form-details');
+    const paymentSection = document.getElementById('payment');
 
-function attachAllEventListeners() {
-    document.getElementById('shop-logo-link').addEventListener('click', (e) => { e.preventDefault(); goHome(); });
-    document.querySelectorAll('.game-btn').forEach(btn => btn.addEventListener('click', handleGameSelection));
-    document.getElementById('topup-btn').addEventListener('click', showTopupContent);
-    document.getElementById('mainContainer').addEventListener('click', handleDynamicClicks);
-
-    // Add validation listener for the top-up form
-    document.getElementById('topupForm').addEventListener('submit', function(event) {
-        if (!validateTopupForm()) {
-            event.preventDefault(); // Stop submission if validation fails
+    // Event Listeners for Game Selection Cards
+    selectMlCard.addEventListener('click', () => showPackages('ml'));
+    selectPubgCard.addEventListener('click', () => showPackages('pubg'));
+    
+    // Event listener for package dropdown
+    packageSelect.addEventListener('change', () => {
+        if (packageSelect.value) {
+            // A package has been selected, show the rest of the form
+            formDetailsContainer.classList.remove('opacity-0', 'max-h-0');
+            formDetailsContainer.classList.add('opacity-100', 'max-h-[1000px]');
         } else {
-            // Populate hidden fields before submitting
-            document.getElementById('selectedOperatorInput').value = selectedOperator;
-            document.getElementById('selectedAmountInput').value = selectedAmount;
-            document.getElementById('selectedPaymentInput').value = selectedPayment;
+            // No package selected, hide the form
+            formDetailsContainer.classList.add('opacity-0', 'max-h-0');
+            formDetailsContainer.classList.remove('opacity-100', 'max-h-[1000px]');
         }
     });
-}
 
-// State variables for Top-up
-let selectedOperator = null;
-let selectedAmount = null;
-let selectedPayment = null;
+    // Event listener for all "Buy Now" buttons
+    document.querySelectorAll('.buy-now-btn').forEach(button => {
+        button.addEventListener('click', (event) => {
+            const game = event.target.dataset.game;
+            const packageValue = event.target.dataset.packageValue;
 
-function handleGameSelection(event) {
-    const gameId = event.currentTarget.getAttribute('data-game-id');
-    showGameContent(gameId);
-}
+            // 1. Select the correct game radio button
+            if (game === 'Mobile Legends') {
+                gameMlRadio.checked = true;
+            } else if (game === 'PUBG Mobile') {
+                gamePubgRadio.checked = true;
+            }
 
-function detectOperator(value) { /* ... Same as before ... */ }
+            // 2. Update the form fields and package dropdown
+            updateFormForGame(game);
 
-function showTopupContent() {
-    document.getElementById('mainContentWrapper').classList.add('hidden');
-    document.getElementById('mlbbContent').classList.add('hidden');
-    document.getElementById('pubgContent').classList.add('hidden');
-    document.getElementById('paymentAndFormSection').classList.add('hidden');
-    document.getElementById('topupContent').classList.remove('hidden');
-}
+            // 3. Set the selected package in the dropdown
+            packageSelect.value = packageValue;
+            
+            // 4. Make payment and order sections visible
+            paymentSection.classList.remove('hidden-section');
+            paymentSection.classList.add('visible-section');
+            orderFormSection.classList.remove('hidden-section');
+            orderFormSection.classList.add('visible-section');
+            
+            // 5. Manually trigger form details reveal
+            formDetailsContainer.classList.remove('opacity-0', 'max-h-0');
+            formDetailsContainer.classList.add('opacity-100', 'max-h-[1000px]');
 
-function selectItem(type, elementId, value = null) {
-    const items = document.querySelectorAll(`.${type}-card`);
-    items.forEach(item => {
-        let className = `selected-${type}`;
-        item.classList.remove(className);
+            // 6. Scroll to the order form
+            orderFormSection.scrollIntoView({ behavior: 'smooth' });
+        });
     });
-
-    const selectedElement = document.getElementById(elementId);
-    if (selectedElement) {
-        let className = `selected-${type}`;
-        selectedElement.classList.add(className);
-    }
     
-    if (type === 'operator') {
-        selectedOperator = elementId.split('-')[1] || null;
-    } else if (type === 'amount') {
-        selectedAmount = value;
-    } else if (type === 'payment') {
-        selectedPayment = elementId.split('-')[1] || null;
-        document.querySelectorAll('.payment-detail-topup').forEach(div => div.classList.add('hidden'));
-        if (selectedPayment) {
-            const detailDiv = document.getElementById(`topup-${selectedPayment}PaymentDetails`);
-            if (detailDiv) detailDiv.classList.remove('hidden');
+    function showPackages(game) {
+        if (game === 'ml') {
+            mlPackageSection.classList.remove('hidden-section');
+            mlPackageSection.classList.add('visible-section');
+            pubgPackageSection.classList.add('hidden-section');
+            pubgPackageSection.classList.remove('visible-section');
+            gameMlRadio.checked = true;
+            updateFormForGame('Mobile Legends');
+            mlPackageSection.scrollIntoView({ behavior: 'smooth' });
+        } else if (game === 'pubg') {
+            pubgPackageSection.classList.remove('hidden-section');
+            pubgPackageSection.classList.add('visible-section');
+            mlPackageSection.classList.add('hidden-section');
+            mlPackageSection.classList.remove('visible-section');
+            gamePubgRadio.checked = true;
+            updateFormForGame('PUBG Mobile');
+            pubgPackageSection.scrollIntoView({ behavior: 'smooth' });
         }
     }
-}
 
-function validateTopupForm() {
-    const phoneInput = document.getElementById('phone');
-    const paySlipInput = document.getElementById('topupPaySlipFile');
-    const phoneNumber = phoneInput.value.trim();
-
-    if (!phoneNumber || !/^(09|\+959)\d{7,9}$/.test(phoneNumber)) {
-        alert('ကျေးဇူးပြု၍ မှန်ကန်သော ဖုန်းနံပါတ်တစ်ခု ထည့်သွင်းပါ။');
-        return false;
+    function updateFormForGame(selectedGame) {
+        updatePackageOptions(selectedGame);
+        updatePlayerInfoFields(selectedGame);
+        // Ensure form details are hidden when game is first selected
+        formDetailsContainer.classList.add('opacity-0', 'max-h-0');
+        formDetailsContainer.classList.remove('opacity-100', 'max-h-[1000px]');
     }
-    if (!selectedOperator) {
-        alert('ကျေးဇူးပြု၍ ဖုန်းလိုင်းတစ်ခု ရွေးချယ်ပါ။');
-        return false;
-    }
-    if (!selectedAmount) {
-        alert('ကျေးဇူးပြု၍ ငွေပမာဏတစ်ခု ရွေးချယ်ပါ။');
-        return false;
-    }
-    if (!selectedPayment) {
-        alert('ကျေးဇူးပြု၍ ငွေပေးချေမှုစနစ်တစ်ခု ရွေးချယ်ပါ။');
-        return false;
-    }
-    if (!paySlipInput.files || paySlipInput.files.length === 0) {
-        alert('ကျေးဇူးပြု၍ ငွေလွှဲပြေစာ ထည့်သွင်းပါ။');
-        return false;
-    }
-    return true;
-}
 
-function handleDynamicClicks(event) {
-    const target = event.target;
-    const buyNowBtn = target.closest('.buy-now-btn');
-    const paymentBtn = target.closest('.payment-btn');
-
-    if (buyNowBtn) {
-        const itemName = buyNowBtn.getAttribute('data-item-name');
-        const priceText = buyNowBtn.getAttribute('data-price');
-        showPaymentSection({ itemName, priceText });
-        return;
+    function updatePackageOptions(game) {
+        packageSelect.innerHTML = '<option value="" disabled selected>-- Package ရွေးချယ်ပါ --</option>'; // Reset
+        if (packages[game]) {
+            packages[game].forEach(pkg => {
+                const option = document.createElement('option');
+                option.value = pkg.value;
+                option.textContent = pkg.text;
+                packageSelect.appendChild(option);
+            });
+        }
     }
-    
-    if (paymentBtn) {
-        const method = paymentBtn.getAttribute('data-payment-method');
-        document.getElementById('selectedPaymentMethodInput').value = method;
-        document.querySelectorAll('#paymentDetailsContainer > div').forEach(div => div.classList.add('hidden'));
-        const detailDiv = document.getElementById(`${method}PaymentDetails`);
-        if (detailDiv) detailDiv.classList.remove('hidden');
-        document.getElementById('formContainer').classList.remove('hidden');
-        document.getElementById('paymentAndFormSection').scrollIntoView({ behavior: 'smooth' });
+
+    function updatePlayerInfoFields(game) {
+        playerInfoFieldsContainer.innerHTML = ''; // Clear previous fields
+        let fieldsHtml = '';
+
+        if (game === 'Mobile Legends') {
+            fieldsHtml = `
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    <div>
+                        <label for="ml-user-id" class="block mb-2 font-bold text-slate-300">၂. User ID</label>
+                        <input type="text" id="ml-user-id" name="ml_user_id" class="w-full p-3 bg-slate-700 border border-slate-600 rounded-lg" placeholder="Enter your User ID" required>
+                    </div>
+                    <div>
+                        <label for="ml-zone-id" class="block mb-2 font-bold text-slate-300">Zone ID</label>
+                        <input type="text" id="ml-zone-id" name="ml_zone_id" class="w-full p-3 bg-slate-700 border border-slate-600 rounded-lg" placeholder="(1234)" required>
+                    </div>
+                </div>
+            `;
+        } else if (game === 'PUBG Mobile') {
+            fieldsHtml = `
+                <div>
+                    <label for="pubg-player-id" class="block mb-2 font-bold text-slate-300">၂. Player ID</label>
+                    <input type="text" id="pubg-player-id" name="pubg_player_id" class="w-full p-3 bg-slate-700 border border-slate-600 rounded-lg" placeholder="Enter your Player ID" required>
+                </div>
+            `;
+        }
+        playerInfoFieldsContainer.innerHTML = fieldsHtml;
     }
-}
-
-function goHome() {
-    document.getElementById('mainContentWrapper').classList.remove('hidden');
-    document.getElementById('mlbbContent').classList.add('hidden');
-    document.getElementById('pubgContent').classList.add('hidden');
-    document.getElementById('topupContent').classList.add('hidden');
-    document.getElementById('paymentAndFormSection').classList.add('hidden');
-}
-
-function showGameContent(gameId) {
-    document.getElementById('mainContentWrapper').classList.add('hidden');
-    document.getElementById('topupContent').classList.add('hidden');
-    document.getElementById('selectedGameInput').value = gameId; 
-    
-    const serverIdContainer = document.getElementById('serverIdInputContainer');
-    const serverIdInput = document.getElementById('serverIdInput');
-    
-    if (gameId === 'mlbb') {
-        document.getElementById('mlbbContent').classList.remove('hidden');
-        document.getElementById('pubgContent').classList.add('hidden');
-        serverIdContainer.classList.remove('hidden');
-        serverIdInput.required = true;
-    } else if (gameId === 'pubg') {
-        document.getElementById('pubgContent').classList.remove('hidden');
-        document.getElementById('mlbbContent').classList.add('hidden');
-        serverIdContainer.classList.add('hidden');
-        serverIdInput.required = false;
-    }
-    generateContentForGame(gameId);
-}
-
-function showPaymentSection(itemData) {
-    const paymentDiv = document.getElementById('paymentAndFormSection');
-    paymentDiv.classList.remove('hidden');
-    
-    document.getElementById('selectedItemInput').value = itemData.itemName;
-    document.querySelectorAll('.payment-package-info').forEach(span => {
-        span.textContent = `${itemData.priceText}`;
-    });
-    
-    paymentDiv.scrollIntoView({ behavior: 'smooth' });
-}
-
-const priceList = { /* ... Same as before ... */ };
-function generateContentForGame(gameId) { /* ... Same as before ... */ }
-function getIconUrl(gameId, itemName) { /* ... Same as before ... */ }
-
 </script>
+
 </body>
 </html>
+
+
+
+
