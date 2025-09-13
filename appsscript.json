@@ -1,0 +1,10 @@
+{
+  "timeZone": "Asia/Yangon",
+  "dependencies": {},
+  "exceptionLogging": "STACKDRIVER",
+  "runtimeVersion": "V8",
+  "oauthScopes": [
+    "https://www.googleapis.com/auth/script.mail.send",
+    "https://www.googleapis.com/auth/spreadsheets" 
+  ]
+}
