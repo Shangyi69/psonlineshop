@@ -1,37 +1,927 @@
 <!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
-    <meta charset="UTF-8">
+    <base target="_top">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>ကျွန်တော့်ဝက်ဆိုဒ်</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700&family=Padauk:wght@400;700&display=swap" rel="stylesheet">
     <style>
-        body {
-            font-family: Arial, sans-serif;
-            text-align: center;
-            background-color: #f0f8ff;
-            color: #333;
-            padding: 50px;
+        body { font-family: 'Inter', sans-serif; }
+        .interactive-item { cursor: pointer; }
+        .modal-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background-color: rgba(0, 0, 0, 0.75); display: flex; align-items: center; justify-content: center; z-index: 1000; }
+        .modal-content { background-color: white; padding: 2rem; border-radius: 0.5rem; box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); max-width: 90%; width: 400px; }
+        .hidden { display: none; }
+        .banner-slide { transition: opacity 1s ease-in-out; }
+
+        /* Styles for Top-up Section */
+        #topupContent { 
+            font-family: 'Padauk', sans-serif; 
         }
-        h1 {
-            color: #2c3e50;
+        .selected-operator, .selected-amount, .selected-payment {
+            border-color: #3B82F6; /* blue-500 */
+            box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.5);
+            transform: scale(1.05);
         }
-        .profile-img {
-            width: 150px;
-            height: 150px;
+        .loader {
+            border: 4px solid #f3f3f3;
             border-radius: 50%;
-            object-fit: cover;
-            margin: 20px auto;
-            border: 4px solid #3498db;
+            border-top: 4px solid #3498db;
+            width: 40px;
+            height: 40px;
+            animation: spin 2s linear infinite;
+        }
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
         }
     </style>
+    <title>PS Game Store</title>
 </head>
-<body>
-    <img src="https://placehold.co/150x150" alt="Profile" class="profile-img">
-    <h1>မင်္ဂလာပါ 👋</h1>
-    <p>ကျွန်တော်က ဝါသနာပါရာ tech နယ်ပယ်ကို စမ်းသပ်လေ့လာနေသူတစ်ယောက်ပါ။</p>
-    <p>ဒီ site လေးကတော့ GitHub Pages နဲ့ ပထမဆုံးဆောက်ကြည့်တဲ့ site ပါ။</p>
+<body class="bg-slate-800 p-4 sm:p-6">
+
+<div id="loginChoiceModal" class="modal-overlay hidden">
+    <div class="modal-content text-center">
+        <h2 class="text-xl font-bold mb-4">Submit Order</h2>
+        <p class="mb-6 text-gray-700">သင်၏ Order ကို မည်သို့ တင်သွင်းလိုပါသနည်း။</p>
+        <div class="flex flex-col md:flex-row justify-center space-y-4 md:space-y-0 md:space-x-4">
+            <button id="submitAsGuestBtn" class="bg-gray-600 text-white font-bold py-2 px-4 rounded-lg hover:bg-gray-700 transition interactive-item">Login မဝင်ဘဲ တင်မည်</button>
+            <button id="loginAndSubmitBtn" class="bg-blue-600 text-white font-bold py-2 px-4 rounded-lg hover:bg-blue-700 transition interactive-item">Google ဖြင့် Login ဝင်ပြီး တင်မည်</button>
+        </div>
+    </div>
+</div>
+
+<div id="confirmationModal" class="modal-overlay hidden">
+    <div class="modal-content">
+        <h2 class="text-xl font-bold mb-4 text-center">အချက်အလက်များကို အတည်ပြုပါ</h2>
+        <p class="mb-4 text-sm text-gray-700 text-center">အောက်ပါအချက်အလက်များ မှန်ကန်ကြောင်း သေချာပါသလား။</p>
+        <div id="confirmationDetails" class="bg-gray-100 p-4 rounded-lg space-y-2 mb-6 text-sm"></div>
+        <div class="flex justify-center space-x-4">
+            <button id="confirm-no" class="bg-gray-300 text-gray-800 font-bold py-2 px-4 rounded-lg hover:bg-gray-400 interactive-item">မမှန်ပါ</button>
+            <button id="confirm-yes" class="bg-blue-600 text-white font-bold py-2 px-4 rounded-lg hover:bg-blue-700 interactive-item flex items-center justify-center w-40 h-10">
+                <span class="button-text">မှန်ကန်ပါသည်</span>
+                <span class="loading-spinner hidden animate-spin rounded-full h-5 w-5 border-b-2 border-white"></span>
+                <span class="success-checkmark hidden">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8 text-black" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M5 13l4 4L19 7" />
+                    </svg>
+                </span>
+            </button>
+        </div>
+    </div>
+</div>
+
+<div id="mainContainer" class="bg-gray-200 p-8 w-full min-h-screen rounded-lg shadow-xl mx-auto max-w-6xl">
     
-    <h2>ကျွန်တော့်ဆီဆက်သွယ်ရန်</h2>
-    <p>Email: example@email.com</p>
+    <div class="relative z-20 bg-slate-800 text-white flex items-center justify-between mb-6 p-4 rounded-lg shadow-md">
+        <a id="shop-logo-link" href="#" class="flex-shrink-0 flex items-center gap-2 interactive-item">
+            <img src="https://drive.google.com/thumbnail?id=15MbzA94gFShft3ydeboDN_8Ap9M72K8Q&sz=w500" alt="PS GAME STORE Logo" class="h-12 w-12 rounded-full shadow-md">
+            <h1 class="text-xl font-bold text-white">PS GAME STORE</h1>
+        </a>
+        <div class="flex items-center">
+            <? if (typeof userEmail !== 'undefined' && userEmail) { ?>
+                <div class="text-sm text-right text-gray-200">
+                    <span>Logged in as:</span>
+                    <strong class="font-medium text-white block"><?= userEmail ?></strong>
+                </div>
+            <? } else { ?>
+                <a id="headerLoginBtn" href="#" class="bg-blue-600 text-white font-bold py-2 px-4 rounded-lg text-sm hover:bg-blue-700 transition interactive-item">Login</a>
+            <? } ?>
+        </div>
+    </div>
+
+    <div id="mainContentWrapper">
+        <div class="flex flex-col items-center mb-6 text-center">
+            <div id="bannerSlideshowContainer" class="relative mb-9 rounded-lg overflow-hidden shadow-md w-full aspect-[21/9]">
+                <img src="https://drive.google.com/thumbnail?id=15PS_2FE1HIbXvis-Mz0cKY5sMZhWlqGt&sz=w500" alt="Banner 1" class="banner-slide absolute top-0 left-0 w-full h-full object-cover opacity-100">
+                <img src="https://drive.google.com/thumbnail?id=14UIpJuoo17jqhq0fu0isWD3DdUR1arT5&sz=w500" alt="Banner 2" class="banner-slide absolute top-0 left-0 w-full h-full object-cover opacity-0">
+                <img src="https://drive.google.com/thumbnail?id=15IL2-gk5pe6xyI9Vrk3GGocxPL2F5TLJ&sz=w500" alt="Banner 3" class="banner-slide absolute top-0 left-0 w-full h-full object-cover opacity-0">
+                <img src="https://placehold.co/600x240/334155/E2E8F0?text=PS+Game+Store" alt="Banner 4" class="banner-slide absolute top-0 left-0 w-full h-full object-cover opacity-0">
+            </div>
+        </div>
+
+        <div id="gameSelectionContainer" class="text-center bg-white p-6 rounded-lg shadow-md mt-6">
+            <h2 class="text-2xl font-bold my-6 text-gray-800">ဝန်ဆောင်မှုတစ်ခု ရွေးချယ်ပါ</h2>
+            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+                <button class="relative flex flex-col items-center p-6 bg-gray-50 rounded-lg shadow-md hover:shadow-lg interactive-item game-btn" data-game-id="mlbb">
+                    <span class="absolute top-2 right-2 bg-red-500 text-white text-xs font-bold px-2 py-1 rounded-full">Hot Sale</span>
+                    <img src="https://drive.google.com/thumbnail?id=14_RThMWD-OWrmD7R2rTM3gsjLMUtzWNL&sz=w500" alt="MLBB Logo" class="h-16 w-auto mb-4 rounded-lg">
+                    <h2 class="text-xl font-bold text-gray-800">Mobile Legends</h2>
+                </button>
+                <button class="relative flex flex-col items-center p-6 bg-gray-50 rounded-lg shadow-md hover:shadow-lg interactive-item game-btn" data-game-id="pubg">
+                    <span class="absolute top-2 right-2 bg-red-500 text-white text-xs font-bold px-2 py-1 rounded-full">Hot Sale</span>
+                    <img src="https://drive.google.com/thumbnail?id=15Dapkfgx8Xy0gnEbXoLK51KcrBH6DDqL&sz=w500" alt="PUBG Logo" class="h-16 w-auto mb-4 rounded-lg">
+                    <h2 class="text-xl font-bold text-gray-800">PUBG Mobile</h2>
+                </button>
+                <button id="topup-btn" class="relative flex flex-col items-center p-6 bg-gray-50 rounded-lg shadow-md hover:shadow-lg interactive-item">
+                    <span class="absolute top-2 right-2 bg-green-500 text-white text-xs font-bold px-2 py-1 rounded-full">SIM Top Up</span>
+                     <svg class="h-16 w-auto mb-4 text-sky-500" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M10.5 1.5H8.25A2.25 2.25 0 0 0 6 3.75v16.5a2.25 2.25 0 0 0 2.25 2.25h7.5A2.25 2.25 0 0 0 18 20.25V3.75a2.25 2.25 0 0 0-2.25-2.25H13.5m-3 0V3h3V1.5m-3 0h3m-3 18.75h3" />
+                     </svg>
+                    <h2 class="text-xl font-bold text-gray-800">ဖုန်းဘေလ်ဖြည့်ရန်</h2>
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <div id="mlbbContent" class="hidden"></div>
+    <div id="pubgContent" class="hidden"></div>
+    
+    <!-- New Container for Top-up UI -->
+    <div id="topupContent" class="hidden">
+        <div class="flex items-center justify-between mb-6 mt-4">
+             <button onclick="goHome()" class="bg-gray-200 text-gray-700 p-2 rounded-full hover:bg-gray-300 interactive-item"> &lt; Back </button>
+             <h2 class="text-lg font-bold text-gray-800">Myanmar SIM Top Up</h2>
+             <div class="w-10"></div>
+        </div>
+        <div class="w-full max-w-md bg-white rounded-2xl shadow-lg p-6 md:p-8 space-y-6 mx-auto">
+            <div class="text-center">
+                <h1 class="text-2xl md:text-3xl font-bold text-gray-800">မိုဘိုင်းလ်ဖုန်း ဘေလ်ဖြည့်ရန်</h1>
+                <p class="text-gray-500 mt-1">သင်၏ ဖုန်းနံပါတ်ထည့်သွင်းပြီး ဘေလ်ဖြည့်ပါ</p>
+            </div>
+            <div>
+                <label for="phone" class="block text-sm font-medium text-gray-700 mb-1">ဖုန်းနံပါတ်</label>
+                <!-- Added oninput event for auto-detection -->
+                <input type="tel" id="phone" name="phone" placeholder="ဥပမာ - 09xxxxxxxxx" class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition duration-200" oninput="detectOperator(this.value)">
+            </div>
+            <div>
+                <h3 class="text-lg font-semibold text-gray-700 mb-3">ဖုန်းလိုင်း ရွေးချယ်ပါ</h3>
+                <div class="grid grid-cols-4 gap-3">
+                    <div id="op-mpt" class="operator-card flex justify-center items-center p-2 border-2 border-gray-200 rounded-lg cursor-pointer transition-all duration-200 hover:shadow-md hover:scale-105" onclick="selectItem('operator', 'op-mpt')">
+                        <img src="https://upload.wikimedia.org/wikipedia/commons/3/36/MPT_logo_2022.svg" alt="MPT" class="h-10">
+                    </div>
+                    <div id="op-ooredoo" class="operator-card flex justify-center items-center p-2 border-2 border-gray-200 rounded-lg cursor-pointer transition-all duration-200 hover:shadow-md hover:scale-105" onclick="selectItem('operator', 'op-ooredoo')">
+                        <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/f/fa/Ooredoo_logo.svg/2560px-Ooredoo_logo.svg.png" alt="Ooredoo" class="h-8">
+                    </div>
+                    <div id="op-atom" class="operator-card flex justify-center items-center p-2 border-2 border-gray-200 rounded-lg cursor-pointer transition-all duration-200 hover:shadow-md hover:scale-105" onclick="selectItem('operator', 'op-atom')">
+                        <img src="https://www.atom.com.mm/themes/atom/logo.svg" alt="ATOM" class="h-10">
+                    </div>
+                    <div id="op-mytel" class="operator-card flex justify-center items-center p-2 border-2 border-gray-200 rounded-lg cursor-pointer transition-all duration-200 hover:shadow-md hover:scale-105" onclick="selectItem('operator', 'op-mytel')">
+                        <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/3/3e/Mytel_logo.svg/1280px-Mytel_logo.svg.png" alt="Mytel" class="h-10">
+                    </div>
+                </div>
+            </div>
+            <div>
+                <h3 class="text-lg font-semibold text-gray-700 mb-3">ငွေပမာဏ ရွေးချယ်ပါ (ကျပ်)</h3>
+                <div class="grid grid-cols-3 gap-3">
+                    <div id="amount-1000" class="amount-card text-center font-bold text-gray-800 p-4 border-2 border-gray-200 rounded-lg cursor-pointer transition-all duration-200 hover:bg-gray-50" onclick="selectItem('amount', 'amount-1000', 1000)">1,000</div>
+                    <div id="amount-3000" class="amount-card text-center font-bold text-gray-800 p-4 border-2 border-gray-200 rounded-lg cursor-pointer transition-all duration-200 hover:bg-gray-50" onclick="selectItem('amount', 'amount-3000', 3000)">3,000</div>
+                    <div id="amount-5000" class="amount-card text-center font-bold text-gray-800 p-4 border-2 border-gray-200 rounded-lg cursor-pointer transition-all duration-200 hover:bg-gray-50" onclick="selectItem('amount', 'amount-5000', 5000)">5,000</div>
+                    <div id="amount-10000" class="amount-card text-center font-bold text-gray-800 p-4 border-2 border-gray-200 rounded-lg cursor-pointer transition-all duration-200 hover:bg-gray-50" onclick="selectItem('amount', 'amount-10000', 10000)">10,000</div>
+                    <div id="amount-20000" class="amount-card text-center font-bold text-gray-800 p-4 border-2 border-gray-200 rounded-lg cursor-pointer transition-all duration-200 hover:bg-gray-50" onclick="selectItem('amount', 'amount-20000', 20000)">20,000</div>
+                    <div id="amount-30000" class="amount-card text-center font-bold text-gray-800 p-4 border-2 border-gray-200 rounded-lg cursor-pointer transition-all duration-200 hover:bg-gray-50" onclick="selectItem('amount', 'amount-30000', 30000)">30,000</div>
+                </div>
+            </div>
+            <!-- Updated Payment Methods -->
+            <div>
+                <h3 class="text-lg font-semibold text-gray-700 mb-3">ငွေပေးချေမှုစနစ် ရွေးချယ်ပါ</h3>
+                <div class="grid grid-cols-1 sm:grid-cols-3 gap-4">
+                    <div id="payment-scb" class="payment-card flex flex-col items-center justify-center p-3 border-2 border-gray-200 rounded-lg cursor-pointer transition-all duration-200 hover:shadow-md" onclick="selectItem('payment', 'payment-scb')">
+                         <img src="https://drive.google.com/thumbnail?id=141mrU3g96CgFtE2OtzfNvpCaxHZmnQkA&sz=w500" alt="SCB Logo" class="h-8 mb-2">
+                         <span class="font-semibold text-gray-700 text-sm">SCB Easy</span>
+                    </div>
+                     <div id="payment-promptpay" class="payment-card flex flex-col items-center justify-center p-3 border-2 border-gray-200 rounded-lg cursor-pointer transition-all duration-200 hover:shadow-md" onclick="selectItem('payment', 'payment-promptpay')">
+                         <img src="https://drive.google.com/thumbnail?id=13DJ6Llz6dl4DehZw1rRZAwMIZFvFaIr8&sz=w500" alt="PromptPay Logo" class="h-8 mb-2">
+                         <span class="font-semibold text-gray-700 text-sm">PromptPay</span>
+                    </div>
+                     <div id="payment-truemoney" class="payment-card flex flex-col items-center justify-center p-3 border-2 border-gray-200 rounded-lg cursor-pointer transition-all duration-200 hover:shadow-md" onclick="selectItem('payment', 'payment-truemoney')">
+                         <img src="https://drive.google.com/thumbnail?id=149aT4E1C4i-m12DZ9R0iAy8qqkCf4QRC&sz=w500" alt="TrueMoney Logo" class="h-8 mb-2">
+                         <span class="font-semibold text-gray-700 text-sm">TrueMoney</span>
+                    </div>
+                </div>
+            </div>
+            <!-- Payment Details for Topup -->
+            <div id="topupPaymentDetailsContainer" class="mt-4">
+                <div id="topup-scbPaymentDetails" class="payment-detail-topup bg-gray-100 p-6 rounded-lg shadow-inner hidden text-center">
+                    <h2 class="text-xl font-semibold mb-4 text-center">SCB Easy Bank</h2><div class="flex justify-center mb-4"><img src="https://drive.google.com/thumbnail?id=141mrU3g96CgFtE2OtzfNvpCaxHZmnQkA&sz=w500" alt="SCB Easy Bank Logo" class="w-20 h-auto rounded-lg"></div><p><strong>Bank Account No:</strong> 3664768187</p><p><strong>Account Name:</strong> PHOE SHAN</p>
+                </div>
+                <div id="topup-promptpayPaymentDetails" class="payment-detail-topup bg-gray-100 p-6 rounded-lg shadow-inner hidden text-center">
+                    <h2 class="text-xl font-semibold mb-4">PromptPay</h2><img src="https://drive.google.com/thumbnail?id=13DJ6Llz6dl4DehZw1rRZAwMIZFvFaIr8&sz=w500" alt="PromptPay QR Code" class="w-full max-w-xs rounded-lg mx-auto"><p class="mt-2 text-sm text-gray-600">QR code ကို scan ဖတ်၍ ငွေပေးချေနိုင်ပါသည်။</p>
+                </div>
+                <div id="topup-truemoneyPaymentDetails" class="payment-detail-topup bg-gray-100 p-6 rounded-lg shadow-inner hidden text-center">
+                    <h2 class="text-xl font-semibold mb-4 text-center">TrueMoney Pay</h2><div class="flex justify-center mb-4"><img src="https://drive.google.com/thumbnail?id=149aT4E1C4i-m12DZ9R0iAy8qqkCf4QRC&sz=w500" alt="TrueMoney Logo" class="w-20 h-auto rounded-lg"></div><p><strong>Phone No:</strong> 0951236012</p><p><strong>Account Name:</strong> PHOE SHAN</p>
+                </div>
+            </div>
+            <!-- Pay Slip Upload -->
+            <div>
+                <label for="topupPaySlipFile" class="block text-sm font-medium text-gray-700 mb-1">ငွေလွှဲပြေစာထည့်ရန်</label>
+                <input type="file" id="topupPaySlipFile" name="topupPaySlipFile" required class="w-full text-sm text-gray-500 file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:text-sm file:font-semibold file:bg-blue-50 file:text-blue-700 hover:file:bg-blue-100">
+            </div>
+            <button id="submitBtn" class="w-full bg-blue-600 text-white font-bold py-3 px-4 rounded-lg hover:bg-blue-700 focus:outline-none focus:ring-4 focus:ring-blue-300 transition-all duration-300 transform hover:scale-105 flex items-center justify-center">
+                <span id="btnText">ဘေလ်ဖြည့်မည်</span>
+                <div id="btnLoader" class="loader hidden" style="width:24px; height:24px; border-width: 3px; border-top-color: white;"></div>
+            </button>
+            <div id="messageArea" class="text-center text-sm font-medium"></div>
+        </div>
+    </div>
+    
+    <div id="paymentAndFormSection" class="hidden">
+        <h2 class="text-2xl font-bold mt-6 mb-4 text-gray-800 text-center">ငွေပေးချေမှုအချက်အလက်များ</h2>
+        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 mb-6 mt-4">
+            <button class="payment-btn flex items-center justify-between w-full p-3 bg-white rounded-lg shadow-md interactive-item" data-payment-method="scb">
+                <span class="flex items-center gap-2">
+                    <img src="https://drive.google.com/thumbnail?id=141mrU3g96CgFtE2OtzfNvpCaxHZmnQkA&sz=w500" alt="SCB Logo" class="h-6 w-auto">
+                    <span class="font-bold text-blue-600">SCB Easy Bank</span>
+                </span>
+                <span class="payment-package-info text-gray-700 font-medium text-sm"></span>
+            </button>
+            <button class="payment-btn flex items-center justify-between w-full p-3 bg-white rounded-lg shadow-md interactive-item" data-payment-method="promptpay">
+                <span class="flex items-center gap-2">
+                    <img src="https://drive.google.com/thumbnail?id=13DJ6Llz6dl4DehZw1rRZAwMIZFvFaIr8&sz=w500" alt="PromptPay Logo" class="h-6 w-auto">
+                    <span class="font-bold text-blue-600">PromptPay</span>
+                </span>
+                <span class="payment-package-info text-gray-700 font-medium text-sm"></span>
+            </button>
+            <button class="payment-btn flex items-center justify-between w-full p-3 bg-white rounded-lg shadow-md interactive-item" data-payment-method="truemoney">
+                <span class="flex items-center gap-2">
+                    <img src="https://drive.google.com/thumbnail?id=149aT4E1C4i-m12DZ9R0iAy8qqkCf4QRC&sz=w500" alt="TrueMoney Logo" class="h-6 w-auto">
+                    <span class="font-bold text-blue-600">TrueMoney Pay</span>
+                </span>
+                <span class="payment-package-info text-gray-700 font-medium text-sm"></span>
+            </button>
+            <button class="payment-btn flex items-center justify-between w-full p-3 bg-white rounded-lg shadow-md interactive-item" data-payment-method="kbz">
+                <span class="flex items-center gap-2">
+                    <img src="https://drive.google.com/thumbnail?id=147JMg39gJ0Kj2-N7UnhmBCSf8Bm8jt7x&sz=w500" alt="KBZ Pay Logo" class="h-6 w-auto">
+                    <span class="font-bold text-blue-600">KBZ Pay</span>
+                </span>
+                <span class="payment-package-info text-gray-700 font-medium text-sm"></span>
+            </button>
+            <button class="payment-btn flex items-center justify-between w-full p-3 bg-white rounded-lg shadow-md interactive-item" data-payment-method="wave">
+                <span class="flex items-center gap-2">
+                    <img src="https://drive.google.com/thumbnail?id=15PZrntMHS30NiN5nPA8vuQfg_yaPidO4&sz=w500" alt="Wave Pay Logo" class="h-6 w-auto">
+                    <span class="font-bold text-blue-600">Wave Pay</span>
+                </span>
+                <span class="payment-package-info text-gray-700 font-medium text-sm"></span>
+            </button>
+        </div>
+        <div id="paymentDetailsContainer">
+            <div id="scbPaymentDetails" class="bg-gray-100 p-6 rounded-lg mb-6 shadow-inner hidden text-center">
+                <h2 class="text-xl font-semibold mb-4 text-center">SCB Easy Bank</h2><div class="flex justify-center mb-4"><img src="https://drive.google.com/thumbnail?id=141mrU3g96CgFtE2OtzfNvpCaxHZmnQkA&sz=w500" alt="SCB Easy Bank Logo" class="w-20 h-auto rounded-lg"></div><p><strong>Bank Account No:</strong> 3664768187</p><p><strong>Account Name:</strong> PHOE SHAN</p>
+            </div>
+            <div id="promptpayPaymentDetails" class="bg-gray-100 p-6 rounded-lg mb-6 shadow-inner hidden text-center">
+                <h2 class="text-xl font-semibold mb-4">PromptPay</h2><img src="https://drive.google.com/thumbnail?id=13DJ6Llz6dl4DehZw1rRZAwMIZFvFaIr8&sz=w500" alt="PromptPay QR Code" class="w-full max-w-xs rounded-lg mx-auto"><p class="mt-2 text-sm text-gray-600">QR code ကို scan ဖတ်၍ ငွေပေးချေနိုင်ပါသည်။</p>
+            </div>
+            <div id="truemoneyPaymentDetails" class="bg-gray-100 p-6 rounded-lg mb-6 shadow-inner hidden text-center">
+                <h2 class="text-xl font-semibold mb-4 text-center">TrueMoney Pay</h2><div class="flex justify-center mb-4"><img src="https://drive.google.com/thumbnail?id=149aT4E1C4i-m12DZ9R0iAy8qqkCf4QRC&sz=w500" alt="TrueMoney Logo" class="w-20 h-auto rounded-lg"></div><p><strong>Phone No:</strong> 0951236012</p><p><strong>Account Name:</strong> PHOE SHAN</p>
+            </div>
+            <div id="kbzPaymentDetails" class="bg-gray-100 p-6 rounded-lg mb-6 shadow-inner hidden text-center">
+                <h2 class="text-xl font-semibold mb-4 text-center">KBZ Pay</h2><div class="flex justify-center mb-4"><img src="https://drive.google.com/thumbnail?id=147JMg39gJ0Kj2-N7UnhmBCSf8Bm8jt7x&sz=w500" alt="KBZ Pay Logo" class="w-20 h-auto rounded-lg"></div><p><strong>Phone No:</strong> 09679871352</p><p><strong>Account Name:</strong> Phoe shan</p>
+            </div>
+            <div id="wavePaymentDetails" class="bg-gray-100 p-6 rounded-lg mb-6 shadow-inner hidden text-center">
+                <h2 class="text-xl font-semibold mb-4 text-center">Wave Pay</h2><div class="flex justify-center mb-4"><img src="https://drive.google.com/thumbnail?id=15PZrntMHS30NiN5nPA8vuQfg_yaPidO4&sz=w500" alt="Wave Pay Logo" class="w-20 h-auto rounded-lg"></div><p><strong>Phone No:</strong> 09679871352</p><p><strong>Account Name:</strong> Phoe shan</p>
+            </div>
+        </div>
+        <div id="formContainer" class="hidden">
+            <form id="dataForm" class="space-y-4">
+                <input type="hidden" id="selectedItemInput" name="selectedItem"><input type="hidden" id="selectedPaymentMethodInput" name="selectedPaymentMethod"><input type="hidden" id="selectedGameInput" name="selectedGame">
+                <div><label for="gameId" class="block text-sm font-medium text-gray-700">Game ID:</label><input type="text" id="gameId" name="gameId" required class="w-full border rounded p-2 mt-1"></div>
+                <div id="serverIdInputContainer"><label for="serverId" class="block text-sm font-medium text-gray-700">Server ID:</label><input type="text" id="serverId" name="serverId" class="w-full border rounded p-2 mt-1"></div>
+                <div><label for="gmail" class="block text-sm font-medium text-gray-700">Gmail:</label><input type="email" id="gmail" name="gmail" required class="w-full border rounded p-2 mt-1"></div>
+                <div><label for="paySlipFile" class="block text-sm font-medium text-gray-700">Pay Slip Photo:</label><input type="file" id="paySlipFile" name="paySlipFile" required class="w-full mt-1"></div>
+                <button type="submit" id="submitButton" class="w-full bg-blue-600 text-white font-bold py-3 rounded-lg interactive-item">အချက်အလက် တင်ရန်</button>
+            </form>
+        </div>
+    </div>
+    
+    <div id="notesSection" class="bg-white p-6 rounded-lg shadow-md mt-6 text-left">
+        <h3 class="text-xl font-bold mb-4 text-gray-800">အရေးကြီးအချက်အလက်များ</h3>
+        <ul class="list-disc list-inside space-y-2 text-gray-700 text-sm">
+            <li>ငွေပေးချေမှု မပြုလုပ်မီ သင်၏ **Game ID နှင့် Server ID** ကို မှန်ကန်စွာ ဖြည့်သွင်းထားကြောင်း သေချာပါစေ။</li>
+            <li>**Pay Slip Photo** ကို အဆင့် ၂ ဆင့်လုံးတွင် ရှင်းရှင်းလင်းလင်းမြင်ရအောင် ထည့်ပေးပါ။</li>
+            <li>Order တင်သွင်းပြီးပါက အော်ဒါအတည်ပြုရန်အတွက် **မိနစ်အနည်းငယ်** စောင့်ဆိုင်းပေးပါ။</li>
+            <li>တစ်စုံတစ်ရာ အခက်အခဲရှိပါက ကျွန်ုပ်တို့၏ **Facebook Messenger** သို့မဟုတ် **Telegram** မှတစ်ဆင့် ဆက်သွယ်မေးမြန်းနိုင်ပါသည်။</li>
+        </ul>
+    </div>
+    
+    <div id="contactSection" class="bg-white p-6 rounded-lg shadow-md mt-6 text-center">
+        <h3 class="text-xl font-bold mb-4 text-gray-800">ဆက်သွယ်ရန်</h3>
+        <div class="flex flex-col sm:flex-row justify-center items-center gap-6">
+            <a href="https://m.me/Phoeshan2004" target="_blank" class="flex items-center gap-2 text-blue-600 hover:underline interactive-item">
+                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C6.477 2 2 6.477 2 12c0 3.324 1.636 6.273 4.168 8.04L4 22l2.35-1.175c.961.168 1.956.255 2.955.255 5.522 0 10-4.477 10-10S17.522 2 12 2zm.84 14.65l-2.074-2.148-3.086 1.157 2.148-5.748L8.65 9.35l2.074 2.148 3.086-1.157-2.148 5.748z"/></svg>
+                <span class="font-bold">Messenger</span>
+            </a>
+            <a href="https://t.me/paonlinestore" target="_blank" class="flex items-center gap-2 text-blue-500 hover:underline interactive-item">
+                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="currentColor"><path d="M20.665 3.738L3.25 10.999l5.592 1.704 10.518-6.666-8.257 8.351-1.704 5.592 7.26-17.523zM3.25 10.999L.8 9.873a.85.85 0 0 1-.225-.79c.14-.38.56-.63 1.01-.63h.001l19.829-1.229a.95.95 0 0 1 1.05.51c.14.38-.03.79-.49 1.11l-2.08 1.47-5.592-1.704z"/></svg>
+                <span class="font-bold">Telegram</span>
+            </a>
+            <a href="https://www.facebook.com/share/1CVCRYFzkM/" target="_blank" class="flex items-center gap-2 text-blue-700 hover:underline interactive-item">
+                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2c-5.523 0-10 4.477-10 10s4.477 10 10 10 10-4.477 10-10S17.523 2 12 2zm1.319 8.656h-2.132v-1.636c0-.447.199-.68.618-.68.42 0 .54.015 1.514.072v-2.183l-1.464-.002c-1.666 0-2.032.553-2.032 1.942v2.449h-1.635v2.247h1.635v6.529h2.247v-6.529h1.996l.288-2.247z"/></svg>
+                <span class="font-bold">Facebook</span>
+            </a>
+        </div>
+    </div>
+    
+    <p id="status-message" class="mt-6 text-center text-sm font-medium text-gray-600"></p>
+</div>
+
+<script>
+let pendingFormData = null;
+
+// State variables for Top-up
+let selectedOperator = null;
+let selectedAmount = null;
+let selectedPayment = null;
+
+document.addEventListener('DOMContentLoaded', function() {
+    setupInitialState();
+    attachAllEventListeners();
+    startBannerSlideshow();
+});
+
+function startBannerSlideshow() {
+    let currentSlide = 0;
+    const slides = document.querySelectorAll('#bannerSlideshowContainer .banner-slide');
+    if (slides.length === 0) return;
+    
+    slides[0].classList.add('opacity-100');
+
+    setInterval(() => {
+        slides[currentSlide].classList.remove('opacity-100');
+        slides[currentSlide].classList.add('opacity-0');
+
+        currentSlide = (currentSlide + 1) % slides.length;
+
+        slides[currentSlide].classList.remove('opacity-0');
+        slides[currentSlide].classList.add('opacity-100');
+    }, 5000);
+}
+
+function setupInitialState() {
+    setupHeaderLoginButton();
+    checkForSavedOrder();
+    goHome();
+}
+
+function attachAllEventListeners() {
+    document.getElementById('shop-logo-link').addEventListener('click', (e) => { e.preventDefault(); goHome(); });
+    document.querySelectorAll('.game-btn').forEach(btn => btn.addEventListener('click', handleGameSelection));
+    document.getElementById('topup-btn').addEventListener('click', showTopupContent); // New listener for top-up
+    document.getElementById('mainContainer').addEventListener('click', handleDynamicClicks);
+    document.getElementById('submitAsGuestBtn').addEventListener('click', handleSubmitAsGuest);
+    document.getElementById('loginAndSubmitBtn').addEventListener('click', saveFormDataToLocalStorageAndRedirect);
+    document.getElementById('confirm-yes').addEventListener('click', handleConfirmYes);
+    document.getElementById('confirm-no').addEventListener('click', () => {
+        document.getElementById('confirmationModal').classList.add('hidden');
+        resetConfirmButton();
+    });
+
+    // Event listener for the top-up submission button
+    const submitBtn = document.getElementById('submitBtn');
+    if (submitBtn) {
+        submitBtn.addEventListener('click', () => {
+            const messageArea = document.getElementById('messageArea');
+            const phoneInput = document.getElementById('phone');
+            const paySlipInput = document.getElementById('topupPaySlipFile');
+
+            messageArea.innerHTML = '';
+            messageArea.className = 'text-center text-sm font-medium';
+
+            const phoneNumber = phoneInput.value.trim();
+            if (!phoneNumber || !/^(09|\+959)\d{7,9}$/.test(phoneNumber)) {
+                showMessage('ကျေးဇူးပြု၍ မှန်ကန်သော ဖုန်းနံပါတ်တစ်ခု ထည့်သွင်းပါ။', 'error');
+                return;
+            }
+            if (!selectedOperator) {
+                showMessage('ကျေးဇူးပြု၍ ဖုန်းလိုင်းတစ်ခု ရွေးချယ်ပါ။', 'error');
+                return;
+            }
+            if (!selectedAmount) {
+                showMessage('ကျေးဇူးပြု၍ ငွေပမာဏတစ်ခု ရွေးချယ်ပါ။', 'error');
+                return;
+            }
+            if (!selectedPayment) {
+                showMessage('ကျေးဇူးပြု၍ ငွေပေးချေမှုစနစ်တစ်ခု ရွေးချယ်ပါ။', 'error');
+                return;
+            }
+            if (!paySlipInput.files || paySlipInput.files.length === 0) {
+                showMessage('ကျေးဇူးပြု၍ ငွေလွှဲပြေစာ ထည့်သွင်းပါ။', 'error');
+                return;
+            }
+            
+            const file = paySlipInput.files[0];
+            const reader = new FileReader();
+
+            reader.onload = (e) => {
+                const fileData = {
+                    data: e.target.result,
+                    name: file.name,
+                    type: file.type
+                };
+                
+                const topupData = {
+                    orderType: 'topup',
+                    phone: phoneNumber,
+                    operator: selectedOperator,
+                    amount: selectedAmount,
+                    paymentMethod: selectedPayment,
+                    file: fileData
+                };
+
+                showLoading(true);
+
+                // Call the Google Apps Script function
+                google.script.run
+                    .withSuccessHandler(response => {
+                        showLoading(false);
+                        if (response.status === 'success') {
+                            const successMessage = `
+                                <div class="p-4 bg-green-100 border-l-4 border-green-500 rounded-r-lg text-left">
+                                    <p class="font-bold text-green-800">လုပ်ဆောင်မှု အောင်မြင်ပါသည်</p>
+                                    <p class="text-green-700">${response.message}</p>
+                                </div>`;
+                            messageArea.innerHTML = successMessage;
+                            resetTopupForm();
+                        } else {
+                            showMessage(response.message, 'error');
+                        }
+                    })
+                    .withFailureHandler(error => {
+                        showLoading(false);
+                        showMessage('Error: ' + error.message, 'error');
+                    })
+                    .saveDataAndPhoto(topupData);
+            };
+            
+            reader.readAsDataURL(file); // Read the file as a Data URL (base64)
+        });
+    }
+}
+
+function handleGameSelection(event) {
+    const gameId = event.currentTarget.getAttribute('data-game-id');
+    showGameContent(gameId);
+}
+
+// ---- TOP-UP FUNCTIONS START ----
+function detectOperator(value) {
+    const number = value.replace(/[^0-9]/g, ''); // Clean the input to only have numbers
+
+    const prefixes = {
+        mpt: ['092', '094', '095', '098', '9592', '9594', '9595', '9598'],
+        ooredoo: ['099', '9599'],
+        atom: ['097', '9597'],
+        mytel: ['096', '9596']
+    };
+
+    let detected = false;
+    for (const operator in prefixes) {
+        for (const prefix of prefixes[operator]) {
+            if (number.startsWith(prefix)) {
+                selectItem('operator', 'op-' + operator);
+                detected = true;
+                break;
+            }
+        }
+        if (detected) break;
+    }
+
+    if (!detected) {
+        // If no prefix matches, clear the selection
+        selectItem('operator', ''); 
+        selectedOperator = null;
+    }
+}
+
+
+function showTopupContent() {
+    document.getElementById('mainContentWrapper').classList.add('hidden');
+    document.getElementById('mlbbContent').classList.add('hidden');
+    document.getElementById('pubgContent').classList.add('hidden');
+    document.getElementById('paymentAndFormSection').classList.add('hidden');
+    document.getElementById('topupContent').classList.remove('hidden');
+    document.getElementById('status-message').textContent = '';
+}
+
+function selectItem(type, elementId, value = null) {
+    const items = document.querySelectorAll(`.${type}-card`);
+    items.forEach(item => {
+        let className;
+        if (type === 'operator') className = 'selected-operator';
+        else if (type === 'amount') className = 'selected-amount';
+        else if (type === 'payment') className = 'selected-payment';
+        item.classList.remove(className);
+    });
+
+    const selectedElement = document.getElementById(elementId);
+    if (selectedElement) {
+        let className;
+        if (type === 'operator') className = 'selected-operator';
+        else if (type === 'amount') className = 'selected-amount';
+        else if (type === 'payment') className = 'selected-payment';
+        selectedElement.classList.add(className);
+    }
+    
+    if (type === 'operator') {
+        selectedOperator = elementId.split('-')[1] || null;
+    } else if (type === 'amount') {
+        selectedAmount = value;
+    } else if (type === 'payment') {
+        selectedPayment = elementId.split('-')[1] || null;
+        // --- LOGIC FOR TOPUP PAYMENT DETAILS ---
+        // Hide all topup payment details first
+        document.querySelectorAll('.payment-detail-topup').forEach(div => {
+            div.classList.add('hidden');
+        });
+
+        if (selectedPayment) {
+            const detailDiv = document.getElementById(`topup-${selectedPayment}PaymentDetails`);
+            if (detailDiv) {
+                detailDiv.classList.remove('hidden');
+            }
+        }
+    }
+}
+
+function showMessage(text, type) {
+    const messageArea = document.getElementById('messageArea');
+    messageArea.textContent = text;
+    if (type === 'error') {
+        messageArea.classList.add('text-red-600');
+    } else {
+        messageArea.classList.add('text-green-600');
+    }
+}
+
+function showLoading(isLoading) {
+    const submitBtn = document.getElementById('submitBtn');
+    const btnText = document.getElementById('btnText');
+    const btnLoader = document.getElementById('btnLoader');
+    if (isLoading) {
+        submitBtn.disabled = true;
+        btnText.classList.add('hidden');
+        btnLoader.classList.remove('hidden');
+    } else {
+        submitBtn.disabled = false;
+        btnText.classList.remove('hidden');
+        btnLoader.classList.add('hidden');
+    }
+}
+
+function resetTopupForm() {
+    document.getElementById('phone').value = '';
+    document.getElementById('topupPaySlipFile').value = '';
+    selectItem('operator', '');
+    selectItem('amount', '', null);
+    selectItem('payment', '');
+    selectedOperator = null;
+    selectedAmount = null;
+    selectedPayment = null;
+    document.querySelectorAll('.payment-detail-topup').forEach(div => {
+        div.classList.add('hidden');
+    });
+}
+// ---- TOP-UP FUNCTIONS END ----
+
+function handleDynamicClicks(event) {
+    const target = event.target;
+    const buyNowBtn = target.closest('.buy-now-btn');
+    const paymentBtn = target.closest('.payment-btn');
+    const dataForm = document.getElementById('dataForm');
+
+    if (buyNowBtn) {
+        const itemName = buyNowBtn.getAttribute('data-item-name');
+        const priceText = buyNowBtn.getAttribute('data-price');
+        showPaymentSection({ itemName, priceText });
+        return;
+    }
+    
+    if (paymentBtn) {
+        const method = paymentBtn.getAttribute('data-payment-method');
+        document.getElementById('selectedPaymentMethodInput').value = method;
+        document.querySelectorAll('#paymentDetailsContainer > div').forEach(div => div.classList.add('hidden'));
+        const detailDiv = document.getElementById(`${method}PaymentDetails`);
+        if (detailDiv) detailDiv.classList.remove('hidden');
+        document.getElementById('formContainer').classList.remove('hidden');
+        document.getElementById('paymentAndFormSection').scrollIntoView({ behavior: 'smooth' });
+        return;
+    }
+    
+    if (target.id === 'submitButton' && dataForm) {
+        dataForm.dispatchEvent(new Event('submit', { cancelable: true, bubbles: true }));
+    }
+}
+
+function handleFormSubmit(event) {
+    event.preventDefault();
+    if (!validateForm()) return;
+    if (typeof google !== 'undefined' && typeof google.script !== 'undefined') {
+        google.script.run.withSuccessHandler(status => {
+            if (status.isLoggedIn) {
+                showConfirmationModal(buildFormData());
+            } else {
+                document.getElementById('loginChoiceModal').classList.remove('hidden');
+            }
+        }).checkUserLoginStatus();
+    } else {
+        document.getElementById('loginChoiceModal').classList.remove('hidden');
+        console.log("Apps Script environment not found. Proceeding as guest.");
+    }
+}
+
+function handleSubmitAsGuest() {
+    document.getElementById('loginChoiceModal').classList.add('hidden');
+    const formData = buildFormData();
+    if (formData) showConfirmationModal(formData);
+}
+
+function handleConfirmYes() {
+    const confirmButton = document.getElementById('confirm-yes');
+    const buttonText = confirmButton.querySelector('.button-text');
+    const spinner = confirmButton.querySelector('.loading-spinner');
+
+    confirmButton.disabled = true;
+    buttonText.classList.add('hidden');
+    spinner.classList.remove('hidden');
+    
+    if(pendingFormData) {
+        submitForm(pendingFormData);
+    } else {
+        console.error("No pending form data to submit.");
+        resetConfirmButton();
+    }
+}
+
+function goHome() {
+    document.getElementById('mainContentWrapper').classList.remove('hidden');
+    document.getElementById('mlbbContent').classList.add('hidden');
+    document.getElementById('pubgContent').classList.add('hidden');
+    document.getElementById('topupContent').classList.add('hidden'); // Hide top-up content
+    document.getElementById('paymentAndFormSection').classList.add('hidden');
+    document.getElementById('status-message').textContent = 'ကျေးဇူးပြု၍ ဝန်ဆောင်မှုတစ်ခု ရွေးချယ်ပါ။';
+    const form = document.getElementById('dataForm');
+    if(form) form.removeEventListener('submit', handleFormSubmit);
+    resetConfirmButton();
+}
+
+function showGameContent(gameId) {
+    document.getElementById('mainContentWrapper').classList.add('hidden');
+    document.getElementById('topupContent').classList.add('hidden');
+    document.getElementById('selectedGameInput').value = gameId; 
+    
+    const mlbbDiv = document.getElementById('mlbbContent');
+    const pubgDiv = document.getElementById('pubgContent');
+    const serverIdContainer = document.getElementById('serverIdInputContainer');
+    const serverIdInput = document.getElementById('serverId');
+    
+    if (gameId === 'mlbb') {
+        mlbbDiv.classList.remove('hidden');
+        pubgDiv.classList.add('hidden');
+        serverIdContainer.classList.remove('hidden');
+        serverIdInput.required = true;
+        generateContentForGame('mlbb');
+    } else if (gameId === 'pubg') {
+        pubgDiv.classList.remove('hidden');
+        mlbbDiv.classList.add('hidden');
+        serverIdContainer.classList.add('hidden');
+        serverIdInput.required = false;
+        generateContentForGame('pubg');
+    }
+}
+
+function showPaymentSection(itemData) {
+    const paymentDiv = document.getElementById('paymentAndFormSection');
+    paymentDiv.classList.remove('hidden');
+    
+    document.getElementById('selectedItemInput').value = itemData.itemName;
+    document.querySelectorAll('.payment-package-info').forEach(span => {
+        span.textContent = `${itemData.priceText}`;
+    });
+    
+    document.getElementById('status-message').textContent = 'ငွေပေးချေမှုပုံစံကို ရွေးချယ်ပါ။';
+    paymentDiv.scrollIntoView({ behavior: 'smooth' });
+    const form = document.getElementById('dataForm');
+    if (form) {
+        form.removeEventListener('submit', handleFormSubmit);
+        form.addEventListener('submit', handleFormSubmit);
+    }
+}
+
+function showConfirmationModal(formData) {
+    pendingFormData = formData;
+    const detailsDiv = document.getElementById('confirmationDetails');
+    const serverIdDisplay = (formData.game === 'mlbb' && formData.serverId) ? `<p><strong>Server ID:</strong> ${formData.serverId}</p>` : '';
+    detailsDiv.innerHTML = `
+        <p><strong>Game:</strong> ${formData.game}</p>
+        <p><strong>Game ID:</strong> ${formData.gameId}</p>
+        ${serverIdDisplay}
+        <p><strong>Package:</strong> ${formData.selectedItem}</p>
+        <p><strong>Payment:</strong> ${formData.selectedPaymentMethod}</p>
+        <p><strong>Email:</strong> ${formData.gmail}</p>
+    `;
+    document.getElementById('confirmationModal').classList.remove('hidden');
+}
+
+const priceList = {
+    "mlbb": [{"name":"86 Diamonds","mmk":"5500","thb":"39"},{"name":"172 Diamonds","mmk":"11000","thb":"75"},{"name":"257 Diamonds","mmk":"16500","thb":"113"},{"name":"275 Diamonds","mmk":"17500","thb":"122"},{"name":"343 Diamonds","mmk":"22000","thb":"152"},{"name":"429 Diamonds","mmk":"27500","thb":"189"},{"name":"514 Diamonds","mmk":"33000","thb":"270"},{"name":"600 Diamonds","mmk":"38500","thb":"310"},{"name":"706 Diamonds","mmk":"43500","thb":"360"},{"name":"792 Diamonds","mmk":"49000","thb":"390"},{"name":"878 Diamonds","mmk":"54500","thb":"450"},{"name":"1049 Diamonds","mmk":"65500","thb":"530"},{"name":"1135 Diamonds","mmk":"71000","thb":"575"},{"name":"1412 Diamonds","mmk":"87000","thb":"700"},{"name":"2195 Diamonds","mmk":"131000","thb":"1100"},{"name":"3688 Diamonds","mmk":"217000","thb":"1495"},{"name":"5532 Diamonds","mmk":"322000","thb":"2230"},{"name":"9288 Diamonds","mmk":"542000","thb":"3685"},{"name":"Weekly Pass Diamond","mmk":"6800","thb":"50"},{"name":"Twilight Pass","mmk":"35000","thb":"250"}],
+    "pubg": [{"name":"180 UC","mmk":"15000","thb":"120"},{"name":"325 UC","mmk":"22000","thb":"180"},{"name":"385 UC","mmk":"27000","thb":"240"},{"name":"660 UC","mmk":"43500","thb":"380"},{"name":"985 UC","mmk":"65500","thb":"550"},{"name":"1320 UC","mmk":"87000","thb":"750"},{"name":"1800 UC","mmk":"115000","thb":"950"},{"name":"2125 UC","mmk":"137000","thb":"1150"},{"name":"3850 UC","mmk":"210000","thb":"1800"},{"name":"8100 UC","mmk":"430000","thb":"3700"}]
+};
+
+function generateContentForGame(gameId) {
+    const container = document.getElementById(`${gameId}Content`);
+    const gameData = {
+        mlbb: { title: 'Mobile Legend : Bang Bang', currency: 'Diamond', logo: 'https://drive.google.com/thumbnail?id=14_RThMWD-OWrmD7R2rTM3gsjLMUtzWNL&sz=w500', banner: 'https://drive.google.com/thumbnail?id=14UIpJuoo17jqhq0fu0isWD3DdUR1arT5&sz=w500' },
+        pubg: { title: 'PUBG Mobile', currency: 'UC', logo: 'https://drive.google.com/thumbnail?id=15Dapkfgx8Xy0gnEbXoLK51KcrBH6DDqL&sz=w500', banner: 'https://drive.google.com/thumbnail?id=15IL2-gk5pe6xyI9Vrk3GGocxPL2F5TLJ&sz=w500' }
+    };
+    const data = gameData[gameId];
+    
+    let packageHtml = '';
+    priceList[gameId].forEach(pkg => {
+        const iconUrl = getIconUrl(gameId, pkg.name);
+        packageHtml += `
+            <div class="flex flex-col items-center p-4 bg-white rounded-lg shadow-md">
+                <div class="flex items-center gap-2 mb-2"><img src="${iconUrl}" alt="Icon" class="h-8 w-auto"/><span class="font-bold text-base">${pkg.name}</span></div>
+                <span class="text-sm text-gray-500 mb-4">${pkg.mmk} MMK / ${pkg.thb} THB</span>
+                <button class="buy-now-btn w-full bg-blue-600 text-white font-bold py-2 rounded-lg hover:bg-blue-700 interactive-item" data-item-name="${pkg.name}" data-price="${pkg.mmk} MMK / ${pkg.thb} THB}">ဝယ်ယူရန်</button>
+            </div>`;
+    });
+
+    container.innerHTML = `
+        <div class="mb-6 rounded-lg overflow-hidden shadow-md">
+            <img src="${data.banner}" alt="${data.title} Banner" class="w-full h-auto object-cover">
+        </div>
+        <div class="flex items-center justify-between mb-6 mt-4">
+            <button onclick="goHome()" class="bg-gray-200 text-gray-700 p-2 rounded-full hover:bg-gray-300 interactive-item"> &lt; Back </button>
+            <div class="flex flex-col items-center"><img src="${data.logo}" alt="${data.title} Logo" class="h-12 w-auto rounded-lg shadow-md mb-2"><h2 class="text-lg font-bold text-gray-800">${data.title}</h2></div>
+            <div class="w-10"></div>
+        </div>
+        <div class="w-full bg-gray-100 p-6 rounded-lg mb-6 shadow-inner">
+            <h2 class="text-xl font-semibold mb-4 text-gray-800 text-center">${data.currency} ဈေးနှုန်းများ</h2>
+            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">${packageHtml}</div>
+        </div>`;
+}
+
+// All other JS functions from the original script remain below...
+
+function setupHeaderLoginButton() {
+    const headerLoginBtn = document.getElementById('headerLoginBtn');
+    if (headerLoginBtn && typeof google !== 'undefined' && typeof google.script !== 'undefined') {
+        google.script.run.withSuccessHandler(url => headerLoginBtn.href = url).getWebAppUrl();
+    } else if (headerLoginBtn) {
+        console.log("Apps Script environment not detected. The login button will not function.");
+    }
+}
+
+function checkForSavedOrder() {
+    const savedData = localStorage.getItem('pendingOrder');
+    if (savedData) {
+        repopulateFormAndSubmit(JSON.parse(savedData));
+        localStorage.removeItem('pendingOrder');
+    }
+}
+
+function saveFormDataToLocalStorageAndRedirect() {
+    const formData = buildFormData();
+    if (!formData || !formData.file) { 
+        console.log('Please fill all fields and select a file.');
+        document.getElementById('status-message').textContent = 'ကျေးဇူးပြု၍ အချက်အလက်အားလုံး ဖြည့်ပေးပါ။';
+        document.getElementById('status-message').style.color = 'red';
+        return; 
+    }
+
+    if (typeof google !== 'undefined' && typeof google.script !== 'undefined') {
+        const reader = new FileReader();
+        reader.onload = function(e) {
+            const fileDataUrl = e.target.result;
+            const dataToStore = { ...formData, file: { dataUrl: fileDataUrl, name: formData.file.name, type: formData.file.type } };
+            delete dataToStore.file.fileObject;
+            localStorage.setItem('pendingOrder', JSON.stringify(dataToStore));
+            google.script.run.withSuccessHandler(url => window.location.href = url).getWebAppUrl();
+        };
+        reader.readAsDataURL(formData.file);
+    } else {
+        console.log("Apps Script environment not detected. Cannot save data and redirect.");
+        document.getElementById('status-message').textContent = 'Apps Script environment not found. Cannot proceed with login and submit.';
+        document.getElementById('status-message').style.color = 'red';
+    }
+}
+
+function repopulateFormAndSubmit(savedData) {
+    const file = dataURLtoFile(savedData.file.dataUrl, savedData.file.name);
+    const restoredFormData = { ...savedData, file: file };
+    showConfirmationModal(restoredFormData);
+}
+
+function submitForm(formData) {
+    const file = formData.file;
+    const statusMsg = document.getElementById('status-message');
+    statusMsg.textContent = 'တင်နေပါသည်...';
+    statusMsg.style.color = 'black';
+    const submitButton = document.getElementById('submitButton');
+    if(submitButton) submitButton.disabled = true;
+
+    if (typeof google !== 'undefined' && typeof google.script !== 'undefined') {
+        const fr = new FileReader();
+        fr.onload = (e) => {
+            const fileData = { data: e.target.result, name: file.name, type: file.type };
+            google.script.run.withSuccessHandler(onSuccess).withFailureHandler(onFailure).saveDataAndPhoto({ ...formData, file: fileData });
+        };
+        fr.readAsDataURL(file);
+    } else {
+        onFailure({ message: "Apps Script environment not found. Cannot submit data." });
+        if(submitButton) submitButton.disabled = false;
+    }
+}
+
+function getIconUrl(gameId, itemName) {
+    if (gameId === 'mlbb') {
+        if (itemName.includes('Weekly Pass')) return 'https://drive.google.com/thumbnail?id=15ZIsPtP22-wLLuBCHQbb7ZiSNZGWPwBv&sz=w500';
+        if (itemName.includes('Twilight Pass')) return 'https://drive.google.com/thumbnail?id=15ZReZapfHDRPlfp3o5FUE6U4M_pVpnqF&sz=w500';
+        return 'https://drive.google.com/thumbnail?id=14QfRnUPaCw1iIaZ0EfIHNiYDBGlh0on_&sz=w1000';
+    }
+    if (gameId === 'pubg') return 'https://drive.google.com/thumbnail?id=15L2_q00P14yvD7Ey550_nJSKdNkcI39A&sz=w500';
+    return '';
+}
+
+function buildFormData() {
+    const form = document.getElementById('dataForm');
+    if (!form) return null;
+    return {
+        orderType: 'game', // Add orderType here
+        game: document.getElementById('selectedGameInput').value,
+        gameId: form.elements.gameId.value,
+        serverId: form.elements.serverId ? form.elements.serverId.value : '',
+        gmail: form.elements.gmail.value,
+        selectedItem: form.elements.selectedItem.value,
+        selectedPaymentMethod: form.elements.selectedPaymentMethod.value,
+        file: form.elements.paySlipFile.files[0]
+    };
+}
+
+function validateForm() {
+    const form = document.getElementById('dataForm');
+    const statusMsg = document.getElementById('status-message');
+    if (!form) return false;
+    if (!form.elements.gameId.value || !form.elements.gmail.value || !form.elements.paySlipFile.files.length || !form.elements.selectedPaymentMethod.value) {
+        statusMsg.textContent = 'ကျေးဇူးပြု၍ အချက်အလက်အားလုံး ဖြည့်ပေးပါ။';
+        statusMsg.style.color = 'red';
+        return false;
+    }
+    if (form.elements.serverId.required && !form.elements.serverId.value) {
+        statusMsg.textContent = 'ကျေးဇူးပြု၍ Server ID ဖြည့်ပေးပါ။';
+        statusMsg.style.color = 'red';
+        return false;
+    }
+    return true;
+}
+
+function dataURLtoFile(dataurl, filename) {
+    let arr = dataurl.split(','), mime = arr[0].match(/:(.*?);/)[1],
+        bstr = atob(arr[1]), n = bstr.length, u8arr = new Uint8Array(n);
+    while(n--) u8arr[n] = bstr.charCodeAt(n);
+    return new File([u8arr], filename, {type:mime});
+}
+
+function resetConfirmButton() {
+    const confirmButton = document.getElementById('confirm-yes');
+    if (confirmButton) {
+        const buttonText = confirmButton.querySelector('.button-text');
+        const spinner = confirmButton.querySelector('.loading-spinner');
+        const checkmark = confirmButton.querySelector('.success-checkmark');
+
+        confirmButton.disabled = false;
+        if(buttonText) buttonText.classList.remove('hidden');
+        if(spinner) spinner.classList.add('hidden');
+        if(checkmark) checkmark.classList.add('hidden');
+    }
+}
+
+function onSuccess(response) {
+    const statusMsg = document.getElementById('status-message');
+    const submitButton = document.getElementById('submitButton');
+    const confirmButton = document.getElementById('confirm-yes');
+    const spinner = confirmButton.querySelector('.loading-spinner');
+    const checkmark = confirmButton.querySelector('.success-checkmark');
+
+    if (response.status === 'success') {
+        statusMsg.textContent = response.message;
+        statusMsg.style.color = 'green';
+        
+        spinner.classList.add('hidden');
+        checkmark.classList.remove('hidden');
+        
+        setTimeout(() => {
+            document.getElementById('confirmationModal').classList.add('hidden');
+            goHome();
+        }, 3000);
+    } else {
+        onFailure(response);
+    }
+    if(submitButton) submitButton.disabled = false;
+}
+
+function onFailure(error) {
+    const statusMsg = document.getElementById('status-message');
+    const submitButton = document.getElementById('submitButton');
+    statusMsg.textContent = 'Error: ' + error.message;
+    statusMsg.style.color = 'red';
+    if(submitButton) submitButton.disabled = false;
+    resetConfirmButton();
+}
+</script>
 </body>
 </html>
+
+
+
+
