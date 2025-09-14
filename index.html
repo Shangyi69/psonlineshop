@@ -18,13 +18,6 @@
             backdrop-filter: blur(10px);
             border: 1px solid rgba(51, 65, 85, 0.5); /* slate-700 with opacity */
         }
-        .hero-bg {
-            background-image: 
-                linear-gradient(to top, rgba(15, 23, 42, 1) 0%, rgba(15, 23, 42, 0) 50%),
-                url('https://placehold.co/1200x800/1E293B/FFFFFF?text=PS+GAME+STORE');
-            background-size: cover;
-            background-position: center top;
-        }
         .payment-logo {
             height: 50px;
             filter: grayscale(100%);
@@ -45,6 +38,11 @@
             display: block;
             opacity: 1;
         }
+        .payment-details {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.5s ease-in-out, margin-top 0.5s ease-in-out;
+        }
     </style>
 </head>
 <body class="text-white">
@@ -52,7 +50,10 @@
     <!-- Header -->
     <header class="bg-slate-900/80 backdrop-blur-md sticky top-0 z-50 border-b border-slate-800">
         <nav class="container mx-auto px-6 py-4 flex justify-between items-center">
-            <a href="#" class="text-2xl font-bold text-cyan-400">PS GAME STORE</a>
+            <a href="#" class="flex items-center gap-3">
+                <img src="https://drive.google.com/thumbnail?id=15PAgpn34PW6_nOr4UQUo7W9c7KigN0yd&sz=w500" alt="PS GAME STORE Logo" class="h-10 w-10 rounded-full object-cover">
+                <span class="font-bold text-xl text-white">PS GAME STORE</span>
+            </a>
             <div class="flex space-x-6 items-center">
                 <a href="#select-game" class="hidden md:block hover:text-cyan-400 transition duration-300">Select Game</a>
                 <a href="#select-game" class="bg-cyan-500 hover:bg-cyan-600 text-slate-900 font-bold py-2 px-4 rounded-lg transition duration-300">Order Now</a>
@@ -61,14 +62,6 @@
     </header>
 
     <main>
-        <!-- Hero Section -->
-        <section class="hero-bg pt-40 pb-32 text-center">
-            <div class="container mx-auto px-6">
-                <h1 class="text-4xl md:text-6xl font-black mb-4 leading-tight">PS GAME STORE မှ ကြိုဆိုပါတယ်</h1>
-                <p class="text-lg md:text-xl text-slate-300 mb-8 max-w-3xl mx-auto">Mobile Legends နှင့် PUBG Mobile UC အတွက် စိတ်ချယုံကြည်ရဆုံးနှင့် အမြန်ဆန်ဆုံးနေရာ</p>
-            </div>
-        </section>
-
         <!-- Home Layout - Game Selection -->
         <section id="select-game" class="py-20">
             <div class="container mx-auto px-6">
@@ -96,11 +89,11 @@
             <div class="container mx-auto px-6">
                 <h2 class="text-3xl md:text-4xl font-bold text-center mb-10">Mobile Legends Packages</h2>
                 <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-4 md:gap-6">
-                    <div class="glass-card text-center p-6 rounded-2xl hover:border-cyan-400 flex flex-col justify-between"><div><div class="flex items-center justify-center gap-2"><p class="text-2xl font-bold">60</p><img src="https://drive.google.com/thumbnail?id=19swB7MydLO3eHR-QMAE3BUJbxBPkTMGd&sz=w1000" alt="Diamond Logo" class="w-6 h-6 object-contain"></div><p class="text-xl font-semibold mt-2">$1.10</p></div><button class="buy-now-btn mt-4 bg-cyan-500/80 hover:bg-cyan-500 text-white font-bold py-2 px-4 rounded-lg transition duration-300" data-game="Mobile Legends" data-package-value="ML_60_Diamonds">Buy Now</button></div>
-                    <div class="glass-card text-center p-6 rounded-2xl hover:border-cyan-400 flex flex-col justify-between"><div><div class="flex items-center justify-center gap-2"><p class="text-2xl font-bold">172</p><img src="https://drive.google.com/thumbnail?id=19swB7MydLO3eHR-QMAE3BUJbxBPkTMGd&sz=w1000" alt="Diamond Logo" class="w-6 h-6 object-contain"></div><p class="text-xl font-semibold mt-2">$2.90</p></div><button class="buy-now-btn mt-4 bg-cyan-500/80 hover:bg-cyan-500 text-white font-bold py-2 px-4 rounded-lg transition duration-300" data-game="Mobile Legends" data-package-value="ML_172_Diamonds">Buy Now</button></div>
-                    <div class="glass-card text-center p-6 rounded-2xl hover:border-cyan-400 flex flex-col justify-between"><div><div class="flex items-center justify-center gap-2"><p class="text-2xl font-bold">257</p><img src="https://drive.google.com/thumbnail?id=19swB7MydLO3eHR-QMAE3BUJbxBPkTMGd&sz=w1000" alt="Diamond Logo" class="w-6 h-6 object-contain"></div><p class="text-xl font-semibold mt-2">$4.30</p></div><button class="buy-now-btn mt-4 bg-cyan-500/80 hover:bg-cyan-500 text-white font-bold py-2 px-4 rounded-lg transition duration-300" data-game="Mobile Legends" data-package-value="ML_257_Diamonds">Buy Now</button></div>
-                    <div class="glass-card text-center p-6 rounded-2xl hover:border-cyan-400 flex flex-col justify-between"><div><div class="flex items-center justify-center gap-2"><p class="text-2xl font-bold">514</p><img src="https://drive.google.com/thumbnail?id=19swB7MydLO3eHR-QMAE3BUJbxBPkTMGd&sz=w1000" alt="Diamond Logo" class="w-6 h-6 object-contain"></div><p class="text-xl font-semibold mt-2">$8.50</p></div><button class="buy-now-btn mt-4 bg-cyan-500/80 hover:bg-cyan-500 text-white font-bold py-2 px-4 rounded-lg transition duration-300" data-game="Mobile Legends" data-package-value="ML_514_Diamonds">Buy Now</button></div>
-                    <div class="glass-card text-center p-6 rounded-2xl hover:border-cyan-400 flex flex-col justify-between"><div><div class="flex items-center justify-center gap-2"><p class="text-2xl font-bold">1050</p><img src="https://drive.google.com/thumbnail?id=19swB7MydLO3eHR-QMAE3BUJbxBPkTMGd&sz=w1000" alt="Diamond Logo" class="w-6 h-6 object-contain"></div><p class="text-xl font-semibold mt-2">$17.00</p></div><button class="buy-now-btn mt-4 bg-cyan-500/80 hover:bg-cyan-500 text-white font-bold py-2 px-4 rounded-lg transition duration-300" data-game="Mobile Legends" data-package-value="ML_1050_Diamonds">Buy Now</button></div>
+                    <div class="glass-card text-center p-6 rounded-2xl hover:border-cyan-400 flex flex-col justify-between"><div><div class="flex items-center justify-center gap-2"><p class="text-2xl font-bold">60</p><img src="https://drive.google.com/thumbnail?id=19swB7MydLO3eHR-QMAE3BUJbxBPkTMGd&sz=w1000" alt="Diamond Logo" class="w-6 h-6 object-contain"></div><p class="text-xl font-semibold mt-2">$1.10</p></div><button class="buy-now-btn mt-4 bg-cyan-500/80 hover:bg-cyan-500 text-white font-bold py-2 px-4 rounded-lg transition duration-300" data-game="Mobile Legends" data-package-value="ML_60_Diamonds" data-price="$1.10">Buy Now</button></div>
+                    <div class="glass-card text-center p-6 rounded-2xl hover:border-cyan-400 flex flex-col justify-between"><div><div class="flex items-center justify-center gap-2"><p class="text-2xl font-bold">172</p><img src="https://drive.google.com/thumbnail?id=19swB7MydLO3eHR-QMAE3BUJbxBPkTMGd&sz=w1000" alt="Diamond Logo" class="w-6 h-6 object-contain"></div><p class="text-xl font-semibold mt-2">$2.90</p></div><button class="buy-now-btn mt-4 bg-cyan-500/80 hover:bg-cyan-500 text-white font-bold py-2 px-4 rounded-lg transition duration-300" data-game="Mobile Legends" data-package-value="ML_172_Diamonds" data-price="$2.90">Buy Now</button></div>
+                    <div class="glass-card text-center p-6 rounded-2xl hover:border-cyan-400 flex flex-col justify-between"><div><div class="flex items-center justify-center gap-2"><p class="text-2xl font-bold">257</p><img src="https://drive.google.com/thumbnail?id=19swB7MydLO3eHR-QMAE3BUJbxBPkTMGd&sz=w1000" alt="Diamond Logo" class="w-6 h-6 object-contain"></div><p class="text-xl font-semibold mt-2">$4.30</p></div><button class="buy-now-btn mt-4 bg-cyan-500/80 hover:bg-cyan-500 text-white font-bold py-2 px-4 rounded-lg transition duration-300" data-game="Mobile Legends" data-package-value="ML_257_Diamonds" data-price="$4.30">Buy Now</button></div>
+                    <div class="glass-card text-center p-6 rounded-2xl hover:border-cyan-400 flex flex-col justify-between"><div><div class="flex items-center justify-center gap-2"><p class="text-2xl font-bold">514</p><img src="https://drive.google.com/thumbnail?id=19swB7MydLO3eHR-QMAE3BUJbxBPkTMGd&sz=w1000" alt="Diamond Logo" class="w-6 h-6 object-contain"></div><p class="text-xl font-semibold mt-2">$8.50</p></div><button class="buy-now-btn mt-4 bg-cyan-500/80 hover:bg-cyan-500 text-white font-bold py-2 px-4 rounded-lg transition duration-300" data-game="Mobile Legends" data-package-value="ML_514_Diamonds" data-price="$8.50">Buy Now</button></div>
+                    <div class="glass-card text-center p-6 rounded-2xl hover:border-cyan-400 flex flex-col justify-between"><div><div class="flex items-center justify-center gap-2"><p class="text-2xl font-bold">1050</p><img src="https://drive.google.com/thumbnail?id=19swB7MydLO3eHR-QMAE3BUJbxBPkTMGd&sz=w1000" alt="Diamond Logo" class="w-6 h-6 object-contain"></div><p class="text-xl font-semibold mt-2">$17.00</p></div><button class="buy-now-btn mt-4 bg-cyan-500/80 hover:bg-cyan-500 text-white font-bold py-2 px-4 rounded-lg transition duration-300" data-game="Mobile Legends" data-package-value="ML_1050_Diamonds" data-price="$17.00">Buy Now</button></div>
                 </div>
             </div>
         </section>
@@ -110,17 +103,85 @@
             <div class="container mx-auto px-6">
                 <h2 class="text-3xl md:text-4xl font-bold text-center mb-10">PUBG Mobile Packages</h2>
                 <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-4 md:gap-6">
-                    <div class="glass-card text-center p-6 rounded-2xl hover:border-yellow-400 flex flex-col justify-between"><div><div class="flex items-center justify-center gap-2"><p class="text-2xl font-bold">60</p><img src="https://drive.google.com/thumbnail?id=19tdT_DgDbgHOxr3tv2KaO3vwesNbrjFw&sz=w1000" alt="UC Logo" class="w-16 h-16 object-contain"></div><p class="text-xl font-semibold mt-2">$0.99</p></div><button class="buy-now-btn mt-4 bg-yellow-500/80 hover:bg-yellow-500 text-white font-bold py-2 px-4 rounded-lg transition duration-300" data-game="PUBG Mobile" data-package-value="PUBG_60_UC">Buy Now</button></div>
-                    <div class="glass-card text-center p-6 rounded-2xl hover:border-yellow-400 flex flex-col justify-between"><div><div class="flex items-center justify-center gap-2"><p class="text-2xl font-bold">325</p><img src="https://drive.google.com/thumbnail?id=19tdT_DgDbgHOxr3tv2KaO3vwesNbrjFw&sz=w1000" alt="UC Logo" class="w-16 h-16 object-contain"></div><p class="text-xl font-semibold mt-2">$4.99</p></div><button class="buy-now-btn mt-4 bg-yellow-500/80 hover:bg-yellow-500 text-white font-bold py-2 px-4 rounded-lg transition duration-300" data-game="PUBG Mobile" data-package-value="PUBG_325_UC">Buy Now</button></div>
-                    <div class="glass-card text-center p-6 rounded-2xl hover:border-yellow-400 flex flex-col justify-between"><div><div class="flex items-center justify-center gap-2"><p class="text-2xl font-bold">660</p><img src="https://drive.google.com/thumbnail?id=19tdT_DgDbgHOxr3tv2KaO3vwesNbrjFw&sz=w1000" alt="UC Logo" class="w-16 h-16 object-contain"></div><p class="text-xl font-semibold mt-2">$9.99</p></div><button class="buy-now-btn mt-4 bg-yellow-500/80 hover:bg-yellow-500 text-white font-bold py-2 px-4 rounded-lg transition duration-300" data-game="PUBG Mobile" data-package-value="PUBG_660_UC">Buy Now</button></div>
-                    <div class="glass-card text-center p-6 rounded-2xl hover:border-yellow-400 flex flex-col justify-between"><div><div class="flex items-center justify-center gap-2"><p class="text-2xl font-bold">1800</p><img src="https://drive.google.com/thumbnail?id=19tdT_DgDbgHOxr3tv2KaO3vwesNbrjFw&sz=w1000" alt="UC Logo" class="w-16 h-16 object-contain"></div><p class="text-xl font-semibold mt-2">$24.99</p></div><button class="buy-now-btn mt-4 bg-yellow-500/80 hover:bg-yellow-500 text-white font-bold py-2 px-4 rounded-lg transition duration-300" data-game="PUBG Mobile" data-package-value="PUBG_1800_UC">Buy Now</button></div>
-                    <div class="glass-card text-center p-6 rounded-2xl hover:border-yellow-400 flex flex-col justify-between"><div><div class="flex items-center justify-center gap-2"><p class="text-2xl font-bold">8100</p><img src="https://drive.google.com/thumbnail?id=19tdT_DgDbgHOxr3tv2KaO3vwesNbrjFw&sz=w1000" alt="UC Logo" class="w-16 h-16 object-contain"></div><p class="text-xl font-semibold mt-2">$99.99</p></div><button class="buy-now-btn mt-4 bg-yellow-500/80 hover:bg-yellow-500 text-white font-bold py-2 px-4 rounded-lg transition duration-300" data-game="PUBG Mobile" data-package-value="PUBG_8100_UC">Buy Now</button></div>
+                    <div class="glass-card text-center p-6 rounded-2xl hover:border-yellow-400 flex flex-col justify-between"><div><div class="flex items-center justify-center gap-2"><p class="text-2xl font-bold">60</p><img src="https://drive.google.com/thumbnail?id=19tdT_DgDbgHOxr3tv2KaO3vwesNbrjFw&sz=w1000" alt="UC Logo" class="w-16 h-16 object-contain"></div><p class="text-xl font-semibold mt-2">$0.99</p></div><button class="buy-now-btn mt-4 bg-yellow-500/80 hover:bg-yellow-500 text-white font-bold py-2 px-4 rounded-lg transition duration-300" data-game="PUBG Mobile" data-package-value="PUBG_60_UC" data-price="$0.99">Buy Now</button></div>
+                    <div class="glass-card text-center p-6 rounded-2xl hover:border-yellow-400 flex flex-col justify-between"><div><div class="flex items-center justify-center gap-2"><p class="text-2xl font-bold">325</p><img src="https://drive.google.com/thumbnail?id=19tdT_DgDbgHOxr3tv2KaO3vwesNbrjFw&sz=w1000" alt="UC Logo" class="w-16 h-16 object-contain"></div><p class="text-xl font-semibold mt-2">$4.99</p></div><button class="buy-now-btn mt-4 bg-yellow-500/80 hover:bg-yellow-500 text-white font-bold py-2 px-4 rounded-lg transition duration-300" data-game="PUBG Mobile" data-package-value="PUBG_325_UC" data-price="$4.99">Buy Now</button></div>
+                    <div class="glass-card text-center p-6 rounded-2xl hover:border-yellow-400 flex flex-col justify-between"><div><div class="flex items-center justify-center gap-2"><p class="text-2xl font-bold">660</p><img src="https://drive.google.com/thumbnail?id=19tdT_DgDbgHOxr3tv2KaO3vwesNbrjFw&sz=w1000" alt="UC Logo" class="w-16 h-16 object-contain"></div><p class="text-xl font-semibold mt-2">$9.99</p></div><button class="buy-now-btn mt-4 bg-yellow-500/80 hover:bg-yellow-500 text-white font-bold py-2 px-4 rounded-lg transition duration-300" data-game="PUBG Mobile" data-package-value="PUBG_660_UC" data-price="$9.99">Buy Now</button></div>
+                    <div class="glass-card text-center p-6 rounded-2xl hover:border-yellow-400 flex flex-col justify-between"><div><div class="flex items-center justify-center gap-2"><p class="text-2xl font-bold">1800</p><img src="https://drive.google.com/thumbnail?id=19tdT_DgDbgHOxr3tv2KaO3vwesNbrjFw&sz=w1000" alt="UC Logo" class="w-16 h-16 object-contain"></div><p class="text-xl font-semibold mt-2">$24.99</p></div><button class="buy-now-btn mt-4 bg-yellow-500/80 hover:bg-yellow-500 text-white font-bold py-2 px-4 rounded-lg transition duration-300" data-game="PUBG Mobile" data-package-value="PUBG_1800_UC" data-price="$24.99">Buy Now</button></div>
+                    <div class="glass-card text-center p-6 rounded-2xl hover:border-yellow-400 flex flex-col justify-between"><div><div class="flex items-center justify-center gap-2"><p class="text-2xl font-bold">8100</p><img src="https://drive.google.com/thumbnail?id=19tdT_DgDbgHOxr3tv2KaO3vwesNbrjFw&sz=w1000" alt="UC Logo" class="w-16 h-16 object-contain"></div><p class="text-xl font-semibold mt-2">$99.99</p></div><button class="buy-now-btn mt-4 bg-yellow-500/80 hover:bg-yellow-500 text-white font-bold py-2 px-4 rounded-lg transition duration-300" data-game="PUBG Mobile" data-package-value="PUBG_8100_UC" data-price="$99.99">Buy Now</button></div>
+                </div>
+            </div>
+        </section>
+        
+        <!-- Payment Methods Section -->
+        <section id="payment" class="hidden-section py-20">
+            <div class="container mx-auto px-6">
+                <div class="text-center mb-12">
+                    <h2 class="text-3xl md:text-4xl font-bold">ငွေပေးချေမှုများ</h2>
+                    <p class="text-slate-400 mt-2">အောက်ပါ Account များသို့ ငွေလွှဲနိုင်ပါသည်။</p>
+                </div>
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6 max-w-3xl mx-auto">
+                    <!-- KBZPay Card -->
+                    <div class="payment-card glass-card rounded-2xl p-4 cursor-pointer transition-all duration-300" data-payment-method="KBZPay">
+                        <div class="flex justify-between items-center">
+                            <div class="flex items-center gap-3">
+                                <img src="https://drive.google.com/thumbnail?id=147JMg39gJ0Kj2-N7UnhmBCSf8Bm8jt7x&sz=w500" alt="KBZPay Logo" class="h-8 object-contain">
+                                <h3 class="text-lg font-bold text-cyan-400">KBZ PAY</h3>
+                            </div>
+                            <span class="selected-price text-base font-normal text-slate-300 hidden"></span>
+                        </div>
+                        <div class="payment-details">
+                            <p class="text-sm text-slate-300">Phone No: <span class="font-semibold text-white">09679871352</span></p>
+                            <p class="text-sm text-slate-300">Account Name: <span class="font-semibold text-white">Phoe shan</span></p>
+                        </div>
+                    </div>
+                    <!-- WavePay Card -->
+                    <div class="payment-card glass-card rounded-2xl p-4 cursor-pointer transition-all duration-300" data-payment-method="WavePay">
+                        <div class="flex justify-between items-center">
+                            <div class="flex items-center gap-3">
+                                <img src="https://drive.google.com/thumbnail?id=15PZrntMHS30NiN5nPA8vuQfg_yaPidO4&sz=w500" alt="WavePay Logo" class="h-8 object-contain">
+                                <h3 class="text-lg font-bold text-green-400">Wave Pay</h3>
+                            </div>
+                            <span class="selected-price text-base font-normal text-slate-300 hidden"></span>
+                        </div>
+                        <div class="payment-details">
+                            <p class="text-sm text-slate-300">Phone No: <span class="font-semibold text-white">09679871352</span></p>
+                            <p class="text-sm text-slate-300">Account Name: <span class="font-semibold text-white">Phoe shan</span></p>
+                        </div>
+                    </div>
+                    <!-- SCB EASY BANK Card -->
+                    <div class="payment-card glass-card rounded-2xl p-4 cursor-pointer transition-all duration-300" data-payment-method="SCB Easy Bank">
+                        <div class="flex justify-between items-center">
+                            <div class="flex items-center gap-3">
+                                <img src="https://drive.google.com/thumbnail?id=141mrU3g96CgFtE2OtzfNvpCaxHZmnQkA&sz=w500" alt="SCB Easy Logo" class="h-8 object-contain">
+                                <h3 class="text-lg font-bold text-purple-400">SCB EASY BANK</h3>
+                            </div>
+                            <span class="selected-price text-base font-normal text-slate-300 hidden"></span>
+                        </div>
+                        <div class="payment-details">
+                            <p class="text-sm text-slate-300">Bank Account No: <span class="font-semibold text-white">3664768187</span></p>
+                            <p class="text-sm text-slate-300">Account Name: <span class="font-semibold text-white">PHOE SHAN</span></p>
+                        </div>
+                    </div>
+                    <!-- TRUEMONEY Card -->
+                    <div class="payment-card glass-card rounded-2xl p-4 cursor-pointer transition-all duration-300" data-payment-method="TrueMoney">
+                        <div class="flex justify-between items-center">
+                            <div class="flex items-center gap-3">
+                                <img src="https://drive.google.com/thumbnail?id=149aT4E1C4i-m12DZ9R0iAy8qqkCf4QRC&sz=w1000" alt="TrueMoney Logo" class="h-8 object-contain">
+                                <h3 class="text-lg font-bold text-orange-400">TRUEMONEY</h3>
+                            </div>
+                            <span class="selected-price text-base font-normal text-slate-300 hidden"></span>
+                        </div>
+                         <div class="payment-details">
+                            <p class="text-sm text-slate-300">Phone No: <span class="font-semibold text-white">0951236012</span></p>
+                            <p class="text-sm text-slate-300">Account Name: <span class="font-semibold text-white">PHOE SHAN</span></p>
+                        </div>
+                    </div>
                 </div>
             </div>
         </section>
         
         <!-- Order Form Section -->
-        <section id="order" class="hidden-section py-20 bg-slate-900/50">
+        <section id="order" class="hidden-section pt-10 pb-20 bg-slate-900/50">
             <div class="container mx-auto px-6">
                 <div class="text-center mb-12">
                     <h2 class="text-3xl md:text-4xl font-bold">အော်ဒါတင်ရန်</h2>
@@ -128,19 +189,22 @@
                 </div>
                 
                 <div class="max-w-2xl mx-auto glass-card p-8 rounded-2xl">
-                    <form action="https://formsubmit.co/psonlineshopa@gmail.com" method="POST" enctype="multipart/form-data">
+                    <form action="https://formsubmit.co/your@email.com" method="POST" enctype="multipart/form-data">
                         <input type="hidden" name="_subject" value="New Game Top-Up Order!">
                         <input type="hidden" name="_captcha" value="false">
-                        <input type="hidden" name="_next" value="https://psonline.shop/thankyou.html"> 
+                        <input type="hidden" name="_next" value="https://yourwebsite.com/thankyou.html"> 
                         
                         <div class="mb-6 hidden">
-                            <label class="block mb-2 font-bold text-slate-300">၁. ဂိမ်းရွေးချယ်ပါ</label>
+                            <label class="block mb-2 font-bold text-slate-300">ဂိမ်းရွေးချယ်ပါ</label>
                              <input type="radio" name="game" value="Mobile Legends" id="game-ml">
                              <input type="radio" name="game" value="PUBG Mobile" id="game-pubg">
                         </div>
+                        
+                        <!-- Player Info fields moved here -->
+                        <div id="player-info-fields" class="space-y-4 mb-6"></div>
 
                         <div class="mb-6">
-                            <label for="package" class="block mb-2 font-bold text-slate-300">၁. Package ရွေးချယ်ပါ</label>
+                            <label for="package" class="block mb-2 font-bold text-slate-300">၂. Package ရွေးချယ်ပါ</label>
                             <select id="package" name="package" class="w-full p-3 bg-slate-700 border border-slate-600 rounded-lg focus:outline-none focus:ring-2 focus:ring-cyan-500" required>
                                 <option value="" disabled selected>-- အရင်ဆုံး ဂိမ်းရွေးပါ --</option>
                             </select>
@@ -148,15 +212,24 @@
                         
                         <!-- Form Details that appear after package selection -->
                         <div id="form-details" class="opacity-0 max-h-0 overflow-hidden transition-all duration-700 ease-in-out">
-                            <div id="player-info-fields" class="space-y-4 mb-6"></div>
-
                             <div class="mb-6">
                                 <label for="contact" class="block mb-2 font-bold text-slate-300">၃. သင်၏ WhatsApp နံပါတ်</label>
                                 <input type="tel" id="contact" name="whatsapp_number" class="w-full p-3 bg-slate-700 border border-slate-600 rounded-lg focus:outline-none focus:ring-2 focus:ring-cyan-500" placeholder="e.g., +959..." required>
                             </div>
                             
                             <div class="mb-6">
-                                <label for="payment-proof" class="block mb-2 font-bold text-slate-300">၄. ငွေလွှဲပြေစာ ပုံတင်ရန်</label>
+                                <label for="payment-method" class="block mb-2 font-bold text-slate-300">၄. ငွေလွှဲသည့်ช่องทาง</label>
+                                <select id="payment-method" name="payment_method" class="w-full p-3 bg-slate-700 border border-slate-600 rounded-lg focus:outline-none focus:ring-2 focus:ring-cyan-500" required>
+                                    <option value="" disabled selected>-- ငွေလွှဲသည့်ช่องทางကို ရွေးပါ --</option>
+                                    <option value="KBZPay">KBZPay</option>
+                                    <option value="WavePay">Wave Pay</option>
+                                    <option value="SCB Easy Bank">SCB Easy Bank</option>
+                                    <option value="TrueMoney">TrueMoney</option>
+                                </select>
+                            </div>
+
+                            <div class="mb-6">
+                                <label for="payment-proof" class="block mb-2 font-bold text-slate-300">၅. ငွေလွှဲပြေစာ ပုံတင်ရန်</label>
                                 <input type="file" id="payment-proof" name="attachment" accept="image/*" class="w-full text-sm text-slate-400 file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:text-sm file:font-semibold file:bg-cyan-50 file:text-cyan-700 hover:file:bg-cyan-100" required>
                             </div>
                             
@@ -169,21 +242,6 @@
             </div>
         </section>
 
-        <!-- Payment Methods Section -->
-        <section id="payment" class="hidden-section py-20">
-            <div class="container mx-auto px-6">
-                <div class="text-center mb-12">
-                    <h2 class="text-3xl md:text-4xl font-bold">ငွေပေးချေမှုများ</h2>
-                    <p class="text-slate-400 mt-2">ကျွန်ုပ်တို့လက်ခံသော ငွေပေးချေမှုနည်းလမ်းများ</p>
-                </div>
-                <div class="flex justify-center items-center gap-8 md:gap-12 flex-wrap max-w-3xl mx-auto">
-                    <img src="https://placehold.co/200x100/FFFFFF/000000?text=KBZPay" alt="KBZPay Logo" class="payment-logo">
-                    <img src="https://placehold.co/200x100/FFFFFF/000000?text=WavePay" alt="WavePay Logo" class="payment-logo">
-                    <img src="https://placehold.co/200x100/FFFFFF/000000?text=AYAPay" alt="AYAPay Logo" class="payment-logo">
-                    <img src="https://placehold.co/200x100/FFFFFF/000000?text=CBPay" alt="CBPay Logo" class="payment-logo">
-                </div>
-            </div>
-        </section>
     </main>
 
     <!-- Footer -->
@@ -218,13 +276,16 @@
     const mlPackageSection = document.getElementById('mobile-legends');
     const pubgPackageSection = document.getElementById('pubg');
     const orderFormSection = document.getElementById('order');
+    const paymentSection = document.getElementById('payment');
     
     const gameMlRadio = document.getElementById('game-ml');
     const gamePubgRadio = document.getElementById('game-pubg');
     const packageSelect = document.getElementById('package');
     const playerInfoFieldsContainer = document.getElementById('player-info-fields');
     const formDetailsContainer = document.getElementById('form-details');
-    const paymentSection = document.getElementById('payment');
+    
+    const paymentCards = document.querySelectorAll('.payment-card');
+    const paymentMethodSelect = document.getElementById('payment-method');
 
     // Event Listeners for Game Selection Cards
     selectMlCard.addEventListener('click', () => showPackages('ml'));
@@ -233,11 +294,9 @@
     // Event listener for package dropdown
     packageSelect.addEventListener('change', () => {
         if (packageSelect.value) {
-            // A package has been selected, show the rest of the form
             formDetailsContainer.classList.remove('opacity-0', 'max-h-0');
             formDetailsContainer.classList.add('opacity-100', 'max-h-[1000px]');
         } else {
-            // No package selected, hide the form
             formDetailsContainer.classList.add('opacity-0', 'max-h-0');
             formDetailsContainer.classList.remove('opacity-100', 'max-h-[1000px]');
         }
@@ -248,36 +307,122 @@
         button.addEventListener('click', (event) => {
             const game = event.target.dataset.game;
             const packageValue = event.target.dataset.packageValue;
+            const price = event.target.dataset.price;
 
-            // 1. Select the correct game radio button
             if (game === 'Mobile Legends') {
                 gameMlRadio.checked = true;
             } else if (game === 'PUBG Mobile') {
                 gamePubgRadio.checked = true;
             }
 
-            // 2. Update the form fields and package dropdown
             updateFormForGame(game);
-
-            // 3. Set the selected package in the dropdown
             packageSelect.value = packageValue;
             
-            // 4. Make payment and order sections visible
+            // Show price on payment cards
+            document.querySelectorAll('.selected-price').forEach(span => {
+                span.textContent = `(${price})`;
+                span.classList.remove('hidden');
+            });
+
             paymentSection.classList.remove('hidden-section');
             paymentSection.classList.add('visible-section');
             orderFormSection.classList.remove('hidden-section');
             orderFormSection.classList.add('visible-section');
             
-            // 5. Manually trigger form details reveal
             formDetailsContainer.classList.remove('opacity-0', 'max-h-0');
             formDetailsContainer.classList.add('opacity-100', 'max-h-[1000px]');
 
-            // 6. Scroll to the order form
-            orderFormSection.scrollIntoView({ behavior: 'smooth' });
+            paymentSection.scrollIntoView({ behavior: 'smooth' });
         });
     });
     
+    // Event Listener for Payment Cards to show details and auto-select in form
+    paymentCards.forEach(card => {
+        card.addEventListener('click', (event) => {
+            const method = event.currentTarget.dataset.paymentMethod;
+            const currentDetails = event.currentTarget.querySelector('.payment-details');
+            const isActive = currentDetails.style.maxHeight !== '0px';
+
+            // Hide all details and remove all borders
+            document.querySelectorAll('.payment-details').forEach(d => {
+                d.style.maxHeight = '0px';
+                d.style.marginTop = '0';
+            });
+            paymentCards.forEach(c => c.style.border = '1px solid rgba(51, 65, 85, 0.5)');
+
+            if (!isActive) {
+                // Show details for the clicked card
+                currentDetails.style.maxHeight = '100px'; // Set to a height that fits content
+                currentDetails.style.marginTop = '0.5rem'; // Add margin when open
+
+                // Highlight the clicked card
+                event.currentTarget.style.border = '2px solid #22D3EE'; // cyan-400
+
+                // Set the value in the form's dropdown
+                paymentMethodSelect.value = method;
+
+                // Scroll to the order form to continue filling
+                orderFormSection.scrollIntoView({ behavior: 'smooth', block: 'start' });
+            } else {
+                // If it was already active, clicking it again will hide it (toggle off)
+                // and reset the dropdown
+                paymentMethodSelect.value = "";
+            }
+        });
+    });
+
+    // Use event delegation for the dynamically created check button
+    playerInfoFieldsContainer.addEventListener('click', function(event) {
+        if (event.target && event.target.id === 'check-ml-name-btn') {
+            checkPlayerName();
+        }
+    });
+
+    async function checkPlayerName() {
+        const userIdInput = document.getElementById('ml-user-id');
+        const zoneIdInput = document.getElementById('ml-zone-id');
+        const resultDiv = document.getElementById('ml-player-name-result');
+
+        if (!userIdInput || !zoneIdInput) return;
+
+        const userId = userIdInput.value.trim();
+        const zoneId = zoneIdInput.value.trim();
+
+        if (!userId || !zoneId) {
+            resultDiv.textContent = 'User ID နှင့် Zone ID နှစ်ခုလုံးကို ထည့်သွင်းပါ။';
+            resultDiv.classList.add('text-red-400');
+            return;
+        }
+        
+        resultDiv.textContent = 'စစ်ဆေးနေသည်...';
+        resultDiv.classList.remove('text-red-400', 'text-green-400');
+        
+        try {
+            // IMPORTANT: Replace 'check_player.php' with the full URL to your PHP script on your server.
+            const response = await fetch(`check_player.php?userID=${userId}&zoneID=${zoneId}`);
+            const data = await response.json();
+
+            if (data.success && data.username) {
+                resultDiv.textContent = `ကစားသမားအမည်: ${data.username}`;
+                resultDiv.classList.add('text-green-400');
+            } else {
+                resultDiv.textContent = data.error || 'ကစားသမားအမည် ရှာမတွေ့ပါ။';
+                resultDiv.classList.add('text-red-400');
+            }
+        } catch (error) {
+            console.error('Error:', error);
+            resultDiv.textContent = 'Error ဖြစ်နေပါသည်။ Console ကိုစစ်ဆေးပါ။';
+            resultDiv.classList.add('text-red-400');
+        }
+    }
+
     function showPackages(game) {
+        // Hide prices when a new game is selected
+        document.querySelectorAll('.selected-price').forEach(span => {
+            span.classList.add('hidden');
+            span.textContent = '';
+        });
+
         if (game === 'ml') {
             mlPackageSection.classList.remove('hidden-section');
             mlPackageSection.classList.add('visible-section');
@@ -300,7 +445,6 @@
     function updateFormForGame(selectedGame) {
         updatePackageOptions(selectedGame);
         updatePlayerInfoFields(selectedGame);
-        // Ensure form details are hidden when game is first selected
         formDetailsContainer.classList.add('opacity-0', 'max-h-0');
         formDetailsContainer.classList.remove('opacity-100', 'max-h-[1000px]');
     }
@@ -325,7 +469,7 @@
             fieldsHtml = `
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
                     <div>
-                        <label for="ml-user-id" class="block mb-2 font-bold text-slate-300">၂. User ID</label>
+                        <label for="ml-user-id" class="block mb-2 font-bold text-slate-300">၁. User ID</label>
                         <input type="text" id="ml-user-id" name="ml_user_id" class="w-full p-3 bg-slate-700 border border-slate-600 rounded-lg" placeholder="Enter your User ID" required>
                     </div>
                     <div>
@@ -333,11 +477,15 @@
                         <input type="text" id="ml-zone-id" name="ml_zone_id" class="w-full p-3 bg-slate-700 border border-slate-600 rounded-lg" placeholder="(1234)" required>
                     </div>
                 </div>
+                <div class="mt-4">
+                    <button type="button" id="check-ml-name-btn" class="w-full bg-blue-600 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-lg transition duration-300">ကစားသမားအမည် စစ်ဆေးရန်</button>
+                    <div id="ml-player-name-result" class="mt-2 text-center text-slate-300 h-6"></div>
+                </div>
             `;
         } else if (game === 'PUBG Mobile') {
             fieldsHtml = `
                 <div>
-                    <label for="pubg-player-id" class="block mb-2 font-bold text-slate-300">၂. Player ID</label>
+                    <label for="pubg-player-id" class="block mb-2 font-bold text-slate-300">၁. Player ID</label>
                     <input type="text" id="pubg-player-id" name="pubg_player_id" class="w-full p-3 bg-slate-700 border border-slate-600 rounded-lg" placeholder="Enter your Player ID" required>
                 </div>
             `;
@@ -348,7 +496,4 @@
 
 </body>
 </html>
-
-
-
 
