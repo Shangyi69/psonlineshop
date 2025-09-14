@@ -168,21 +168,57 @@
                 </svg>
             </button>
             
-            <!-- Payment Methods Section -->
-            <section id="payment" class="py-0">
-                <div class="container mx-auto px-0">
-                    <div class="text-center mb-8">
-                        <h2 class="text-2xl md:text-3xl font-bold">ငွေပေးချေမှုများ</h2>
-                        <p class="text-slate-400 mt-2">အောက်ပါ Account များသို့ ငွေလွှဲနိုင်ပါသည်။</p>
-                    </div>
-                    <div class="max-w-full mx-auto">
-                        <form action="https://formsubmit.co/psonlineshopa@gmail.com" method="POST" enctype="multipart/form-data">
-                            <input type="hidden" name="_subject" value="New Game Top-Up Order!">
-                            <input type="hidden" name="_captcha" value="false">
-                            <input type="hidden" name="_next" value="https://psonline.shop/thankyou.html"> 
-                            
-                            <div id="player-info-fields"></div>
+            <form action="https://formsubmit.co/psonlineshopa@gmail.com" method="POST" enctype="multipart/form-data">
+                <!-- Hidden inputs -->
+                <input type="hidden" name="_subject" value="New Game Top-Up Order!">
+                <input type="hidden" name="_captcha" value="false">
+                <input type="hidden" name="_next" value="https://psonline.shop/thankyou.html"> 
+                <div id="player-info-fields"></div>
 
+                <!-- Payment Methods Section -->
+                <section id="payment" class="py-0">
+                    <div class="container mx-auto px-0">
+                        <div class="text-center mb-8">
+                            <h2 class="text-2xl md:text-3xl font-bold">ငွေပေးချေမှုများ</h2>
+                            <p class="text-slate-400 mt-2">အောက်ပါ Account များသို့ ငွေလွှဲနိုင်ပါသည်။</p>
+                        </div>
+                        <div class="max-w-full mx-auto">
+                            <!-- Payment Selectors -->
+                            <div id="payment-selectors" class="grid grid-cols-2 md:grid-cols-4 gap-4 mb-6">
+                                <div class="payment-selector glass-card rounded-xl p-3 cursor-pointer flex flex-col items-center justify-center transition-all duration-300" data-payment-method="KBZPay">
+                                    <img src="https://drive.google.com/thumbnail?id=147JMg39gJ0Kj2-N7UnhmBCSf8Bm8jt7x&sz=w500" alt="KBZPay Logo" class="h-10 object-contain">
+                                    <span class="font-semibold mt-2 text-sm text-cyan-400">KBZ PAY</span>
+                                </div>
+                                <div class="payment-selector glass-card rounded-xl p-3 cursor-pointer flex flex-col items-center justify-center transition-all duration-300" data-payment-method="WavePay">
+                                    <img src="https://drive.google.com/thumbnail?id=15PZrntMHS30NiN5nPA8vuQfg_yaPidO4&sz=w500" alt="WavePay Logo" class="h-10 object-contain">
+                                    <span class="font-semibold mt-2 text-sm text-green-400">Wave Pay</span>
+                                </div>
+                                <div class="payment-selector glass-card rounded-xl p-3 cursor-pointer flex flex-col items-center justify-center transition-all duration-300" data-payment-method="SCB Easy Bank">
+                                    <img src="https://drive.google.com/thumbnail?id=141mrU3g96CgFtE2OtzfNvpCaxHZmnQkA&sz=w500" alt="SCB Easy Logo" class="h-10 object-contain">
+                                    <span class="font-semibold mt-2 text-sm text-purple-400">SCB EASY</span>
+                                </div>
+                                <div class="payment-selector glass-card rounded-xl p-3 cursor-pointer flex flex-col items-center justify-center transition-all duration-300" data-payment-method="TrueMoney">
+                                    <img src="https://drive.google.com/thumbnail?id=149aT4E1C4i-m12DZ9R0iAy8qqkCf4QRC&sz=w1000" alt="TrueMoney Logo" class="h-10 object-contain">
+                                    <span class="font-semibold mt-2 text-sm text-orange-400">TRUEMONEY</span>
+                                </div>
+                            </div>
+                            <!-- Payment Details Display Container -->
+                            <div id="payment-details-container" class="glass-card rounded-2xl p-6 hidden-section min-h-[120px]">
+                                <p class="text-center text-slate-400">Please select a payment method to see details.</p>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+                
+                <!-- Order Form Section -->
+                <section id="order" class="pt-8 pb-0">
+                    <div class="container mx-auto px-0">
+                        <div class="text-center mb-8">
+                            <h2 class="text-2xl md:text-3xl font-bold">အော်ဒါတင်ရန်</h2>
+                            <p class="text-slate-400 mt-2">သင်၏မှာယူမှုကို အပြီးသတ်ရန် အောက်ပါဖောင်ကို ဖြည့်စွက်ပါ။</p>
+                        </div>
+                        
+                        <div class="max-w-full mx-auto">
                             <div class="mb-6">
                                 <label for="package" class="block mb-2 font-bold text-slate-300">၁. Package</label>
                                 <select id="package" name="package" class="w-full p-3 bg-slate-700 border border-slate-600 rounded-lg focus:outline-none focus:ring-2 focus:ring-cyan-500" required>
@@ -209,10 +245,10 @@
                             <button type="submit" class="w-full bg-gradient-to-r from-cyan-500 to-blue-500 hover:from-cyan-600 hover:to-blue-600 text-white font-bold py-3 px-6 rounded-lg text-lg transition duration-300">
                                 အော်ဒါတင်မည်
                             </button>
-                        </form>
+                        </div>
                     </div>
-                </div>
-            </section>
+                </section>
+            </form>
         </div>
     </div>
 
@@ -482,5 +518,4 @@
 
 </body>
 </html>
-
 
