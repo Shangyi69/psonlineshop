@@ -1,0 +1,638 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PS GAME STORE - Game Packages</title>
+    
+    <!-- SEO Meta Tags -->
+    <meta name="description" content="Choose your Mobile Legends Diamonds and PUBG Mobile UC packages. Fast and reliable top-up service in Myanmar.">
+    <meta name="keywords" content="mobile legends packages, pubg uc packages, buy ml diamonds, buy pubg uc, game top up myanmar">
+    <meta name="author" content="PS GAME STORE">
+
+    <!-- Open Graph Meta Tags (for social media sharing) -->
+    <meta property="og:title" content="PS GAME STORE - Game Packages">
+    <meta property="og:description" content="Choose your Mobile Legends Diamonds and PUBG Mobile UC packages.">
+    <meta property="og:image" content="https://drive.google.com/thumbnail?id=15PAgpn34PW6_nOr4UQUo7W9c7KigN0yd&sz=w500">
+    <meta property="og:url" content="https://psonline.shop/packages.html">
+    <meta property="og:type" content="website">
+
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;900&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #0F172A; /* slate-900 */
+            overflow-x: hidden; /* Prevent horizontal scroll for better mobile stability */
+        }
+        .glass-card {
+            background: rgba(30, 41, 59, 0.5); /* slate-800 with opacity */
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(51, 65, 85, 0.5); /* slate-700 with opacity */
+        }
+        .hidden-section {
+            display: none;
+        }
+        .visible-section {
+            display: block;
+        }
+        .input-error {
+            border-color: #F87171 !important; /* red-400 */
+        }
+        .payment-selector {
+            border: 2px solid transparent;
+        }
+        .payment-selector.active {
+             border-color: #22D3EE; /* cyan-400 */
+        }
+        .modal-container {
+            transition: opacity 0.3s ease;
+        }
+        .modal-content {
+            transition: transform 0.3s ease;
+        }
+        .hot-sale-ribbon {
+            position: absolute;
+            top: 12px;
+            right: -34px;
+            width: 130px;
+            text-align: center;
+            padding: 4px 0;
+            background-color: #EF4444; /* red-500 */
+            color: white;
+            font-weight: bold;
+            font-size: 0.8rem;
+            transform: rotate(45deg);
+            box-shadow: 0 2px 4px rgba(0,0,0,0.3);
+            z-index: 10;
+        }
+    </style>
+</head>
+<body class="text-white">
+
+    <!-- Header -->
+    <header class="bg-slate-900/80 backdrop-blur-md sticky top-0 z-50 border-b border-slate-800">
+        <nav class="container mx-auto px-6 py-4 flex justify-between items-center">
+            <a href="index.html" class="flex items-center gap-3">
+                <img src="https://drive.google.com/thumbnail?id=15PAgpn34PW6_nOr4UQUo7W9c7KigN0yd&sz=w500" alt="PS GAME STORE Logo" class="h-10 w-10 rounded-full object-cover">
+                <span class="font-bold text-xl text-white">PS GAME STORE</span>
+            </a>
+            <div class="flex space-x-6 items-center">
+                <a href="index.html" class="bg-cyan-500 hover:bg-cyan-600 text-slate-900 font-bold py-2 px-4 rounded-lg transition duration-300">Back to Home</a>
+            </div>
+        </nav>
+    </header>
+
+    <main>
+        <!-- Mobile Legends Section (Initially Hidden) -->
+        <section id="mobile-legends" class="hidden-section py-20">
+            <div class="container mx-auto px-6">
+                <div class="flex justify-center items-center gap-4 mb-10">
+                    <img src="https://drive.google.com/thumbnail?id=14_RThMWD-OWrmD7R2rTM3gsjLMUtzWNL&sz=w500" alt="Mobile Legends Logo" class="h-16 w-16 object-contain rounded-2xl">
+                    <h2 class="text-3xl md:text-4xl font-bold text-center">Mobile Legends Packages</h2>
+                </div>
+
+                <!-- Player Info Input Section -->
+                <div id="ml-info-input" class="max-w-3xl mx-auto mb-10 glass-card p-6 rounded-2xl">
+                    <h3 class="text-xl font-bold mb-4 text-center">၁. သင်၏ Player အချက်အလက်ကို ဖြည့်ပါ</h3>
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                        <div>
+                            <label for="ml-user-id-main" class="block mb-2 font-bold text-slate-300">User ID</label>
+                            <input type="text" id="ml-user-id-main" class="w-full p-3 bg-slate-700 border border-slate-600 rounded-lg focus:outline-none focus:ring-2 focus:ring-cyan-500" placeholder="Enter your User ID">
+                        </div>
+                        <div>
+                            <label for="ml-zone-id-main" class="block mb-2 font-bold text-slate-300">Zone ID</label>
+                            <input type="text" id="ml-zone-id-main" class="w-full p-3 bg-slate-700 border border-slate-600 rounded-lg focus:outline-none focus:ring-2 focus:ring-cyan-500" placeholder="(1234)">
+                        </div>
+                    </div>
+                </div>
+                
+                <h3 class="text-xl font-bold text-center mb-10">၂. Package ရွေးချယ်ပါ</h3>
+                <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-4 md:gap-6">
+                    <!-- ML Packages -->
+                    <div class="glass-card text-center p-4 rounded-2xl hover:border-cyan-400 flex flex-col justify-between"><div><div class="flex items-center justify-center gap-2"><p class="text-xl font-bold">86 Diamonds</p><img src="https://drive.google.com/thumbnail?id=19swB7MydLO3eHR-QMAE3BUJbxBPkTMGd&sz=w1000" alt="Diamond Logo" class="w-5 h-5 object-contain"></div><div class="mt-2 text-base"><p class="font-semibold text-slate-300">5400 MMK</p><p class="font-bold text-cyan-400">39 THB</p></div></div><button class="buy-now-btn mt-4 bg-cyan-500/80 hover:bg-cyan-500 text-white font-bold py-2 px-4 rounded-lg transition duration-300" data-game="Mobile Legends" data-package-value="ML_86_Diamonds" data-price="5400 MMK / 39 THB">ဝယ်ယူရန်</button></div>
+                    <div class="glass-card text-center p-4 rounded-2xl hover:border-cyan-400 flex flex-col justify-between"><div><div class="flex items-center justify-center gap-2"><p class="text-xl font-bold">172 Diamonds</p><img src="https://drive.google.com/thumbnail?id=19swB7MydLO3eHR-QMAE3BUJbxBPkTMGd&sz=w1000" alt="Diamond Logo" class="w-5 h-5 object-contain"></div><div class="mt-2 text-base"><p class="font-semibold text-slate-300">10700 MMK</p><p class="font-bold text-cyan-400">75 THB</p></div></div><button class="buy-now-btn mt-4 bg-cyan-500/80 hover:bg-cyan-500 text-white font-bold py-2 px-4 rounded-lg transition duration-300" data-game="Mobile Legends" data-package-value="ML_172_Diamonds" data-price="10700 MMK / 75 THB">ဝယ်ယူရန်</button></div>
+                    <div class="glass-card text-center p-4 rounded-2xl hover:border-cyan-400 flex flex-col justify-between relative overflow-hidden">
+                        <div class="hot-sale-ribbon"><span>Hot Sale</span></div>
+                        <div><div class="flex items-center justify-center gap-2"><p class="text-xl font-bold">257 Diamonds</p><img src="https://drive.google.com/thumbnail?id=19swB7MydLO3eHR-QMAE3BUJbxBPkTMGd&sz=w1000" alt="Diamond Logo" class="w-5 h-5 object-contain"></div><div class="mt-2 text-base"><p class="font-semibold text-slate-300">15600 MMK</p><p class="font-bold text-cyan-400">113 THB</p></div></div><button class="buy-now-btn mt-4 bg-cyan-500/80 hover:bg-cyan-500 text-white font-bold py-2 px-4 rounded-lg transition duration-300" data-game="Mobile Legends" data-package-value="ML_257_Diamonds" data-price="15600 MMK / 113 THB">ဝယ်ယူရန်</button></div>
+                    <div class="glass-card text-center p-4 rounded-2xl hover:border-cyan-400 flex flex-col justify-between"><div><div class="flex items-center justify-center gap-2"><p class="text-xl font-bold">275 Diamonds</p><img src="https://drive.google.com/thumbnail?id=19swB7MydLO3eHR-QMAE3BUJbxBPkTMGd&sz=w1000" alt="Diamond Logo" class="w-5 h-5 object-contain"></div><div class="mt-2 text-base"><p class="font-semibold text-slate-300">17500 MMK</p><p class="font-bold text-cyan-400">122 THB</p></div></div><button class="buy-now-btn mt-4 bg-cyan-500/80 hover:bg-cyan-500 text-white font-bold py-2 px-4 rounded-lg transition duration-300" data-game="Mobile Legends" data-package-value="ML_275_Diamonds" data-price="17500 MMK / 122 THB">ဝယ်ယူရန်</button></div>
+                    <div class="glass-card text-center p-4 rounded-2xl hover:border-cyan-400 flex flex-col justify-between"><div><div class="flex items-center justify-center gap-2"><p class="text-xl font-bold">343 Diamonds</p><img src="https://drive.google.com/thumbnail?id=19swB7MydLO3eHR-QMAE3BUJbxBPkTMGd&sz=w1000" alt="Diamond Logo" class="w-5 h-5 object-contain"></div><div class="mt-2 text-base"><p class="font-semibold text-slate-300">21000 MMK</p><p class="font-bold text-cyan-400">152 THB</p></div></div><button class="buy-now-btn mt-4 bg-cyan-500/80 hover:bg-cyan-500 text-white font-bold py-2 px-4 rounded-lg transition duration-300" data-game="Mobile Legends" data-package-value="ML_343_Diamonds" data-price="21000 MMK / 152 THB">ဝယ်ယူရန်</button></div>
+                    <div class="glass-card text-center p-4 rounded-2xl hover:border-cyan-400 flex flex-col justify-between"><div><div class="flex items-center justify-center gap-2"><p class="text-xl font-bold">429 Diamonds</p><img src="https://drive.google.com/thumbnail?id=19swB7MydLO3eHR-QMAE3BUJbxBPkTMGd&sz=w1000" alt="Diamond Logo" class="w-5 h-5 object-contain"></div><div class="mt-2 text-base"><p class="font-semibold text-slate-300">26300 MMK</p><p class="font-bold text-cyan-400">189 THB</p></div></div><button class="buy-now-btn mt-4 bg-cyan-500/80 hover:bg-cyan-500 text-white font-bold py-2 px-4 rounded-lg transition duration-300" data-game="Mobile Legends" data-package-value="ML_429_Diamonds" data-price="26300 MMK / 189 THB">ဝယ်ယူရန်</button></div>
+                    <div class="glass-card text-center p-4 rounded-2xl hover:border-cyan-400 flex flex-col justify-between"><div><div class="flex items-center justify-center gap-2"><p class="text-xl font-bold">600 Diamonds</p><img src="https://drive.google.com/thumbnail?id=19swB7MydLO3eHR-QMAE3BUJbxBPkTMGd&sz=w1000" alt="Diamond Logo" class="w-5 h-5 object-contain"></div><div class="mt-2 text-base"><p class="font-semibold text-slate-300">36600 MMK</p><p class="font-bold text-cyan-400">265 THB</p></div></div><button class="buy-now-btn mt-4 bg-cyan-500/80 hover:bg-cyan-500 text-white font-bold py-2 px-4 rounded-lg transition duration-300" data-game="Mobile Legends" data-package-value="ML_600_Diamonds" data-price="36600 MMK / 265 THB">ဝယ်ယူရန်</button></div>
+                    <div class="glass-card text-center p-4 rounded-2xl hover:border-cyan-400 flex flex-col justify-between relative overflow-hidden">
+                        <div class="hot-sale-ribbon"><span>Hot Sale</span></div>
+                        <div><div class="flex items-center justify-center gap-2"><p class="text-xl font-bold">706 Diamonds</p><img src="https://drive.google.com/thumbnail?id=19swB7MydLO3eHR-QMAE3BUJbxBPkTMGd&sz=w1000" alt="Diamond Logo" class="w-5 h-5 object-contain"></div><div class="mt-2 text-base"><p class="font-semibold text-slate-300">42200 MMK</p><p class="font-bold text-cyan-400">299 THB</p></div></div><button class="buy-now-btn mt-4 bg-cyan-500/80 hover:bg-cyan-500 text-white font-bold py-2 px-4 rounded-lg transition duration-300" data-game="Mobile Legends" data-package-value="ML_706_Diamonds" data-price="42200 MMK / 299 THB">ဝယ်ယူရန်</button></div>
+                    <div class="glass-card text-center p-4 rounded-2xl hover:border-cyan-400 flex flex-col justify-between"><div><div class="flex items-center justify-center gap-2"><p class="text-xl font-bold">792 Diamonds</p><img src="https://drive.google.com/thumbnail?id=19swB7MydLO3eHR-QMAE3BUJbxBPkTMGd&sz=w1000" alt="Diamond Logo" class="w-5 h-5 object-contain"></div><div class="mt-2 text-base"><p class="font-semibold text-slate-300">47600 MMK</p><p class="font-bold text-cyan-400">388 THB</p></div></div><button class="buy-now-btn mt-4 bg-cyan-500/80 hover:bg-cyan-500 text-white font-bold py-2 px-4 rounded-lg transition duration-300" data-game="Mobile Legends" data-package-value="ML_792_Diamonds" data-price="47600 MMK / 388 THB">ဝယ်ယူရန်</button></div>
+                    <div class="glass-card text-center p-4 rounded-2xl hover:border-cyan-400 flex flex-col justify-between"><div><div class="flex items-center justify-center gap-2"><p class="text-xl font-bold">1049 Diamonds</p><img src="https://drive.google.com/thumbnail?id=19swB7MydLO3eHR-QMAE3BUJbxBPkTMGd&sz=w1000" alt="Diamond Logo" class="w-5 h-5 object-contain"></div><div class="mt-2 text-base"><p class="font-semibold text-slate-300">63300 MMK</p><p class="font-bold text-cyan-400">449 THB</p></div></div><button class="buy-now-btn mt-4 bg-cyan-500/80 hover:bg-cyan-500 text-white font-bold py-2 px-4 rounded-lg transition duration-300" data-game="Mobile Legends" data-package-value="ML_1049_Diamonds" data-price="63300 MMK / 449 THB">ဝယ်ယူရန်</button></div>
+                    <div class="glass-card text-center p-4 rounded-2xl hover:border-cyan-400 flex flex-col justify-between"><div><div class="flex items-center justify-center gap-2"><p class="text-xl font-bold">1135 Diamonds</p><img src="https://drive.google.com/thumbnail?id=19swB7MydLO3eHR-QMAE3BUJbxBPkTMGd&sz=w1000" alt="Diamond Logo" class="w-5 h-5 object-contain"></div><div class="mt-2 text-base"><p class="font-semibold text-slate-300">68600 MMK</p><p class="font-bold text-cyan-400">485 THB</p></div></div><button class="buy-now-btn mt-4 bg-cyan-500/80 hover:bg-cyan-500 text-white font-bold py-2 px-4 rounded-lg transition duration-300" data-game="Mobile Legends" data-package-value="ML_1135_Diamonds" data-price="68600 MMK / 485 THB">ဝယ်ယူရန်</button></div>
+                    <div class="glass-card text-center p-4 rounded-2xl hover:border-cyan-400 flex flex-col justify-between"><div><div class="flex items-center justify-center gap-2"><p class="text-xl font-bold">2195 Diamonds</p><img src="https://drive.google.com/thumbnail?id=19swB7MydLO3eHR-QMAE3BUJbxBPkTMGd&sz=w1000" alt="Diamond Logo" class="w-5 h-5 object-contain"></div><div class="mt-2 text-base"><p class="font-semibold text-slate-300">127900 MMK</p><p class="font-bold text-cyan-400">895 THB</p></div></div><button class="buy-now-btn mt-4 bg-cyan-500/80 hover:bg-cyan-500 text-white font-bold py-2 px-4 rounded-lg transition duration-300" data-game="Mobile Legends" data-package-value="ML_2195_Diamonds" data-price="127900 MMK / 895 THB">ဝယ်ယူရန်</button></div>
+                    <div class="glass-card text-center p-4 rounded-2xl hover:border-cyan-400 flex flex-col justify-between"><div><div class="flex items-center justify-center gap-2"><p class="text-xl font-bold">3688 Diamonds</p><img src="https://drive.google.com/thumbnail?id=19swB7MydLO3eHR-QMAE3BUJbxBPkTMGd&sz=w1000" alt="Diamond Logo" class="w-5 h-5 object-contain"></div><div class="mt-2 text-base"><p class="font-semibold text-slate-300">213300 MMK</p><p class="font-bold text-cyan-400">1495 THB</p></div></div><button class="buy-now-btn mt-4 bg-cyan-500/80 hover:bg-cyan-500 text-white font-bold py-2 px-4 rounded-lg transition duration-300" data-game="Mobile Legends" data-package-value="ML_3688_Diamonds" data-price="213300 MMK / 1495 THB">ဝယ်ယူရန်</button></div>
+                    <div class="glass-card text-center p-4 rounded-2xl hover:border-cyan-400 flex flex-col justify-between"><div><div class="flex items-center justify-center gap-2"><p class="text-xl font-bold">5532 Diamonds</p><img src="https://drive.google.com/thumbnail?id=19swB7MydLO3eHR-QMAE3BUJbxBPkTMGd&sz=w1000" alt="Diamond Logo" class="w-5 h-5 object-contain"></div><div class="mt-2 text-base"><p class="font-semibold text-slate-300">322100 MMK</p><p class="font-bold text-cyan-400">2230 THB</p></div></div><button class="buy-now-btn mt-4 bg-cyan-500/80 hover:bg-cyan-500 text-white font-bold py-2 px-4 rounded-lg transition duration-300" data-game="Mobile Legends" data-package-value="ML_5532_Diamonds" data-price="322100 MMK / 2230 THB">ဝယ်ယူရန်</button></div>
+                    <div class="glass-card text-center p-4 rounded-2xl hover:border-cyan-400 flex flex-col justify-between"><div><div class="flex items-center justify-center gap-2"><p class="text-xl font-bold">9288 Diamonds</p><img src="https://drive.google.com/thumbnail?id=19swB7MydLO3eHR-QMAE3BUJbxBPkTMGd&sz=w1000" alt="Diamond Logo" class="w-5 h-5 object-contain"></div><div class="mt-2 text-base"><p class="font-semibold text-slate-300">535000 MMK</p><p class="font-bold text-cyan-400">3685 THB</p></div></div><button class="buy-now-btn mt-4 bg-cyan-500/80 hover:bg-cyan-500 text-white font-bold py-2 px-4 rounded-lg transition duration-300" data-game="Mobile Legends" data-package-value="ML_9288_Diamonds" data-price="535000 MMK / 3685 THB">ဝယ်ယူရန်</button></div>
+                    <div class="glass-card text-center p-4 rounded-2xl hover:border-cyan-400 flex flex-col justify-between"><div><img src="https://drive.google.com/thumbnail?id=15ZIsPtP22-wLLuBCHQbb7ZiSNZGWPwBv&sz=w2000" alt="Weekly Pass" class="w-full h-20 object-cover rounded-lg mb-2"><p class="text-xl font-bold">Weekly Pass</p><div class="mt-2 text-base"><p class="font-semibold text-slate-300">6700 MMK</p><p class="font-bold text-cyan-400">50 THB</p></div></div><button class="buy-now-btn mt-4 bg-cyan-500/80 hover:bg-cyan-500 text-white font-bold py-2 px-4 rounded-lg transition duration-300" data-game="Mobile Legends" data-package-value="ML_Weekly_Pass" data-price="6700 MMK / 50 THB">ဝယ်ယူရန်</button></div>
+                    <div class="glass-card text-center p-4 rounded-2xl hover:border-cyan-400 flex flex-col justify-between"><div><img src="https://drive.google.com/thumbnail?id=15ZReZapfHDRPlfp3o5FUE6U4M_pVpnqF&sz=w2000" alt="Twilight Pass" class="w-full h-20 object-cover rounded-lg mb-2"><p class="text-xl font-bold">Twilight Pass</p><div class="mt-2 text-base"><p class="font-semibold text-slate-300">35000 MMK</p><p class="font-bold text-cyan-400">250 THB</p></div></div><button class="buy-now-btn mt-4 bg-cyan-500/80 hover:bg-cyan-500 text-white font-bold py-2 px-4 rounded-lg transition duration-300" data-game="Mobile Legends" data-package-value="ML_Twilight_Pass" data-price="35000 MMK / 250 THB">ဝယ်ယူရန်</button></div>
+                </div>
+            </div>
+        </section>
+
+        <!-- PUBG Mobile Section (Initially Hidden) -->
+        <section id="pubg" class="hidden-section py-20 bg-slate-900/50">
+            <div class="container mx-auto px-6">
+                <div class="flex justify-center items-center gap-4 mb-10">
+                    <img src="https://drive.google.com/thumbnail?id=15Dapkfgx8Xy0gnEbXoLK51KcrBH6DDqL&sz=w500" alt="PUBG Mobile Logo" class="h-16 w-16 object-contain rounded-2xl">
+                    <h2 class="text-3xl md:text-4xl font-bold text-center">PUBG Mobile Packages</h2>
+                </div>
+
+                <!-- Player Info Input Section -->
+                <div id="pubg-info-input" class="max-w-xl mx-auto mb-10 glass-card p-6 rounded-2xl">
+                     <h3 class="text-xl font-bold mb-4 text-center">၁. သင်၏ Player အချက်အလက်ကို ဖြည့်ပါ</h3>
+                    <div>
+                        <label for="pubg-player-id-main" class="block mb-2 font-bold text-slate-300">Player ID</label>
+                        <input type="text" id="pubg-player-id-main" class="w-full p-3 bg-slate-700 border border-slate-600 rounded-lg focus:outline-none focus:ring-2 focus:ring-cyan-500" placeholder="Enter your Player ID">
+                    </div>
+                </div>
+
+                <h3 class="text-xl font-bold text-center mb-10">၂. Package ရွေးချယ်ပါ</h3>
+                <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-4 md:gap-6">
+                    <!-- PUBG Packages -->
+                    <div class="glass-card text-center p-4 rounded-2xl hover:border-yellow-400 flex flex-col justify-between"><div><div class="flex items-center justify-center gap-2"><p class="text-xl font-bold">60 UC</p></div><p class="text-xl font-semibold mt-2">32 THB</p></div><button class="buy-now-btn mt-4 bg-yellow-500/80 hover:bg-yellow-500 text-white font-bold py-2 px-4 rounded-lg transition duration-300" data-game="PUBG Mobile" data-package-value="PUBG_60_UC" data-price="32 THB">ဝယ်ယူရန်</button></div>
+                    <div class="glass-card text-center p-4 rounded-2xl hover:border-yellow-400 flex flex-col justify-between"><div><div class="flex items-center justify-center gap-2"><p class="text-xl font-bold">180 UC</p></div><p class="text-xl font-semibold mt-2">95 THB</p></div><button class="buy-now-btn mt-4 bg-yellow-500/80 hover:bg-yellow-500 text-white font-bold py-2 px-4 rounded-lg transition duration-300" data-game="PUBG Mobile" data-package-value="PUBG_180_UC" data-price="95 THB">ဝယ်ယူရန်</button></div>
+                    <div class="glass-card text-center p-4 rounded-2xl hover:border-yellow-400 flex flex-col justify-between"><div><div class="flex items-center justify-center gap-2"><p class="text-xl font-bold">325 UC</p></div><p class="text-xl font-semibold mt-2">148 THB</p></div><button class="buy-now-btn mt-4 bg-yellow-500/80 hover:bg-yellow-500 text-white font-bold py-2 px-4 rounded-lg transition duration-300" data-game="PUBG Mobile" data-package-value="PUBG_325_UC" data-price="148 THB">ဝယ်ယူရန်</button></div>
+                    <div class="glass-card text-center p-4 rounded-2xl hover:border-yellow-400 flex flex-col justify-between"><div><div class="flex items-center justify-center gap-2"><p class="text-xl font-bold">385 UC</p></div><p class="text-xl font-semibold mt-2">180 THB</p></div><button class="buy-now-btn mt-4 bg-yellow-500/80 hover:bg-yellow-500 text-white font-bold py-2 px-4 rounded-lg transition duration-300" data-game="PUBG Mobile" data-package-value="PUBG_385_UC" data-price="180 THB">ဝယ်ယူရန်</button></div>
+                    <div class="glass-card text-center p-4 rounded-2xl hover:border-yellow-400 flex flex-col justify-between relative overflow-hidden"><div class="hot-sale-ribbon"><span>Hot Sale</span></div><div><div class="flex items-center justify-center gap-2"><p class="text-xl font-bold">660 UC</p></div><p class="text-xl font-semibold mt-2">295 THB</p></div><button class="buy-now-btn mt-4 bg-yellow-500/80 hover:bg-yellow-500 text-white font-bold py-2 px-4 rounded-lg transition duration-300" data-game="PUBG Mobile" data-package-value="PUBG_660_UC" data-price="295 THB">ဝယ်ယူရန်</button></div>
+                    <div class="glass-card text-center p-4 rounded-2xl hover:border-yellow-400 flex flex-col justify-between"><div><div class="flex items-center justify-center gap-2"><p class="text-xl font-bold">985 UC</p></div><p class="text-xl font-semibold mt-2">443 THB</p></div><button class="buy-now-btn mt-4 bg-yellow-500/80 hover:bg-yellow-500 text-white font-bold py-2 px-4 rounded-lg transition duration-300" data-game="PUBG Mobile" data-package-value="PUBG_985_UC" data-price="443 THB">ဝယ်ယူရန်</button></div>
+                    <div class="glass-card text-center p-4 rounded-2xl hover:border-yellow-400 flex flex-col justify-between"><div><div class="flex items-center justify-center gap-2"><p class="text-xl font-bold">1045 UC</p></div><p class="text-xl font-semibold mt-2">475 THB</p></div><button class="buy-now-btn mt-4 bg-yellow-500/80 hover:bg-yellow-500 text-white font-bold py-2 px-4 rounded-lg transition duration-300" data-game="PUBG Mobile" data-package-value="PUBG_1045_UC" data-price="475 THB">ဝယ်ယူရန်</button></div>
+                    <div class="glass-card text-center p-4 rounded-2xl hover:border-yellow-400 flex flex-col justify-between"><div><div class="flex items-center justify-center gap-2"><p class="text-xl font-bold">1320 UC</p></div><p class="text-xl font-semibold mt-2">590 THB</p></div><button class="buy-now-btn mt-4 bg-yellow-500/80 hover:bg-yellow-500 text-white font-bold py-2 px-4 rounded-lg transition duration-300" data-game="PUBG Mobile" data-package-value="PUBG_1320_UC" data-price="590 THB">ဝယ်ယူရန်</button></div>
+                    <div class="glass-card text-center p-4 rounded-2xl hover:border-yellow-400 flex flex-col justify-between relative overflow-hidden"><div class="hot-sale-ribbon"><span>Hot Sale</span></div><div><div class="flex items-center justify-center gap-2"><p class="text-xl font-bold">1800 UC</p></div><p class="text-xl font-semibold mt-2">730 THB</p></div><button class="buy-now-btn mt-4 bg-yellow-500/80 hover:bg-yellow-500 text-white font-bold py-2 px-4 rounded-lg transition duration-300" data-game="PUBG Mobile" data-package-value="PUBG_1800_UC" data-price="730 THB">ဝယ်ယူရန်</button></div>
+                    <div class="glass-card text-center p-4 rounded-2xl hover:border-yellow-400 flex flex-col justify-between"><div><div class="flex items-center justify-center gap-2"><p class="text-xl font-bold">1920 UC</p></div><p class="text-xl font-semibold mt-2">790 THB</p></div><button class="buy-now-btn mt-4 bg-yellow-500/80 hover:bg-yellow-500 text-white font-bold py-2 px-4 rounded-lg transition duration-300" data-game="PUBG Mobile" data-package-value="PUBG_1920_UC" data-price="790 THB">ဝယ်ယူရန်</button></div>
+                    <div class="glass-card text-center p-4 rounded-2xl hover:border-yellow-400 flex flex-col justify-between"><div><div class="flex items-center justify-center gap-2"><p class="text-xl font-bold">2125 UC</p></div><p class="text-xl font-semibold mt-2">875 THB</p></div><button class="buy-now-btn mt-4 bg-yellow-500/80 hover:bg-yellow-500 text-white font-bold py-2 px-4 rounded-lg transition duration-300" data-game="PUBG Mobile" data-package-value="PUBG_2125_UC" data-price="875 THB">ဝယ်ယူရန်</button></div>
+                    <div class="glass-card text-center p-4 rounded-2xl hover:border-yellow-400 flex flex-col justify-between"><div><div class="flex items-center justify-center gap-2"><p class="text-xl font-bold">2460 UC</p></div><p class="text-xl font-semibold mt-2">1025 THB</p></div><button class="buy-now-btn mt-4 bg-yellow-500/80 hover:bg-yellow-500 text-white font-bold py-2 px-4 rounded-lg transition duration-300" data-game="PUBG Mobile" data-package-value="PUBG_2460_UC" data-price="1025 THB">ဝယ်ယူရန်</button></div>
+                    <div class="glass-card text-center p-4 rounded-2xl hover:border-yellow-400 flex flex-col justify-between"><div><div class="flex items-center justify-center gap-2"><p class="text-xl font-bold">3850 UC</p></div><p class="text-xl font-semibold mt-2">1440 THB</p></div><button class="buy-now-btn mt-4 bg-yellow-500/80 hover:bg-yellow-500 text-white font-bold py-2 px-4 rounded-lg transition duration-300" data-game="PUBG Mobile" data-package-value="PUBG_3850_UC" data-price="1440 THB">ဝယ်ယူရန်</button></div>
+                    <div class="glass-card text-center p-4 rounded-2xl hover:border-yellow-400 flex flex-col justify-between"><div><div class="flex items-center justify-center gap-2"><p class="text-xl font-bold">4510 UC</p></div><p class="text-xl font-semibold mt-2">1735 THB</p></div><button class="buy-now-btn mt-4 bg-yellow-500/80 hover:bg-yellow-500 text-white font-bold py-2 px-4 rounded-lg transition duration-300" data-game="PUBG Mobile" data-package-value="PUBG_4510_UC" data-price="1735 THB">ဝယ်ယူရန်</button></div>
+                    <div class="glass-card text-center p-4 rounded-2xl hover:border-yellow-400 flex flex-col justify-between"><div><div class="flex items-center justify-center gap-2"><p class="text-xl font-bold">5650 UC</p></div><p class="text-xl font-semibold mt-2">2170 THB</p></div><button class="buy-now-btn mt-4 bg-yellow-500/80 hover:bg-yellow-500 text-white font-bold py-2 px-4 rounded-lg transition duration-300" data-game="PUBG Mobile" data-package-value="PUBG_5650_UC" data-price="2170 THB">ဝယ်ယူရန်</button></div>
+                    <div class="glass-card text-center p-4 rounded-2xl hover:border-yellow-400 flex flex-col justify-between"><div><div class="flex items-center justify-center gap-2"><p class="text-xl font-bold">8100 UC</p></div><p class="text-xl font-semibold mt-2">2850 THB</p></div><button class="buy-now-btn mt-4 bg-yellow-500/80 hover:bg-yellow-500 text-white font-bold py-2 px-4 rounded-lg transition duration-300" data-game="PUBG Mobile" data-package-value="PUBG_8100_UC" data-price="2850 THB">ဝယ်ယူရန်</button></div>
+                    <div class="glass-card text-center p-4 rounded-2xl hover:border-yellow-400 flex flex-col justify-between"><div><div class="flex items-center justify-center gap-2"><p class="text-xl font-bold">9900 UC</p></div><p class="text-xl font-semibold mt-2">3580 THB</p></div><button class="buy-now-btn mt-4 bg-yellow-500/80 hover:bg-yellow-500 text-white font-bold py-2 px-4 rounded-lg transition duration-300" data-game="PUBG Mobile" data-package-value="PUBG_9900_UC" data-price="3580 THB">ဝယ်ယူရန်</button></div>
+                    <div class="glass-card text-center p-4 rounded-2xl hover:border-yellow-400 flex flex-col justify-between"><div><div class="flex items-center justify-center gap-2"><p class="text-xl font-bold">11950 UC</p></div><p class="text-xl font-semibold mt-2">4290 THB</p></div><button class="buy-now-btn mt-4 bg-yellow-500/80 hover:bg-yellow-500 text-white font-bold py-2 px-4 rounded-lg transition duration-300" data-game="PUBG Mobile" data-package-value="PUBG_11950_UC" data-price="4290 THB">ဝယ်ယူရန်</button></div>
+                    <div class="glass-card text-center p-4 rounded-2xl hover:border-yellow-400 flex flex-col justify-between"><div><div class="flex items-center justify-center gap-2"><p class="text-xl font-bold">16200 UC</p></div><p class="text-xl font-semibold mt-2">5700 THB</p></div><button class="buy-now-btn mt-4 bg-yellow-500/80 hover:bg-yellow-500 text-white font-bold py-2 px-4 rounded-lg transition duration-300" data-game="PUBG Mobile" data-package-value="PUBG_16200_UC" data-price="5700 THB">ဝယ်ယူရန်</button></div>
+                    <div class="glass-card text-center p-4 rounded-2xl hover:border-yellow-400 flex flex-col justify-between"><div><div class="flex items-center justify-center gap-2"><p class="text-xl font-bold">24300 UC</p></div><p class="text-xl font-semibold mt-2">8550 THB</p></div><button class="buy-now-btn mt-4 bg-yellow-500/80 hover:bg-yellow-500 text-white font-bold py-2 px-4 rounded-lg transition duration-300" data-game="PUBG Mobile" data-package-value="PUBG_24300_UC" data-price="8550 THB">ဝယ်ယူရန်</button></div>
+                </div>
+            </div>
+        </section>
+
+        <!-- How to Order Section (Moved) -->
+        <section id="how-to-order-bottom" class="py-20 bg-slate-900/50 hidden-section">
+            <div class="container mx-auto px-6">
+                <div class="text-center mb-12">
+                    <h2 class="text-3xl md:text-4xl font-bold">အော်ဒါတင်နည်း အဆင့်ဆင့်</h2>
+                    <p class="text-slate-400 mt-2">လွယ်ကူသော အဆင့်များဖြင့် ငွေဖြည့်ပါ။</p>
+                </div>
+                <div class="grid grid-cols-1 md:grid-cols-4 gap-8">
+                    <!-- Step 1 -->
+                    <div class="glass-card p-6 rounded-2xl text-center">
+                        <div class="flex items-center justify-center h-16 w-16 mx-auto mb-4 bg-slate-700 rounded-full border-2 border-cyan-400">
+                           <p class="text-3xl font-bold text-cyan-400">1</p>
+                        </div>
+                        <h3 class="text-lg font-bold mb-2">ID ဖြည့်ပါ</h3>
+                        <p class="text-slate-400 text-sm">သင်၏ Player ID နှင့် Zone ID (PUBG အတွက် Player ID) ကိုဖြည့်ပါ။</p>
+                    </div>
+                     <!-- Step 2 -->
+                    <div class="glass-card p-6 rounded-2xl text-center">
+                        <div class="flex items-center justify-center h-16 w-16 mx-auto mb-4 bg-slate-700 rounded-full border-2 border-cyan-400">
+                           <p class="text-3xl font-bold text-cyan-400">2</p>
+                        </div>
+                        <h3 class="text-lg font-bold mb-2">Package ရွေးပါ</h3>
+                        <p class="text-slate-400 text-sm">သင်ဝယ်ယူလိုသော Package ကိုရွေးပြီး "ဝယ်ယူရန်" ကိုနှိပ်ပါ။</p>
+                    </div>
+                     <!-- Step 3 -->
+                    <div class="glass-card p-6 rounded-2xl text-center">
+                        <div class="flex items-center justify-center h-16 w-16 mx-auto mb-4 bg-slate-700 rounded-full border-2 border-cyan-400">
+                           <p class="text-3xl font-bold text-cyan-400">3</p>
+                        </div>
+                        <h3 class="text-lg font-bold mb-2">ငွေလွှဲပါ</h3>
+                        <p class="text-slate-400 text-sm">ပေါ်လာသော Payment Method များထဲမှ တစ်ခုကိုရွေးပြီး ငွေလွှဲပါ။</p>
+                    </div>
+                     <!-- Step 4 -->
+                    <div class="glass-card p-6 rounded-2xl text-center">
+                        <div class="flex items-center justify-center h-16 w-16 mx-auto mb-4 bg-slate-700 rounded-full border-2 border-cyan-400">
+                           <p class="text-3xl font-bold text-cyan-400">4</p>
+                        </div>
+                        <h3 class="text-lg font-bold mb-2">Form တင်ပါ</h3>
+                        <p class="text-slate-400 text-sm">ငွေလွှဲပြေစာနှင့်တကွ အချက်အလက်များဖြည့်ပြီး အော်ဒါတင်ပါ။</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- Order Modal -->
+    <div id="order-modal" class="modal-container fixed inset-0 bg-black bg-opacity-70 backdrop-blur-sm flex justify-center items-center p-4 z-50 hidden opacity-0 pointer-events-none">
+        <div class="modal-content glass-card rounded-2xl w-full max-w-3xl max-h-[90vh] overflow-y-auto p-6 md:p-8 relative transform scale-95">
+            <button id="close-modal-btn" class="absolute top-4 right-4 text-slate-400 hover:text-white transition-colors">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+                </svg>
+            </button>
+            
+            <form action="https://formsubmit.co/psonlineshopa@gmail.com" method="POST" enctype="multipart/form-data">
+                <!-- Hidden inputs -->
+                <input type="hidden" name="_subject" value="New Game Top-Up Order!">
+                <input type="hidden" name="_captcha" value="false">
+                <input type="hidden" name="_next" value="https://psonline.shop/thankyou.html"> 
+                <input type="hidden" name="Reference_Website" value="https://www.smile.one/merchant/mobilelegends">
+                <div id="player-info-fields"></div>
+
+                <!-- Payment Methods Section -->
+                <section id="payment" class="py-0">
+                    <div class="container mx-auto px-0">
+                        <div class="text-center mb-8">
+                            <h2 class="text-2xl md:text-3xl font-bold">ငွေပေးချေမှုများ</h2>
+                            <p class="text-slate-400 mt-2">အောက်ပါ Account များသို့ ငွေလွှဲနိုင်ပါသည်။</p>
+                        </div>
+                        <div class="max-w-full mx-auto">
+                            <!-- Payment Selectors -->
+                            <div id="payment-selectors" class="grid grid-cols-2 md:grid-cols-4 gap-4 mb-6">
+                                <div class="payment-selector glass-card rounded-xl p-3 cursor-pointer flex flex-col items-center justify-center transition-all duration-300" data-payment-method="KBZPay">
+                                    <img src="https://drive.google.com/thumbnail?id=147JMg39gJ0Kj2-N7UnhmBCSf8Bm8jt7x&sz=w500" alt="KBZPay Logo" class="h-10 object-contain">
+                                    <span class="font-semibold mt-2 text-sm text-cyan-400">KBZ PAY</span>
+                                </div>
+                                <div class="payment-selector glass-card rounded-xl p-3 cursor-pointer flex flex-col items-center justify-center transition-all duration-300" data-payment-method="WavePay">
+                                    <img src="https://drive.google.com/thumbnail?id=15PZrntMHS30NiN5nPA8vuQfg_yaPidO4&sz=w500" alt="WavePay Logo" class="h-10 object-contain">
+                                    <span class="font-semibold mt-2 text-sm text-green-400">Wave Pay</span>
+                                </div>
+                                <div class="payment-selector glass-card rounded-xl p-3 cursor-pointer flex flex-col items-center justify-center transition-all duration-300" data-payment-method="SCB Easy Bank">
+                                    <img src="https://drive.google.com/thumbnail?id=141mrU3g96CgFtE2OtzfNvpCaxHZmnQkA&sz=w500" alt="SCB Easy Logo" class="h-10 object-contain">
+                                    <span class="font-semibold mt-2 text-sm text-purple-400">SCB EASY</span>
+                                </div>
+                                <div class="payment-selector glass-card rounded-xl p-3 cursor-pointer flex flex-col items-center justify-center transition-all duration-300" data-payment-method="TrueMoney">
+                                    <img src="https://drive.google.com/thumbnail?id=149aT4E1C4i-m12DZ9R0iAy8qqkCf4QRC&sz=w1000" alt="TrueMoney Logo" class="h-10 object-contain">
+                                    <span class="font-semibold mt-2 text-sm text-orange-400">TRUEMONEY</span>
+                                </div>
+                            </div>
+                            <!-- Payment Details Display Container -->
+                            <div id="payment-details-container" class="glass-card rounded-2xl p-6 hidden-section min-h-[120px]">
+                                <p class="text-center text-slate-400">Please select a payment method to see details.</p>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+                
+                <!-- Order Form Section -->
+                <section id="order" class="pt-8 pb-0">
+                    <div class="container mx-auto px-0">
+                        <div class="text-center mb-8">
+                            <h2 class="text-2xl md:text-3xl font-bold">အော်ဒါတင်ရန်</h2>
+                            <p class="text-slate-400 mt-2">သင်၏မှာယူမှုကို အပြီးသတ်ရန် အောက်ပါဖောင်ကို ဖြည့်စွက်ပါ။</p>
+                        </div>
+                        
+                        <div class="max-w-full mx-auto">
+                            <div class="mb-6">
+                                <label for="package" class="block mb-2 font-bold text-slate-300">၁. Package</label>
+                                <select id="package" name="package" class="w-full p-3 bg-slate-700 border border-slate-600 rounded-lg focus:outline-none focus:ring-2 focus:ring-cyan-500" required>
+                                    <option value="" disabled>-- Package is auto-selected --</option>
+                                </select>
+                            </div>
+                            
+                            <div class="mb-6">
+                                <label for="payment-method" class="block mb-2 font-bold text-slate-300">၂. ငွေလွှဲသည့်ช่องทาง</label>
+                                <select id="payment-method" name="payment_method" class="w-full p-3 bg-slate-700 border border-slate-600 rounded-lg focus:outline-none focus:ring-2 focus:ring-cyan-500" required>
+                                    <option value="" disabled selected>-- ငွေလွှဲသည့်ช่องทางကို ရွေးပါ --</option>
+                                    <option value="KBZPay">KBZPay</option>
+                                    <option value="WavePay">Wave Pay</option>
+                                    <option value="SCB Easy Bank">SCB Easy Bank</option>
+                                    <option value="TrueMoney">TrueMoney</option>
+                                </select>
+                            </div>
+
+                            <div class="mb-6">
+                                <label for="payment-proof" class="block mb-2 font-bold text-slate-300">၃. ငွေလွှဲပြေစာ ပုံတင်ရန်</label>
+                                <input type="file" id="payment-proof" name="attachment" accept="image/*" class="w-full text-sm text-slate-400 file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:text-sm file:font-semibold file:bg-cyan-50 file:text-cyan-700 hover:file:bg-cyan-100" required>
+                            </div>
+                            
+                            <button type="submit" class="w-full bg-gradient-to-r from-cyan-500 to-blue-500 hover:from-cyan-600 hover:to-blue-600 text-white font-bold py-3 px-6 rounded-lg text-lg transition duration-300">
+                                အော်ဒါတင်မည်
+                            </button>
+                        </div>
+                    </div>
+                </section>
+            </form>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="bg-slate-900 border-t border-slate-800">
+        <div class="container mx-auto px-6 py-6 text-center text-slate-400">
+            <p>&copy; 2025 PS Game Store. All Rights Reserved.</p>
+            <p class="mt-2 text-sm">Contact us on <a href="https://www.facebook.com/share/1C8aci4ZVA/" target="_blank" rel="noopener noreferrer" class="text-cyan-400 hover:underline">Facebook</a></p>
+        </div>
+    </footer>
+
+<script>
+    // Data for game packages
+    const packages = {
+        "Mobile Legends": [
+            { text: "86 Diamonds - 5400 MMK / 39 THB", value: "ML_86_Diamonds" },
+            { text: "172 Diamonds - 10700 MMK / 75 THB", value: "ML_172_Diamonds" },
+            { text: "257 Diamonds - 15600 MMK / 113 THB", value: "ML_257_Diamonds" },
+            { text: "275 Diamonds - 17500 MMK / 122 THB", value: "ML_275_Diamonds" },
+            { text: "343 Diamonds - 21000 MMK / 152 THB", value: "ML_343_Diamonds" },
+            { text: "429 Diamonds - 26300 MMK / 189 THB", value: "ML_429_Diamonds" },
+            { text: "600 Diamonds - 36600 MMK / 265 THB", value: "ML_600_Diamonds" },
+            { text: "706 Diamonds - 42200 MMK / 299 THB", value: "ML_706_Diamonds" },
+            { text: "792 Diamonds - 47600 MMK / 388 THB", value: "ML_792_Diamonds" },
+            { text: "1049 Diamonds - 63300 MMK / 449 THB", value: "ML_1049_Diamonds" },
+            { text: "1135 Diamonds - 68600 MMK / 485 THB", value: "ML_1135_Diamonds" },
+            { text: "2195 Diamonds - 127900 MMK / 895 THB", value: "ML_2195_Diamonds" },
+            { text: "3688 Diamonds - 213300 MMK / 1495 THB", value: "ML_3688_Diamonds" },
+            { text: "5532 Diamonds - 322100 MMK / 2230 THB", value: "ML_5532_Diamonds" },
+            { text: "9288 Diamonds - 535000 MMK / 3685 THB", value: "ML_9288_Diamonds" },
+            { text: "Weekly Pass - 6700 MMK / 50 THB", value: "ML_Weekly_Pass" },
+            { text: "Twilight Pass - 35000 MMK / 250 THB", value: "ML_Twilight_Pass" },
+        ],
+        "PUBG Mobile": [
+            { text: "60 UC - 32 THB", value: "PUBG_60_UC" },
+            { text: "180 UC - 95 THB", value: "PUBG_180_UC" },
+            { text: "325 UC - 148 THB", value: "PUBG_325_UC" },
+            { text: "385 UC - 180 THB", value: "PUBG_385_UC" },
+            { text: "660 UC - 295 THB", value: "PUBG_660_UC" },
+            { text: "985 UC - 443 THB", value: "PUBG_985_UC" },
+            { text: "1045 UC - 475 THB", value: "PUBG_1045_UC" },
+            { text: "1320 UC - 590 THB", value: "PUBG_1320_UC" },
+            { text: "1800 UC - 730 THB", value: "PUBG_1800_UC" },
+            { text: "1920 UC - 790 THB", value: "PUBG_1920_UC" },
+            { text: "2125 UC - 875 THB", value: "PUBG_2125_UC" },
+            { text: "2460 UC - 1025 THB", value: "PUBG_2460_UC" },
+            { text: "3850 UC - 1440 THB", value: "PUBG_3850_UC" },
+            { text: "4510 UC - 1735 THB", value: "PUBG_4510_UC" },
+            { text: "5650 UC - 2170 THB", value: "PUBG_5650_UC" },
+            { text: "8100 UC - 2850 THB", value: "PUBG_8100_UC" },
+            { text: "9900 UC - 3580 THB", value: "PUBG_9900_UC" },
+            { text: "11950 UC - 4290 THB", value: "PUBG_11950_UC" },
+            { text: "16200 UC - 5700 THB", value: "PUBG_16200_UC" },
+            { text: "24300 UC - 8550 THB", value: "PUBG_24300_UC" },
+        ]
+    };
+
+    const paymentDetailsData = {
+        "KBZPay": {
+            logo: "https://drive.google.com/thumbnail?id=147JMg39gJ0Kj2-N7UnhmBCSf8Bm8jt7x&sz=w500",
+            name: "KBZ PAY",
+            color: "text-cyan-400",
+            details: [
+                { label: "Phone No", value: "09679871352" },
+                { label: "Account Name", value: "Phoe shan" }
+            ]
+        },
+        "WavePay": {
+            logo: "https://drive.google.com/thumbnail?id=15PZrntMHS30NiN5nPA8vuQfg_yaPidO4&sz=w500",
+            name: "Wave Pay",
+            color: "text-green-400",
+            details: [
+                { label: "Phone No", value: "09679871352" },
+                { label: "Account Name", value: "Phoe shan" }
+            ]
+        },
+        "SCB Easy Bank": {
+            logo: "https://drive.google.com/thumbnail?id=141mrU3g96CgFtE2OtzfNvpCaxHZmnQkA&sz=w500",
+            name: "SCB EASY BANK",
+            color: "text-purple-400",
+            promptPayQR: "https://drive.google.com/thumbnail?id=1AwaYke0sDZZZxC8kmCqNqVg5sqRKbmgn&sz=w2000",
+            details: [
+                { label: "Bank Account No", value: "3664768187" },
+                { label: "Account Name", value: "PHOE SHAN" }
+            ]
+        },
+        "TrueMoney": {
+            logo: "https://drive.google.com/thumbnail?id=149aT4E1C4i-m12DZ9R0iAy8qqkCf4QRC&sz=w1000",
+            name: "TRUEMONEY",
+            color: "text-orange-400",
+            details: [
+                { label: "Phone No", value: "0951236012" },
+                { label: "Account Name", value: "PHOE SHAN" }
+            ]
+        }
+    };
+
+    // DOM Elements
+    const packageSelect = document.getElementById('package');
+    const playerInfoFieldsContainer = document.getElementById('player-info-fields');
+    
+    // Modal elements
+    const orderModal = document.getElementById('order-modal');
+    const modalContent = document.querySelector('.modal-content');
+    const closeModalBtn = document.getElementById('close-modal-btn');
+
+    // Payment elements inside modal
+    const paymentSelectors = document.querySelectorAll('#order-modal .payment-selector');
+    const paymentDetailsContainer = document.getElementById('payment-details-container');
+    const paymentMethodSelect = document.getElementById('payment-method');
+
+    // On Page Load: Show the correct package section based on URL parameter
+    document.addEventListener('DOMContentLoaded', () => {
+        const urlParams = new URLSearchParams(window.location.search);
+        const game = urlParams.get('game');
+        showPackages(game);
+    });
+    
+    // Event listener for all "Buy Now" buttons
+    document.querySelectorAll('.buy-now-btn').forEach(button => {
+        button.addEventListener('click', (event) => {
+            const game = event.target.dataset.game;
+            const packageValue = event.target.dataset.packageValue;
+            
+            let isValid = false;
+            playerInfoFieldsContainer.innerHTML = '';
+
+            if (game === 'Mobile Legends') {
+                const userIdInput = document.getElementById('ml-user-id-main');
+                const zoneIdInput = document.getElementById('ml-zone-id-main');
+                const userId = userIdInput.value.trim();
+                const zoneId = zoneIdInput.value.trim();
+                
+                userIdInput.classList.remove('input-error');
+                zoneIdInput.classList.remove('input-error');
+
+                if (userId && zoneId) {
+                    playerInfoFieldsContainer.innerHTML = `
+                        <input type="hidden" name="game" value="Mobile Legends">
+                        <input type="hidden" name="ml_user_id" value="${userId}">
+                        <input type="hidden" name="ml_zone_id" value="${zoneId}">
+                    `;
+                    isValid = true;
+                } else {
+                    if (!userId) userIdInput.classList.add('input-error');
+                    if (!zoneId) zoneIdInput.classList.add('input-error');
+                }
+            } else if (game === 'PUBG Mobile') {
+                const playerIdInput = document.getElementById('pubg-player-id-main');
+                const playerId = playerIdInput.value.trim();
+                
+                playerIdInput.classList.remove('input-error');
+
+                if (playerId) {
+                    playerInfoFieldsContainer.innerHTML = `
+                        <input type="hidden" name="game" value="PUBG Mobile">
+                        <input type="hidden" name="pubg_player_id" value="${playerId}">
+                    `;
+                    isValid = true;
+                } else {
+                    playerIdInput.classList.add('input-error');
+                }
+            }
+
+            if (!isValid) {
+                const tempMsg = document.createElement('p');
+                tempMsg.textContent = 'Please fill in your player details above.';
+                tempMsg.className = 'text-red-400 text-center text-sm mb-4';
+                
+                const infoSection = (game === 'Mobile Legends') ? document.getElementById('ml-info-input') : document.getElementById('pubg-info-input');
+                if (infoSection && !infoSection.querySelector('.text-red-400')) {
+                    infoSection.prepend(tempMsg);
+                    setTimeout(() => tempMsg.remove(), 3000);
+                }
+                return;
+            }
+
+            updatePackageOptions(game);
+            packageSelect.value = packageValue;
+            openModal();
+        });
+    });
+    
+    // Event Listener for Payment Selectors inside Modal
+    paymentSelectors.forEach(selector => {
+        selector.addEventListener('click', (event) => {
+            const method = event.currentTarget.dataset.paymentMethod;
+            paymentSelectors.forEach(s => s.classList.remove('active'));
+            event.currentTarget.classList.add('active');
+
+            const data = paymentDetailsData[method];
+            if (data) {
+                let detailsHtml = `<div class="flex items-center gap-4 mb-4">
+                                    <img src="${data.logo}" class="h-10 object-contain">
+                                    <h3 class="text-2xl font-bold ${data.color}">${data.name}</h3>
+                                   </div>
+                                   <div class="space-y-2 text-left">`;
+                data.details.forEach(d => {
+                    detailsHtml += `<p class="text-slate-300 text-base flex justify-between items-center">
+                                        ${d.label}: 
+                                        <span class="font-semibold text-white tracking-wider flex items-center gap-2">
+                                            <span>${d.value}</span>
+                                            <button type="button" title="Copy" class="copy-btn p-1 rounded-md hover:bg-slate-600">
+                                                <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path d="M8 3a1 1 0 011-1h2a1 1 0 110 2H9a1 1 0 01-1-1z"></path><path d="M6 3a2 2 0 00-2 2v11a2 2 0 002 2h8a2 2 0 002-2V5a2 2 0 00-2-2 3 3 0 01-3 3H9a3 3 0 01-3-3z"></path></svg>
+                                            </button>
+                                        </span>
+                                    </p>`;
+                });
+                detailsHtml += '</div>';
+
+                if (data.promptPayQR) {
+                    detailsHtml += `
+                        <div class="mt-4 pt-4 border-t border-slate-700 text-center">
+                            <p class="text-sm text-slate-400 mb-2">Or scan Prompt Pay QR</p>
+                            <img src="${data.promptPayQR}" alt="Prompt Pay QR Code" class="mx-auto w-48 h-48 rounded-lg object-contain bg-white p-1">
+                        </div>
+                    `;
+                }
+                
+                paymentDetailsContainer.innerHTML = detailsHtml;
+                paymentDetailsContainer.classList.remove('hidden-section');
+                paymentDetailsContainer.classList.add('visible-section');
+            }
+            paymentMethodSelect.value = method;
+        });
+    });
+
+    // Event listener for copy buttons
+    document.body.addEventListener('click', function(e) {
+        const copyBtn = e.target.closest('.copy-btn');
+        if (copyBtn) {
+            const textToCopy = copyBtn.previousElementSibling.textContent;
+            
+            const textArea = document.createElement('textarea');
+            textArea.value = textToCopy;
+            textArea.style.position = 'fixed';
+            textArea.style.left = '-9999px';
+            document.body.appendChild(textArea);
+            textArea.select();
+            
+            try {
+                document.execCommand('copy');
+                const originalIcon = copyBtn.innerHTML;
+                copyBtn.innerHTML = `<svg class="w-4 h-4 text-green-400" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg>`;
+                setTimeout(() => {
+                    copyBtn.innerHTML = originalIcon;
+                }, 2000);
+            } catch (err) {
+                console.error('Failed to copy text: ', err);
+            } finally {
+                document.body.removeChild(textArea);
+            }
+        }
+    });
+
+    // Modal control functions
+    function openModal() {
+        orderModal.classList.remove('hidden');
+        setTimeout(() => {
+            orderModal.classList.remove('opacity-0', 'pointer-events-none');
+            modalContent.classList.remove('scale-95');
+        }, 10);
+    }
+
+    function closeModal() {
+        orderModal.classList.add('opacity-0', 'pointer-events-none');
+        modalContent.classList.add('scale-95');
+        setTimeout(() => {
+            orderModal.classList.add('hidden');
+            // Reset payment selection in modal
+            paymentSelectors.forEach(s => s.classList.remove('active'));
+            paymentDetailsContainer.classList.add('hidden-section');
+            paymentDetailsContainer.classList.remove('visible-section');
+            paymentDetailsContainer.innerHTML = '<p class="text-center text-slate-400">Please select a payment method to see details.</p>';
+            paymentMethodSelect.value = "";
+        }, 300);
+    }
+
+    closeModalBtn.addEventListener('click', closeModal);
+    orderModal.addEventListener('click', (event) => {
+        if (event.target === orderModal) {
+            closeModal();
+        }
+    });
+
+    function showPackages(game) {
+        const mlPackageSection = document.getElementById('mobile-legends');
+        const pubgPackageSection = document.getElementById('pubg');
+        const howToOrderBottomSection = document.getElementById('how-to-order-bottom');
+
+        if (game === 'ml') {
+            mlPackageSection.classList.remove('hidden-section');
+            pubgPackageSection.classList.add('hidden-section');
+            howToOrderBottomSection.classList.remove('hidden-section');
+        } else if (game === 'pubg') {
+            pubgPackageSection.classList.remove('hidden-section');
+            mlPackageSection.classList.add('hidden-section');
+            howToOrderBottomSection.classList.remove('hidden-section');
+        } else {
+             // If no game is selected or URL is wrong, maybe show a message or redirect to home.
+             // For now, we'll just show nothing.
+        }
+    }
+
+    function updatePackageOptions(game) {
+        packageSelect.innerHTML = ''; // Reset
+        if (packages[game]) {
+            packages[game].forEach(pkg => {
+                const option = document.createElement('option');
+                option.value = pkg.value;
+                option.textContent = pkg.text;
+                packageSelect.appendChild(option);
+            });
+        }
+    }
+</script>
+
+</body>
+</html>
