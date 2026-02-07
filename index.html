@@ -1,117 +1,153 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="my">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>🚀 Dual AI Dashboard - Split Screen</title>
+    <title>AI Recap Dashboard</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&family=Orbitron:wght@400;700&display=swap" rel="stylesheet">
     <style>
         :root {
-            --animal-primary: #FF6B35;
-            --animal-secondary: #00A8E8;
-            --shangpt-primary: #7B2CBF;
-            --shangpt-secondary: #3A0CA3;
-            --dark: #0F0F23;
-            --light: #FFFFFF;
-        }
-
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
+            --primary: #6366f1;
+            --dark: #0f172a;
+            --sidebar-width: 260px;
         }
 
         body {
-            font-family: 'Poppins', sans-serif;
-            background: linear-gradient(135deg, #0F0F23 0%, #1A1A2E 100%);
-            color: var(--light);
-            min-height: 100vh;
-            overflow-x: hidden;
+            margin: 0;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #f1f5f9;
+            display: flex;
+            height: 100vh;
         }
 
-        /* Control Bar */
-        .control-bar {
+        /* Sidebar Design */
+        .sidebar {
+            width: var(--sidebar-width);
+            background-color: var(--dark);
+            color: white;
             display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding: 15px 30px;
-            background: rgba(255, 255, 255, 0.05);
-            backdrop-filter: blur(10px);
-            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
-            position: sticky;
-            top: 0;
-            z-index: 100;
+            flex-direction: column;
+            padding: 20px 0;
+            box-shadow: 4px 0 10px rgba(0,0,0,0.1);
         }
 
         .logo {
+            padding: 0 25px 30px;
+            font-size: 20px;
+            font-weight: bold;
+            color: var(--primary);
             display: flex;
             align-items: center;
-            gap: 15px;
-        }
-
-        .logo h1 {
-            font-family: 'Orbitron', sans-serif;
-            font-size: 1.5rem;
-            background: linear-gradient(45deg, var(--animal-primary), var(--shangpt-primary));
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-        }
-
-        .controls {
-            display: flex;
-            gap: 15px;
-            align-items: center;
-        }
-
-        .control-btn {
-            background: rgba(255, 255, 255, 0.1);
-            border: 1px solid rgba(255, 255, 255, 0.2);
-            color: var(--light);
-            padding: 8px 16px;
-            border-radius: 50px;
-            font-size: 0.9rem;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            display: flex;
-            align-items: center;
-            gap: 8px;
-        }
-
-        .control-btn:hover {
-            background: rgba(255, 255, 255, 0.2);
-            transform: translateY(-2px);
-        }
-
-        .layout-toggle {
-            display: flex;
-            gap: 5px;
-        }
-
-        .layout-btn {
-            background: rgba(255, 255, 255, 0.1);
-            border: none;
-            color: var(--light);
-            width: 40px;
-            height: 40px;
-            border-radius: 8px;
-            cursor: pointer;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            transition: all 0.3s ease;
-        }
-
-        .layout-btn.active {
-            background: var(--animal-primary);
-        }
-
-        /* Main Split Container */
-        .split-container {
-            display: flex;
-            height: calc(100vh - 80px);
             gap: 10px;
+        }
+
+        .nav-item {
+            padding: 15px 25px;
+            cursor: pointer;
+            transition: 0.3s;
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            font-size: 15px;
+            color: #94a3b8;
+        }
+
+        .nav-item:hover, .nav-item.active {
+            background: #1e293b;
+            color: white;
+            border-left: 4px solid var(--primary);
+        }
+
+        /* Content Area */
+        .main-content {
+            flex-grow: 1;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .top-bar {
+            height: 60px;
+            background: white;
+            display: flex;
+            align-items: center;
+            padding: 0 30px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+            font-weight: 600;
+        }
+
+        .iframe-container {
+            flex-grow: 1;
             padding: 20px;
+        }
+
+        iframe {
+            width: 100%;
+            height: 100%;
+            border-radius: 12px;
+            border: 1px solid #e2e8f0;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.05);
+            background: white;
+        }
+
+        .hidden { display: none; }
+    </style>
+</head>
+<body>
+
+    <div class="sidebar">
+        <div class="logo">
+            <i class="fa-solid fa-bolt"></i> RECAP HUB
+        </div>
+        
+        <div class="nav-item active" onclick="switchSpace('shan')">
+            <i class="fa-solid fa-language"></i> Shan Recap
+        </div>
+        
+        <div class="nav-item" onclick="switchSpace('animal')">
+            <i class="fa-solid fa-paw"></i> Animal Recap
+        </div>
+
+        <div style="margin-top: auto; padding: 25px; font-size: 12px; color: #475569;">
+            Developer Mode: ON
+        </div>
+    </div>
+
+    <div class="main-content">
+        <div class="top-bar" id="current-title">
+            Shan Recap Interface
+        </div>
+        
+        <div class="iframe-container">
+            <iframe id="shan-frame" src="https://phoe2004-recap-shan.hf.space"></iframe>
+            <iframe id="animal-frame" src="https://phoe2004-animal-recap.hf.space" class="hidden"></iframe>
+        </div>
+    </div>
+
+    <script>
+        function switchSpace(type) {
+            const shan = document.getElementById('shan-frame');
+            const animal = document.getElementById('animal-frame');
+            const title = document.getElementById('current-title');
+            const navItems = document.querySelectorAll('.nav-item');
+
+            // Reset active state
+            navItems.forEach(item => item.classList.remove('active'));
+
+            if (type === 'shan') {
+                shan.classList.remove('hidden');
+                animal.classList.add('hidden');
+                title.innerText = "Shan Recap Interface";
+                navItems[0].classList.add('active');
+            } else {
+                shan.classList.add('hidden');
+                animal.classList.remove('hidden');
+                title.innerText = "Animal Recap Interface";
+                navItems[1].classList.add('active');
+            }
+        }
+    </script>
+</body>
+</html>            padding: 20px;
         }
 
         /* Individual App Panel */
