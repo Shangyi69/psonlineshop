@@ -3,10 +3,19 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>✨ My Portfolio Dashboard</title>
+    <title>🚀 Dual AI Dashboard - Split Screen</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&family=Orbitron:wght@400;700&display=swap" rel="stylesheet">
     <style>
+        :root {
+            --animal-primary: #FF6B35;
+            --animal-secondary: #00A8E8;
+            --shangpt-primary: #7B2CBF;
+            --shangpt-secondary: #3A0CA3;
+            --dark: #0F0F23;
+            --light: #FFFFFF;
+        }
+
         * {
             margin: 0;
             padding: 0;
@@ -15,103 +24,569 @@
 
         body {
             font-family: 'Poppins', sans-serif;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            background: linear-gradient(135deg, #0F0F23 0%, #1A1A2E 100%);
+            color: var(--light);
             min-height: 100vh;
-            padding: 20px;
             overflow-x: hidden;
         }
 
-        .container {
-            max-width: 1400px;
-            margin: 0 auto;
-        }
-
-        /* Header */
-        .header {
-            text-align: center;
-            margin-bottom: 40px;
-            padding-top: 20px;
-        }
-
-        .header h1 {
-            font-size: 3.5rem;
-            color: white;
-            font-weight: 700;
-            margin-bottom: 10px;
-            text-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
-            letter-spacing: -0.5px;
-        }
-
-        .header p {
-            font-size: 1.2rem;
-            color: rgba(255, 255, 255, 0.9);
-            max-width: 600px;
-            margin: 0 auto;
-            font-weight: 300;
-        }
-
-        /* App Cards Container */
-        .apps-container {
+        /* Control Bar */
+        .control-bar {
             display: flex;
-            flex-wrap: wrap;
-            justify-content: center;
-            gap: 30px;
-            margin-bottom: 50px;
+            justify-content: space-between;
+            align-items: center;
+            padding: 15px 30px;
+            background: rgba(255, 255, 255, 0.05);
+            backdrop-filter: blur(10px);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+            position: sticky;
+            top: 0;
+            z-index: 100;
         }
 
-        /* App Cards */
-        .app-card {
-            background: rgba(255, 255, 255, 0.15);
-            backdrop-filter: blur(12px);
-            -webkit-backdrop-filter: blur(12px);
-            border-radius: 24px;
-            padding: 30px;
-            width: 100%;
-            max-width: 550px;
-            min-height: 320px;
-            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.2);
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .logo h1 {
+            font-family: 'Orbitron', sans-serif;
+            font-size: 1.5rem;
+            background: linear-gradient(45deg, var(--animal-primary), var(--shangpt-primary));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .controls {
+            display: flex;
+            gap: 15px;
+            align-items: center;
+        }
+
+        .control-btn {
+            background: rgba(255, 255, 255, 0.1);
             border: 1px solid rgba(255, 255, 255, 0.2);
-            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            color: var(--light);
+            padding: 8px 16px;
+            border-radius: 50px;
+            font-size: 0.9rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .control-btn:hover {
+            background: rgba(255, 255, 255, 0.2);
+            transform: translateY(-2px);
+        }
+
+        .layout-toggle {
+            display: flex;
+            gap: 5px;
+        }
+
+        .layout-btn {
+            background: rgba(255, 255, 255, 0.1);
+            border: none;
+            color: var(--light);
+            width: 40px;
+            height: 40px;
+            border-radius: 8px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.3s ease;
+        }
+
+        .layout-btn.active {
+            background: var(--animal-primary);
+        }
+
+        /* Main Split Container */
+        .split-container {
+            display: flex;
+            height: calc(100vh - 80px);
+            gap: 10px;
+            padding: 20px;
+        }
+
+        /* Individual App Panel */
+        .app-panel {
+            flex: 1;
             display: flex;
             flex-direction: column;
+            background: rgba(255, 255, 255, 0.03);
+            border-radius: 20px;
+            overflow: hidden;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            transition: all 0.3s ease;
+            position: relative;
+        }
+
+        .app-panel:hover {
+            border-color: rgba(255, 255, 255, 0.3);
+        }
+
+        .app-header {
+            padding: 20px 25px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .app-title {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .app-icon {
+            width: 50px;
+            height: 50px;
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+        }
+
+        .animal-icon {
+            background: linear-gradient(135deg, var(--animal-primary), var(--animal-secondary));
+        }
+
+        .shangpt-icon {
+            background: linear-gradient(135deg, var(--shangpt-primary), var(--shangpt-secondary));
+        }
+
+        .app-info h2 {
+            font-size: 1.5rem;
+            margin-bottom: 5px;
+        }
+
+        .app-info p {
+            font-size: 0.9rem;
+            opacity: 0.7;
+        }
+
+        .app-status {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .status-indicator {
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            background: #00FF88;
+            animation: pulse 2s infinite;
+        }
+
+        @keyframes pulse {
+            0% { opacity: 1; }
+            50% { opacity: 0.5; }
+            100% { opacity: 1; }
+        }
+
+        .status-text {
+            font-size: 0.9rem;
+            color: #00FF88;
+        }
+
+        /* App Frame */
+        .app-frame-container {
+            flex: 1;
             position: relative;
             overflow: hidden;
         }
 
-        .app-card:hover {
-            transform: translateY(-10px);
-            box-shadow: 0 25px 50px rgba(0, 0, 0, 0.3);
-            background: rgba(255, 255, 255, 0.22);
+        .app-frame {
+            width: 100%;
+            height: 100%;
+            border: none;
+            background: white;
         }
 
-        .app-card::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            height: 4px;
-            background: linear-gradient(90deg, #00dbde, #fc00ff);
-        }
-
-        .app-icon {
-            font-size: 2.8rem;
-            margin-bottom: 20px;
-            color: white;
-            width: 70px;
-            height: 70px;
-            border-radius: 18px;
+        /* Resize Handle */
+        .resize-handle {
+            width: 10px;
+            background: rgba(255, 255, 255, 0.1);
+            cursor: col-resize;
             display: flex;
             align-items: center;
             justify-content: center;
-            background: rgba(255, 255, 255, 0.2);
-            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);
+            position: relative;
         }
 
-        .app-card:nth-child(1) .app-icon {
-            background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+        .resize-dots {
+            display: flex;
+            flex-direction: column;
+            gap: 5px;
         }
 
+        .resize-dots span {
+            width: 4px;
+            height: 4px;
+            background: rgba(255, 255, 255, 0.3);
+            border-radius: 50%;
+        }
+
+        /* Stats Bar */
+        .stats-bar {
+            display: flex;
+            padding: 15px 30px;
+            gap: 30px;
+            background: rgba(255, 255, 255, 0.03);
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .stat-item {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .stat-value {
+            font-family: 'Orbitron', sans-serif;
+            font-size: 1.2rem;
+            font-weight: bold;
+        }
+
+        .animal-stat { color: var(--animal-primary); }
+        .shangpt-stat { color: var(--shangpt-primary); }
+
+        /* Layout Variations */
+        .vertical-split {
+            flex-direction: column;
+        }
+
+        .vertical-split .split-container {
+            flex-direction: column;
+        }
+
+        .vertical-split .app-panel {
+            flex-direction: row;
+        }
+
+        .vertical-split .app-header {
+            width: 250px;
+            border-right: 1px solid rgba(255, 255, 255, 0.1);
+            border-bottom: none;
+            flex-direction: column;
+            justify-content: flex-start;
+            align-items: flex-start;
+            gap: 20px;
+        }
+
+        .vertical-split .app-frame-container {
+            flex: 1;
+        }
+
+        /* Fullscreen Mode */
+        .fullscreen {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            z-index: 1000;
+            background: var(--dark);
+            padding: 20px;
+        }
+
+        /* Responsive */
+        @media (max-width: 1200px) {
+            .split-container {
+                flex-direction: column;
+                height: auto;
+            }
+            
+            .app-panel {
+                height: 50vh;
+            }
+            
+            .resize-handle {
+                width: 100%;
+                height: 10px;
+                cursor: row-resize;
+            }
+            
+            .resize-dots {
+                flex-direction: row;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Control Bar -->
+    <div class="control-bar">
+        <div class="logo">
+            <i class="fas fa-desktop"></i>
+            <h1>DUAL AI DASHBOARD</h1>
+        </div>
+        
+        <div class="controls">
+            <button class="control-btn" onclick="toggleFullscreen('animal')">
+                <i class="fas fa-expand"></i>
+                Animal Fullscreen
+            </button>
+            <button class="control-btn" onclick="toggleFullscreen('shangpt')">
+                <i class="fas fa-expand"></i>
+                ShanGPT Fullscreen
+            </button>
+            
+            <div class="layout-toggle">
+                <button class="layout-btn active" onclick="setLayout('horizontal')" title="Horizontal Split">
+                    <i class="fas fa-columns"></i>
+                </button>
+                <button class="layout-btn" onclick="setLayout('vertical')" title="Vertical Split">
+                    <i class="fas fa-rows"></i>
+                </button>
+            </div>
+            
+            <button class="control-btn" onclick="refreshAll()">
+                <i class="fas fa-sync-alt"></i>
+                Refresh All
+            </button>
+        </div>
+    </div>
+
+    <!-- Split Screen Container -->
+    <div class="split-container" id="splitContainer">
+        <!-- Animal Recap Panel -->
+        <div class="app-panel" id="animalPanel">
+            <div class="app-header">
+                <div class="app-title">
+                    <div class="app-icon animal-icon">
+                        <i class="fas fa-paw"></i>
+                    </div>
+                    <div class="app-info">
+                        <h2>Animal Viral Pro</h2>
+                        <p>AI Video Editor • 70-Second Format • Myanmar Voice</p>
+                    </div>
+                </div>
+                <div class="app-status">
+                    <div class="status-indicator"></div>
+                    <span class="status-text">LIVE</span>
+                </div>
+            </div>
+            <div class="app-frame-container">
+                <iframe 
+                    class="app-frame" 
+                    id="animalFrame"
+                    src="https://phoe2004-Animal-recap.hf.space" 
+                    title="Animal Viral Pro Editor"
+                    allow="microphone; camera"
+                ></iframe>
+            </div>
+        </div>
+
+        <!-- Resize Handle -->
+        <div class="resize-handle" id="resizeHandle">
+            <div class="resize-dots">
+                <span></span>
+                <span></span>
+                <span></span>
+            </div>
+        </div>
+
+        <!-- ShanGPT Panel -->
+        <div class="app-panel" id="shangptPanel">
+            <div class="app-header">
+                <div class="app-title">
+                    <div class="app-icon shangpt-icon">
+                        <i class="fas fa-mountain"></i>
+                    </div>
+                    <div class="app-info">
+                        <h2>ShanGPT Assistant</h2>
+                        <p>Regional AI • Cultural Insights • Language Processing</p>
+                    </div>
+                </div>
+                <div class="app-status">
+                    <div class="status-indicator"></div>
+                    <span class="status-text">LIVE</span>
+                </div>
+            </div>
+            <div class="app-frame-container">
+                <iframe 
+                    class="app-frame" 
+                    id="shangptFrame"
+                    src="https://phoe2004-recap-shan.hf.space" 
+                    title="ShanGPT Assistant"
+                ></iframe>
+            </div>
+        </div>
+    </div>
+
+    <!-- Stats Bar -->
+    <div class="stats-bar">
+        <div class="stat-item">
+            <i class="fas fa-microchip animal-stat"></i>
+            <div>
+                <div class="stat-value animal-stat">AI Processing</div>
+                <div style="font-size: 0.8rem; opacity: 0.7;">Animal Video Editor</div>
+            </div>
+        </div>
+        
+        <div class="stat-item">
+            <i class="fas fa-brain shangpt-stat"></i>
+            <div>
+                <div class="stat-value shangpt-stat">Cultural AI</div>
+                <div style="font-size: 0.8rem; opacity: 0.7;">Shan Region Assistant</div>
+            </div>
+        </div>
+        
+        <div class="stat-item">
+            <i class="fas fa-sync"></i>
+            <div>
+                <div class="stat-value">Dual Processing</div>
+                <div style="font-size: 0.8rem; opacity: 0.7;">Both Apps Running</div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Layout Management
+        let currentLayout = 'horizontal';
+        let fullscreenMode = null;
+
+        function setLayout(layout) {
+            currentLayout = layout;
+            const container = document.getElementById('splitContainer');
+            const layoutBtns = document.querySelectorAll('.layout-btn');
+            
+            layoutBtns.forEach(btn => btn.classList.remove('active'));
+            event.target.classList.add('active');
+            
+            if (layout === 'vertical') {
+                container.classList.add('vertical-split');
+            } else {
+                container.classList.remove('vertical-split');
+            }
+        }
+
+        // Fullscreen Toggle
+        function toggleFullscreen(app) {
+            const panel = document.getElementById(app + 'Panel');
+            
+            if (fullscreenMode === app) {
+                // Exit fullscreen
+                panel.classList.remove('fullscreen');
+                document.getElementById('splitContainer').style.display = 'flex';
+                document.querySelector('.stats-bar').style.display = 'flex';
+                fullscreenMode = null;
+            } else {
+                // Enter fullscreen
+                panel.classList.add('fullscreen');
+                document.getElementById('splitContainer').style.display = 'none';
+                document.querySelector('.stats-bar').style.display = 'none';
+                fullscreenMode = app;
+            }
+        }
+
+        // Refresh All Frames
+        function refreshAll() {
+            const frames = document.querySelectorAll('.app-frame');
+            frames.forEach(frame => {
+                const currentSrc = frame.src;
+                frame.src = currentSrc;
+            });
+            
+            // Show refresh animation
+            event.target.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Refreshing';
+            setTimeout(() => {
+                event.target.innerHTML = '<i class="fas fa-sync-alt"></i> Refresh All';
+            }, 1000);
+        }
+
+        // Resize Functionality
+        const resizeHandle = document.getElementById('resizeHandle');
+        const animalPanel = document.getElementById('animalPanel');
+        const shangptPanel = document.getElementById('shangptPanel');
+        
+        let isResizing = false;
+        
+        resizeHandle.addEventListener('mousedown', function(e) {
+            isResizing = true;
+            document.body.style.cursor = currentLayout === 'horizontal' ? 'col-resize' : 'row-resize';
+            e.preventDefault();
+        });
+        
+        document.addEventListener('mousemove', function(e) {
+            if (!isResizing) return;
+            
+            if (currentLayout === 'horizontal') {
+                const containerWidth = document.getElementById('splitContainer').offsetWidth;
+                const animalWidth = (e.clientX / containerWidth) * 100;
+                
+                animalPanel.style.flex = `0 0 ${animalWidth}%`;
+                shangptPanel.style.flex = `0 0 ${100 - animalWidth}%`;
+            } else {
+                const containerHeight = document.getElementById('splitContainer').offsetHeight;
+                const animalHeight = (e.clientY / containerHeight) * 100;
+                
+                animalPanel.style.flex = `0 0 ${animalHeight}%`;
+                shangptPanel.style.flex = `0 0 ${100 - animalHeight}%`;
+            }
+        });
+        
+        document.addEventListener('mouseup', function() {
+            isResizing = false;
+            document.body.style.cursor = 'default';
+        });
+
+        // Auto-refresh every 30 minutes
+        setInterval(() => {
+            refreshAll();
+        }, 30 * 60 * 1000);
+
+        // Status Monitoring
+        setInterval(() => {
+            const indicators = document.querySelectorAll('.status-indicator');
+            indicators.forEach(indicator => {
+                indicator.style.animation = 'none';
+                setTimeout(() => {
+                    indicator.style.animation = 'pulse 2s infinite';
+                }, 10);
+            });
+        }, 5000);
+
+        // Keyboard Shortcuts
+        document.addEventListener('keydown', function(e) {
+            // F1 for Animal fullscreen
+            if (e.key === 'F1') {
+                e.preventDefault();
+                toggleFullscreen('animal');
+            }
+            
+            // F2 for ShanGPT fullscreen
+            if (e.key === 'F2') {
+                e.preventDefault();
+                toggleFullscreen('shangpt');
+            }
+            
+            // F5 to refresh all
+            if (e.key === 'F5') {
+                e.preventDefault();
+                refreshAll();
+            }
+            
+            // Escape to exit fullscreen
+            if (e.key === 'Escape' && fullscreenMode) {
+                toggleFullscreen(fullscreenMode);
+            }
+        });
+
+        // Initialize with default layout
+        setLayout('horizontal');
+    </script>
+</body>
+    </html>
         .app-card:nth-child(2) .app-icon {
             background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
         }
