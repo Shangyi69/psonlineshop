@@ -1,22 +1,61 @@
 <!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Phoe Movie Recap Tool</title>
+    <title>My Portfolio</title>
     <style>
-        body { margin: 0; padding: 0; background-color: #f4f4f4; font-family: sans-serif; }
-        .container { width: 100%; height: 100vh; display: flex; flex-direction: column; }
-        iframe { flex-grow: 1; border: none; width: 100%; }
+        .nav { padding: 20px; background: #f0f0f0; }
+        .nav a { margin: 0 15px; text-decoration: none; }
+        iframe { border: none; }
     </style>
 </head>
 <body>
-    <div class="container">
-        <iframe
-            src="https://phoe2004-MovieRecapai.hf.space"
-            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-            allowfullscreen>
-        </iframe>
+    <div class="nav">
+        <a href="#/" data-page="home">Home</a>
+        <a href="#/recap-shan" data-page="recap-shan">Cdarma Recap</a>
+        <a href="#/animal-recap" data-page="animal-recap">Animal Recap</a>
     </div>
+    
+    <div id="content">
+        <!-- Content will be loaded here -->
+    </div>
+
+    <script>
+        const routes = {
+            '/': `
+                <h1>Welcome to My Portfolio</h1>
+                <p>Select an app from the navigation above</p>
+            `,
+            '/recap-shan': `
+                <h2>Cdarma Recap Application</h2>
+                <iframe 
+                    src="https://phoe2004-recap-shan.hf.space" 
+                    width="100%" 
+                    height="700px">
+                </iframe>
+            `,
+            '/animal-recap': `
+                <h2>Animal Recap Application</h2>
+                <iframe 
+                    src="https://phoe2004-Animal-recap.hf.space" 
+                    width="100%" 
+                    height="700px">
+                </iframe>
+            `
+        };
+
+        function loadRoute() {
+            const hash = window.location.hash || '#/';
+            const path = hash.substring(1);
+            
+            document.getElementById('content').innerHTML = 
+                routes[path] || '<h1>404 - Page Not Found</h1>';
+        }
+
+        // Load initial route
+        loadRoute();
+        
+        // Listen for hash changes
+        window.addEventListener('hashchange', loadRoute);
+    </script>
 </body>
 </html>
