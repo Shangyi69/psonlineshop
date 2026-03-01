@@ -6,302 +6,350 @@
   <title>Myanmar 2D & Thai 3D | psonline.shop</title>
   <meta name="description" content="Myanmar 2D Live Results, Thai 3D Lottery Check - psonline.shop">
 
-  <!-- Google Funding Choices / CMP (Consent Management Platform) -->
-  <!-- EEA, UK, Switzerland တွင် consent popup ပြသည် — ကျန်နေရာများတွင် ads တိုက်ရိုက်ပြသည် -->
+  <!-- Google CMP -->
   <script>
     window.dataLayer = window.dataLayer || [];
     function gtag(){dataLayer.push(arguments);}
-    gtag('consent', 'default', {
-      'ad_storage':             'denied',
-      'ad_user_data':           'denied',
-      'ad_personalization':     'denied',
-      'analytics_storage':      'denied',
-      'wait_for_update':        500
-    });
+    gtag('consent','default',{ad_storage:'denied',ad_user_data:'denied',
+      ad_personalization:'denied',analytics_storage:'denied',wait_for_update:500});
   </script>
 
-  <!-- Google AdSense + Auto CMP -->
-  <script async
-    src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-1188893611988786"
-    crossorigin="anonymous">
-  </script>
+  <!-- AdSense -->
+  <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-1188893611988786" crossorigin="anonymous"></script>
 
   <style>
-    * { box-sizing: border-box; margin: 0; padding: 0; }
+    *{box-sizing:border-box;margin:0;padding:0}
+    :root{
+      --bg:#0d0d1a;--card1:#1a1a2e;--card2:#16213e;
+      --accent:#00d2ff;--red:#e74c3c;--gold:#ffd700;
+      --orange:#e67e22;--text:#fff;--muted:#aaa;--r:14px;
+    }
+    body{background:var(--bg);color:var(--text);font-family:'Segoe UI',sans-serif;min-height:100vh;padding-bottom:80px;}
 
-    :root {
-      --bg:       #0d0d1a;
-      --card1:    #1a1a2e;
-      --card2:    #16213e;
-      --accent:   #00d2ff;
-      --red:      #e74c3c;
-      --gold:     #ffd700;
-      --orange:   #e67e22;
-      --text:     #ffffff;
-      --muted:    #aaaaaa;
-      --radius:   16px;
+    .header{background:linear-gradient(90deg,#1a1a2e,#c0392b);padding:13px 16px;text-align:center;
+      font-size:16px;font-weight:900;letter-spacing:2px;position:sticky;top:0;z-index:200;
+      box-shadow:0 2px 12px rgba(0,0,0,.5);}
+
+    .container{max-width:480px;margin:0 auto;padding:12px 12px 0;}
+
+    /* TABS */
+    .tabs{display:flex;gap:6px;margin-bottom:14px;}
+    .tab-btn{flex:1;padding:10px 6px;border:none;border-radius:10px;font-size:13px;font-weight:700;
+      cursor:pointer;background:#1e1e30;color:var(--muted);transition:all .2s;}
+    .tab-btn.active{background:var(--red);color:#fff;}
+    .tab-pane{display:none;}
+    .tab-pane.active{display:block;}
+
+    /* CARDS */
+    .dark-card{background:linear-gradient(135deg,var(--card1),var(--card2));border-radius:var(--r);
+      padding:18px 16px;text-align:center;box-shadow:0 6px 24px rgba(0,0,0,.4);margin-bottom:12px;}
+    .red-card{background:linear-gradient(135deg,#c0392b,#e74c3c);color:#fff;border-radius:var(--r);
+      padding:18px 16px;text-align:center;box-shadow:0 6px 20px rgba(231,76,60,.4);margin-bottom:12px;}
+
+    /* LIVE */
+    .live-label{color:var(--accent);font-size:11px;letter-spacing:2px;}
+    #live-num{font-size:96px;font-weight:900;color:var(--accent);
+      text-shadow:0 0 24px rgba(0,210,255,.5);line-height:1;margin:4px 0 2px;}
+    .live-time{color:var(--muted);font-size:11px;}
+
+    /* RESULTS */
+    .result-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:12px;}
+    .result-box{background:rgba(255,255,255,.07);border-radius:12px;padding:12px 8px;
+      text-align:center;border-left:3px solid transparent;transition:border-color .3s;}
+    .result-box .lbl{font-size:10px;color:var(--muted);margin-bottom:4px;}
+    .result-box .num{font-size:24px;font-weight:900;color:var(--gold);}
+    .result-box.sm .num{font-size:18px;color:#ccc;}
+    .result-box.hl-cyan{border-left-color:var(--accent)!important;}
+    .result-box.hl-gold{border-left-color:var(--gold)!important;}
+
+    /* PREDICTION */
+    .predict-card{background:linear-gradient(135deg,#141e30,#243b55);border-radius:var(--r);
+      padding:14px;border:1px solid rgba(0,210,255,.2);margin-bottom:12px;}
+    .predict-title{color:var(--accent);font-weight:700;font-size:13px;margin-bottom:8px;}
+    .predict-sub{color:#ffcdd2;font-size:11px;margin-bottom:6px;}
+    .predict-sub2{color:#ffe0b2;font-size:11px;margin-bottom:6px;}
+    .num-chips{display:flex;flex-wrap:wrap;gap:4px;margin-bottom:8px;}
+    .chip-main{background:var(--red);color:#fff;padding:7px 12px;border-radius:8px;
+      font-size:18px;font-weight:900;box-shadow:0 2px 6px rgba(231,76,60,.4);}
+    .chip-other{background:var(--orange);color:#fff;padding:5px 10px;border-radius:7px;font-size:15px;}
+    .predict-note{color:#444;font-size:10px;margin-top:4px;}
+    .conf-row{display:flex;align-items:center;gap:8px;margin-bottom:5px;}
+    .conf-num{width:28px;font-size:14px;font-weight:700;color:#fff;text-align:center;}
+    .conf-bar-bg{flex:1;height:8px;background:#1a1a2e;border-radius:4px;overflow:hidden;}
+    .conf-bar{height:100%;border-radius:4px;background:linear-gradient(90deg,var(--red),var(--orange));transition:width .5s;}
+    .conf-pct{width:32px;font-size:11px;color:var(--muted);text-align:right;}
+
+    /* THAI */
+    .thai-first{font-size:48px;font-weight:900;color:var(--gold);margin:8px 0;}
+    .thai-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:8px;}
+    .sub-box{background:rgba(255,255,255,.15);border-radius:10px;padding:8px;font-size:16px;font-weight:700;}
+    .sub-box .lbl2{font-size:10px;opacity:.75;margin-bottom:3px;}
+    .last2-num{font-size:30px;font-weight:900;color:var(--gold);}
+
+    /* CHECK FORM */
+    .check-form{margin-bottom:12px;}
+    .check-form label{color:var(--muted);font-size:12px;margin-bottom:6px;display:block;}
+    .check-form input{width:100%;padding:12px 14px;background:#1e1e30;border:1px solid #333;
+      border-radius:10px;color:#fff;font-size:16px;letter-spacing:2px;outline:none;}
+    .check-form input:focus{border-color:var(--red);}
+    .btn-check{width:100%;padding:13px;margin-top:8px;background:var(--red);color:#fff;border:none;
+      border-radius:10px;font-size:15px;font-weight:700;cursor:pointer;}
+    .btn-check:active{opacity:.7;}
+    .result-win{background:#d4edda;color:#155724;border:1px solid #c3e6cb;border-radius:12px;padding:16px;text-align:center;margin-top:10px;}
+    .result-lose{background:#f8d7da;color:#721c24;border:1px solid #f5c6cb;border-radius:12px;padding:16px;text-align:center;margin-top:10px;}
+    .result-win h3,.result-lose h3{font-size:15px;}
+    .prize-amt{font-size:13px;margin-top:5px;font-weight:600;}
+
+    /* AD */
+    .ad-slot{background:transparent;border-radius:10px;margin:6px 0;text-align:center;overflow:hidden;min-height:0;}
+    .ad-label{font-size:9px;color:#333;padding-top:4px;letter-spacing:1px;}
+
+    /* STATUS */
+    .status-dot{display:inline-block;width:8px;height:8px;border-radius:50%;background:#e74c3c;margin-right:6px;transition:background .3s;}
+    .status-dot.open{background:#2ecc71;animation:blink 1s infinite;}
+    @keyframes blink{0%,100%{opacity:1}50%{opacity:.3}}
+
+    .loading{color:var(--muted);text-align:center;padding:40px;font-size:14px;}
+    .site-footer{text-align:center;color:#333;font-size:10px;margin-top:20px;padding:10px;}
+
+    /* ── CHAT FAB ── */
+    #chat-fab{
+      position:fixed;bottom:20px;right:16px;z-index:9000;
+      background:linear-gradient(135deg,#e74c3c,#c0392b);
+      color:#fff;border:none;border-radius:50px;
+      padding:12px 20px;font-size:14px;font-weight:800;
+      cursor:pointer;box-shadow:0 4px 16px rgba(231,76,60,.5);
+      display:flex;align-items:center;gap:8px;letter-spacing:1px;
+    }
+    #chat-fab:active{transform:scale(.95);}
+    #chat-badge{
+      background:#fff;color:#e74c3c;border-radius:50%;
+      width:20px;height:20px;font-size:11px;font-weight:900;
+      display:flex;align-items:center;justify-content:center;
     }
 
-    body {
-      background: var(--bg);
-      color: var(--text);
-      font-family: 'Segoe UI', sans-serif;
-      min-height: 100vh;
-      padding-bottom: 30px;
+    /* ── CHAT PANEL ── */
+    #chat-panel{
+      position:fixed;bottom:0;left:0;right:0;z-index:9001;
+      max-width:480px;margin:0 auto;
+      background:#0d0d1a;border-radius:20px 20px 0 0;
+      box-shadow:0 -4px 24px rgba(0,0,0,.6);
+      display:flex;flex-direction:column;
+      transform:translateY(100%);
+      transition:transform .3s cubic-bezier(.4,0,.2,1);
+      height:88vh;max-height:640px;
+    }
+    #chat-panel.open{transform:translateY(0);}
+    .chat-handle{width:40px;height:4px;background:#333;border-radius:2px;margin:10px auto 0;}
+
+    /* chat live banner */
+    .chat-live-banner{
+      background:linear-gradient(135deg,#1a1a2e,#0f3460);
+      margin:10px 12px 0;border-radius:12px;padding:10px 14px;
+      display:flex;align-items:center;justify-content:space-between;
+      border:1px solid rgba(0,210,255,.2);flex-shrink:0;
+    }
+    .clb-left{display:flex;align-items:center;gap:10px;}
+    .clb-dot{width:8px;height:8px;border-radius:50%;background:#e74c3c;}
+    .clb-dot.open{background:#2ecc71;animation:blink 1s infinite;}
+    .clb-label{font-size:10px;color:#aaa;line-height:1.4;}
+    .clb-label strong{color:#00d2ff;font-size:13px;display:block;}
+    .clb-num-big{font-size:38px;font-weight:900;color:#00d2ff;text-shadow:0 0 12px rgba(0,210,255,.4);line-height:1;}
+    .clb-results{display:flex;gap:10px;}
+    .clb-r{text-align:center;}
+    .clb-r .t{font-size:9px;color:#555;}
+    .clb-r .n{font-size:15px;font-weight:700;color:var(--gold);}
+
+    /* chat header */
+    .chat-header{display:flex;align-items:center;justify-content:space-between;
+      padding:10px 14px 8px;border-bottom:1px solid #1a1a2e;flex-shrink:0;}
+    .chat-header-title{font-size:14px;font-weight:700;color:#fff;display:flex;align-items:center;gap:6px;}
+    .online-count{font-size:11px;color:#2ecc71;}
+    #chat-close{background:none;border:none;color:#666;font-size:22px;cursor:pointer;padding:0 4px;}
+
+    /* messages */
+    #chat-messages{flex:1;overflow-y:auto;padding:10px 12px;display:flex;flex-direction:column;gap:8px;}
+    #chat-messages::-webkit-scrollbar{width:4px;}
+    #chat-messages::-webkit-scrollbar-thumb{background:#222;border-radius:2px;}
+    .msg-row{display:flex;gap:8px;align-items:flex-end;}
+    .msg-row.mine{flex-direction:row-reverse;}
+    .msg-avatar{width:28px;height:28px;border-radius:50%;background:linear-gradient(135deg,#e74c3c,#c0392b);
+      display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:700;flex-shrink:0;color:#fff;}
+    .msg-avatar.mine-av{background:linear-gradient(135deg,#00d2ff,#0070a8);}
+    .msg-bubble{max-width:72%;padding:8px 12px;border-radius:14px;font-size:13px;
+      line-height:1.45;word-break:break-word;background:#1a1a2e;color:#fff;border-bottom-left-radius:4px;}
+    .msg-row.mine .msg-bubble{background:linear-gradient(135deg,#e74c3c,#c0392b);
+      border-bottom-left-radius:14px;border-bottom-right-radius:4px;}
+    .msg-name{font-size:10px;color:#555;margin-bottom:3px;}
+    .msg-time{font-size:9px;color:#333;margin-top:3px;}
+    .msg-system{text-align:center;font-size:11px;color:#444;padding:4px 0;}
+
+    /* input bar */
+    .chat-input-bar{display:flex;gap:8px;padding:10px 12px;border-top:1px solid #1a1a2e;flex-shrink:0;background:#0d0d1a;}
+    #chat-name-input{width:76px;padding:8px 10px;background:#1a1a2e;border:1px solid #2a2a3e;
+      border-radius:8px;color:#fff;font-size:12px;outline:none;flex-shrink:0;}
+    #chat-msg-input{flex:1;padding:8px 12px;background:#1a1a2e;border:1px solid #2a2a3e;
+      border-radius:8px;color:#fff;font-size:13px;outline:none;}
+    #chat-name-input:focus,#chat-msg-input:focus{border-color:#e74c3c;}
+    #chat-send{background:var(--red);border:none;border-radius:8px;color:#fff;
+      padding:8px 14px;font-size:16px;cursor:pointer;flex-shrink:0;}
+    #chat-send:active{opacity:.7;}
+
+    /* ── WATCH AD UNLOCK ── */
+    .btn-watch-ad{
+      background:linear-gradient(135deg,#e74c3c,#e67e22);
+      color:#fff;border:none;border-radius:12px;
+      padding:13px 28px;font-size:15px;font-weight:800;
+      cursor:pointer;letter-spacing:1px;
+      box-shadow:0 4px 16px rgba(231,76,60,.4);
+      width:100%;
+    }
+    .btn-watch-ad:active{opacity:.8;}
+    #pred-unlocked-badge{
+      display:inline-block;background:#2ecc71;color:#fff;
+      font-size:10px;font-weight:700;padding:2px 8px;
+      border-radius:20px;margin-left:6px;vertical-align:middle;
     }
 
-    /* ── HEADER ── */
-    .header {
-      background: linear-gradient(90deg, #1a1a2e, #c0392b);
-      padding: 14px 16px;
-      text-align: center;
-      font-size: 16px;
-      font-weight: 900;
-      letter-spacing: 2px;
-      position: sticky;
-      top: 0;
-      z-index: 100;
-      box-shadow: 0 2px 12px rgba(0,0,0,.5);
-    }
-
-    .container { max-width: 480px; margin: 0 auto; padding: 12px 12px 0; }
-
-    /* ── TABS ── */
-    .tabs { display: flex; gap: 6px; margin-bottom: 14px; }
-    .tab-btn {
-      flex: 1; padding: 10px 6px; border: none; border-radius: 10px;
-      font-size: 13px; font-weight: 700; cursor: pointer;
-      background: #1e1e30; color: var(--muted);
-      transition: all .2s;
-    }
-    .tab-btn.active { background: var(--red); color: #fff; }
-
-    .tab-pane { display: none; }
-    .tab-pane.active { display: block; }
-
-    /* ── CARDS ── */
-    .dark-card {
-      background: linear-gradient(135deg, var(--card1), var(--card2));
-      border-radius: var(--radius);
-      padding: 20px 16px;
-      text-align: center;
-      box-shadow: 0 6px 24px rgba(0,0,0,.4);
-      margin-bottom: 12px;
-    }
-
-    .red-card {
-      background: linear-gradient(135deg, #c0392b, #e74c3c);
-      border-radius: var(--radius);
-      padding: 20px 16px;
-      text-align: center;
-      box-shadow: 0 6px 20px rgba(231,76,60,.4);
-      margin-bottom: 12px;
-    }
-
-    .live-num {
-      font-size: 90px; font-weight: 900; color: var(--accent);
-      text-shadow: 0 0 24px rgba(0,210,255,.5);
-      line-height: 1; margin: 6px 0 4px;
-    }
-    .live-label { color: var(--accent); font-size: 11px; letter-spacing: 2px; }
-    .live-time  { color: var(--muted); font-size: 11px; margin-top: 2px; }
-
-    /* ── RESULT GRID ── */
-    .result-grid {
-      display: grid; grid-template-columns: 1fr 1fr;
-      gap: 10px; margin-bottom: 12px;
-    }
-    .result-box {
-      background: rgba(255,255,255,.07);
-      border-radius: 12px; padding: 12px 8px; text-align: center;
-    }
-    .result-box .lbl { font-size: 10px; color: var(--muted); margin-bottom: 4px; }
-    .result-box .num { font-size: 24px; font-weight: 900; color: var(--gold); }
-    .result-box.sm .num { font-size: 18px; color: #ccc; }
-
-    /* ── PREDICT ── */
-    .predict-card {
-      background: linear-gradient(135deg, #141e30, #243b55);
-      border-radius: var(--radius);
-      padding: 14px;
-      border: 1px solid rgba(0,210,255,.2);
-      margin-bottom: 12px;
-    }
-    .predict-title { color: var(--accent); font-weight: 700; font-size: 13px; margin-bottom: 10px; }
-    .predict-sub   { color: #ffcdd2; font-size: 11px; margin-bottom: 6px; }
-    .predict-sub2  { color: #ffe0b2; font-size: 11px; margin-bottom: 6px; }
-    .num-chips { display: flex; flex-wrap: wrap; gap: 4px; margin-bottom: 10px; }
-    .chip-main {
-      background: var(--red); color: #fff;
-      padding: 7px 12px; border-radius: 8px;
-      font-size: 18px; font-weight: 900;
-      box-shadow: 0 2px 6px rgba(231,76,60,.4);
-    }
-    .chip-other {
-      background: var(--orange); color: #fff;
-      padding: 5px 10px; border-radius: 7px; font-size: 15px;
-    }
-    .predict-note { color: #444; font-size: 10px; margin-top: 4px; }
-
-    /* ── THAI CARD ── */
-    .thai-first { font-size: 48px; font-weight: 900; color: var(--gold); margin: 8px 0; }
-    .thai-grid  { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; margin-bottom: 8px; }
-    .sub-box {
-      background: rgba(255,255,255,.15);
-      border-radius: 10px; padding: 8px;
-      font-size: 16px; font-weight: 700;
-    }
-    .sub-box .lbl2 { font-size: 10px; opacity: .75; margin-bottom: 3px; }
-    .last2-num { font-size: 30px; font-weight: 900; color: var(--gold); }
-
-    /* ── CHECK FORM ── */
-    .check-form { margin-bottom: 12px; }
-    .check-form input {
-      width: 100%; padding: 12px 14px;
-      background: #1e1e30; border: 1px solid #333;
-      border-radius: 10px; color: #fff;
-      font-size: 16px; letter-spacing: 2px;
-      outline: none;
-    }
-    .check-form input:focus { border-color: var(--red); }
-    .check-form label { color: var(--muted); font-size: 12px; margin-bottom: 6px; display: block; }
-    .btn-check {
-      width: 100%; padding: 13px; margin-top: 8px;
-      background: var(--red); color: #fff; border: none;
-      border-radius: 10px; font-size: 15px; font-weight: 700;
-      cursor: pointer; transition: opacity .2s;
-    }
-    .btn-check:hover { opacity: .85; }
-    .btn-check:active { opacity: .7; }
-
-    .result-win  { background: #d4edda; color: #155724; border: 1px solid #c3e6cb; border-radius: 12px; padding: 16px; text-align: center; margin-top: 10px; }
-    .result-lose { background: #f8d7da; color: #721c24; border: 1px solid #f5c6cb; border-radius: 12px; padding: 16px; text-align: center; margin-top: 10px; }
-    .result-win h3, .result-lose h3 { font-size: 15px; }
-    .prize-amt { font-size: 13px; margin-top: 5px; font-weight: 600; }
-
-    /* ── AD SLOT ── */
-    .ad-slot {
-      background: #1a1a2a; border-radius: 10px;
-      margin: 10px 0; min-height: 90px;
-      text-align: center; overflow: hidden;
-    }
-    .ad-label { font-size: 9px; color: #444; padding-top: 4px; letter-spacing: 1px; }
-
-    /* ── STATUS ── */
-    .status-dot { display: inline-block; width: 8px; height: 8px; border-radius: 50%; background: #2ecc71; margin-right: 6px; animation: blink 1s infinite; }
-    @keyframes blink { 0%,100%{opacity:1} 50%{opacity:.3} }
-
-    /* ── LOADING ── */
-    .loading { color: var(--muted); text-align: center; padding: 40px; font-size: 14px; }
-
-    /* ── FOOTER ── */
-    .site-footer { text-align: center; color: #333; font-size: 10px; margin-top: 20px; padding: 10px; }
   </style>
 </head>
 <body>
 
-<div class="header">
-  🎰 MYANMAR 2D &amp; THAI 3D PRO
-</div>
-
-<!-- ── AdSense Top Banner ── -->
-<div class="container">
-  <div class="ad-slot">
-    <div class="ad-label">ADVERTISEMENT</div>
-    <ins class="adsbygoogle"
-         style="display:block"
-         data-ad-client="ca-pub-1188893611988786"
-         data-ad-slot="4661284094"
-         data-ad-format="auto"
-         data-full-width-responsive="true"></ins>
-    <script>(adsbygoogle = window.adsbygoogle || []).push({});</script>
-  </div>
-</div>
+<div class="header">🎰 MYANMAR 2D &amp; THAI 3D PRO</div>
 
 <div class="container">
 
-  <!-- TABS -->
   <div class="tabs">
-    <button class="tab-btn active" onclick="switchTab('2d')">📡 2D Live</button>
-    <button class="tab-btn"        onclick="switchTab('3d')">🇹🇭 ထိုင်းထီ</button>
+    <button class="tab-btn active" onclick="switchTab('2d',this)">📡 2D Live</button>
+    <button class="tab-btn"        onclick="switchTab('3d',this)">🇹🇭 ထိုင်းထီ</button>
   </div>
 
-  <!-- ════════════ TAB: 2D LIVE ════════════ -->
+  <!-- TAB 2D -->
   <div class="tab-pane active" id="tab-2d">
 
-    <div id="live-card" class="dark-card">
-      <div class="live-label"><span class="status-dot"></span>LIVE 2D REAL-TIME / မြန်မာ ၂ဂဏန်း</div>
-      <div class="live-num" id="live-num">--</div>
+    <div class="dark-card">
+      <div class="live-label">
+        <span class="status-dot" id="sdot"></span>
+        LIVE 2D REAL-TIME / မြန်မာ ၂ဂဏန်း
+      </div>
+      <div id="live-num">--</div>
       <div class="live-time" id="live-time">Loading...</div>
     </div>
 
     <div class="result-grid">
-      <div class="result-box">
-        <div class="lbl">🕛 12:01 PM / နေ့လည် / เที่ยง</div>
+      <div class="result-box" id="box1201">
+        <div class="lbl">🕛 12:01 PM / နေ့လည်</div>
         <div class="num" id="t1201">--</div>
       </div>
-      <div class="result-box">
-        <div class="lbl">🕟 04:30 PM / ညနေ / บ่าย</div>
+      <div class="result-box" id="box1630">
+        <div class="lbl">🕟 04:30 PM / ညနေ</div>
         <div class="num" id="t1630">--</div>
       </div>
-      <div class="result-box sm">
-        <div class="lbl">🕘 09:30 AM / မနက် / เช้า</div>
+      <div class="result-box sm" id="box0930">
+        <div class="lbl">🕘 09:30 AM / မနက်</div>
         <div class="num" id="t0930">--</div>
       </div>
-      <div class="result-box sm">
-        <div class="lbl">🕑 02:00 PM / နေ့ / กลางวัน</div>
+      <div class="result-box sm" id="box1400">
+        <div class="lbl">🕑 02:00 PM / နေ့</div>
         <div class="num" id="t1400">--</div>
       </div>
     </div>
 
-    <!-- AdSense Mid -->
+    <!-- Mid Ad -->
     <div class="ad-slot">
       <div class="ad-label">ADVERTISEMENT</div>
-      <ins class="adsbygoogle"
-         style="display:block"
-         data-ad-client="ca-pub-1188893611988786"
-         data-ad-slot="4661284094"
-         data-ad-format="auto"
-         data-full-width-responsive="true"></ins>
-    <script>(adsbygoogle = window.adsbygoogle || []).push({});</script>
+      <ins class="adsbygoogle" style="display:block"
+           data-ad-client="ca-pub-1188893611988786"
+           data-ad-slot="4661284094"
+           data-ad-format="auto"
+           data-full-width-responsive="true"
+                 data-adtest="on"></ins>
+      <script>(adsbygoogle = window.adsbygoogle || []).push({});</script>
     </div>
 
-    <div class="predict-card">
-      <div class="predict-title">🤖 AI Smart Prediction — <span id="pred-date">--/--/----</span></div>
-      <div class="predict-sub">🔥 MAIN 5 — อันดับหลัก / အဓိကဂဏန်း</div>
-      <div class="num-chips" id="main5"></div>
-      <div class="predict-sub2">📌 Other 5 — เลขรอง / ဖြည့်စွက်</div>
-      <div class="num-chips" id="other5"></div>
-      <div class="predict-note">* History cold-number + pattern analysis</div>
+    <!-- AI Prediction — Watch Ad to Unlock -->
+    <div class="predict-card" id="predict-section" style="display:none;">
+      <div class="predict-title">🤖 AI Prediction — <span id="pred-date">--/--/----</span></div>
+
+      <!-- LOCKED STATE -->
+      <div id="pred-locked">
+        <div style="text-align:center;padding:18px 10px;">
+          <div style="font-size:36px;margin-bottom:8px;">🔒</div>
+          <p style="color:#aaa;font-size:13px;margin-bottom:14px;">
+            AI ဂဏန်းကြည့်ရန် ကြော်ငြာတစ်ပုဒ် ကြည့်ပါ
+          </p>
+          <button class="btn-watch-ad" onclick="watchAdUnlock()">
+            ▶ Watch Ad — ဂဏန်းကြည့်မည်
+          </button>
+          <p style="color:#444;font-size:10px;margin-top:8px;">
+            * ၁ ကြိမ် ကြည့်ရင် ဒီနေ့တစ်နေ့လုံး unlock ဖြစ်မည်
+          </p>
+        </div>
+      </div>
+
+      <!-- AD PLAYING STATE -->
+      <div id="pred-ad-playing" style="display:none;">
+        <div style="text-align:center;padding:20px 10px;">
+          <div style="font-size:28px;margin-bottom:8px;">📺</div>
+          <p style="color:#00d2ff;font-size:13px;margin-bottom:12px;">ကြော်ငြာ ကြည့်နေသည်...</p>
+          <!-- AdSense / rewarded ad placeholder -->
+          <div id="ad-countdown-bar" style="background:#1a1a2e;border-radius:8px;height:6px;margin:0 20px 10px;overflow:hidden;">
+            <div id="ad-progress" style="width:0%;height:100%;background:linear-gradient(90deg,#e74c3c,#e67e22);transition:width .1s;border-radius:8px;"></div>
+          </div>
+          <p id="ad-countdown-txt" style="color:#aaa;font-size:12px;">⏳ <span id="ad-sec">15</span> စက္ကန့် ကျန်သည်</p>
+          <!-- Real AdSense inline ad shown during countdown -->
+          <div style="margin-top:10px;">
+            <ins class="adsbygoogle"
+                 style="display:block"
+                 data-ad-client="ca-pub-1188893611988786"
+                 data-ad-slot="4661284094"
+                 data-ad-format="auto"
+                 data-full-width-responsive="true"
+                 data-adtest="on"></ins>
+            <script>(adsbygoogle = window.adsbygoogle || []).push({});</script>
+          </div>
+        </div>
+      </div>
+
+      <!-- UNLOCKED STATE -->
+      <div id="pred-unlocked" style="display:none;">
+        <div class="predict-sub">🔥 MAIN 5 — အဓိကဂဏန်း</div>
+        <div id="main5-bars"></div>
+        <div class="predict-sub2" style="margin-top:8px;">📌 Other 5 — ဖြည့်စွက်</div>
+        <div class="num-chips" id="other5"></div>
+        <div class="predict-note">* Hot/Cold + Digit-sum + Pattern analysis</div>
+        <div style="text-align:right;margin-top:6px;">
+          <span style="font-size:10px;color:#333;" id="unlock-expires"></span>
+        </div>
+      </div>
     </div>
 
   </div>
 
-  <!-- ════════════ TAB: THAI 3D ════════════ -->
+  <!-- TAB THAI 3D -->
   <div class="tab-pane" id="tab-3d">
 
     <div id="thai-card" class="red-card">
-      <div class="loading">Loading Thai lottery...</div>
+      <div class="loading">Loading...</div>
     </div>
 
     <div class="check-form">
       <label>ตรวจหวย / ဂဏန်း ၆ လုံး ရိုက်ပါ</label>
-      <input type="number" id="check-input" placeholder="ဥပမာ / เช่น: 603456" maxlength="6">
+      <input type="number" id="check-input" placeholder="เช่น: 603456" maxlength="6">
       <button class="btn-check" onclick="checkThai()">🎯 ตรวจรางวัล / တိုက်မည်</button>
     </div>
-
     <div id="check-result"></div>
 
-    <!-- AdSense Bottom -->
+    <!-- Bottom Ad -->
     <div class="ad-slot">
       <div class="ad-label">ADVERTISEMENT</div>
-      <ins class="adsbygoogle"
-         style="display:block"
-         data-ad-client="ca-pub-1188893611988786"
-         data-ad-slot="4661284094"
-         data-ad-format="auto"
-         data-full-width-responsive="true"></ins>
-    <script>(adsbygoogle = window.adsbygoogle || []).push({});</script>
+      <ins class="adsbygoogle" style="display:block"
+           data-ad-client="ca-pub-1188893611988786"
+           data-ad-slot="4661284094"
+           data-ad-format="auto"
+           data-full-width-responsive="true"
+                 data-adtest="on"></ins>
+      <script>(adsbygoogle = window.adsbygoogle || []).push({});</script>
     </div>
 
   </div>
@@ -309,228 +357,524 @@
   <div class="site-footer">© psonline.shop — Myanmar 2D &amp; Thai 3D Pro</div>
 </div>
 
-<script>
-// ══════════════════════════════════════════
-//  CONFIG
-// ══════════════════════════════════════════
-const API_2D  = 'https://api.thaistock2d.com/live';
-const API_3D  = 'https://lotto.api.rayriffy.com/latest';
+<!-- CHAT FAB -->
+<button id="chat-fab" onclick="toggleChat()">
+  💬 CHAT <span id="chat-badge">●</span>
+</button>
 
-const PRIZE_LABELS = {
-  prizeFirst:     'รางวัลที่ 1 / ပထမဆုကြီး',
-  prizeFirstNear: 'รางวัลข้างเคียง / ပထမနီးဆု',
-  prizeSecond:    'รางวัลที่ 2 / ဒုတိယဆု',
-  prizeThrid:     'รางวัลที่ 3 / တတိယဆု',
-  prizeForth:     'รางวัลที่ 4 / စတုတ္ထဆု',
-  prizeFifth:     'รางวัลที่ 5 / ပဉ္စမဆု',
-};
-
-// ══════════════════════════════════════════
-//  TABS
-// ══════════════════════════════════════════
-function switchTab(t) {
-  document.querySelectorAll('.tab-pane').forEach(p => p.classList.remove('active'));
-  document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
-  document.getElementById('tab-' + t).classList.add('active');
-  event.currentTarget.classList.add('active');
-  if (t === '3d' && !window._3dLoaded) { loadThai3D(); window._3dLoaded = true; }
-}
-
-// ══════════════════════════════════════════
-//  PREDICTION (same logic as Python)
-// ══════════════════════════════════════════
-function smartPredict(results, liveNum) {
-  const base = parseInt(liveNum) || 64;
-  const history = results.map(r => r.twod).filter(n => n && n !== '--');
-  const recent20 = history.slice(-20);
-  const freq = {};
-  history.slice(-50).forEach(n => { freq[n] = (freq[n]||0)+1; });
-
-  const allNums = Array.from({length:100}, (_,i) => String(i).padStart(2,'0'));
-  const recentSet = new Set(recent20);
-  let cold = allNums.filter(n => !recentSet.has(n)).sort((a,b) => (freq[a]||0)-(freq[b]||0)).slice(0,15);
-
-  const pattern = [7,11,13,17,23,29,33].map(s => String((base+s)%100).padStart(2,'0'));
-
-  function dw(n) { return [7,8,9,16,17,18].includes(+n[0]+ +n[1]) ? 1 : 0; }
-  let candidates = [];
-  cold.forEach(n => pattern.includes(n) ? candidates.unshift(n) : candidates.push(n));
-  candidates.sort((a,b) => dw(b)-dw(a));
-
-  const final = []; const seen = new Set();
-  [...candidates, ...pattern, ...cold].forEach(n => {
-    if (!seen.has(n) && final.length < 10) { final.push(n); seen.add(n); }
-  });
-  let i = 0;
-  while (final.length < 10) {
-    const n = String((base + i*7)%100).padStart(2,'0');
-    if (!seen.has(n)) { final.push(n); seen.add(n); }
-    i++;
-  }
-  return { main5: final.slice(0,5), other5: final.slice(5,10) };
-}
-
-// ══════════════════════════════════════════
-//  2D LIVE
-// ══════════════════════════════════════════
-async function load2D() {
-  try {
-    const res  = await fetch(API_2D);
-    const data = await res.json();
-    const results = data.result || [];
-
-    let live = data.live && data.live.twod;
-    if (!live || live === '--') {
-      const valid = results.filter(r => r.twod && r.twod !== '--');
-      live = valid.length ? valid[valid.length-1].twod : '64';
-    }
-
-    document.getElementById('live-num').textContent = live;
-    document.getElementById('live-time').textContent = new Date().toLocaleTimeString('en-US', {hour:'2-digit',minute:'2-digit',second:'2-digit'});
-
-    const getT = t => (results.find(r => (r.open_time||'').includes(t)) || {twod:'--'}).twod;
-    document.getElementById('t0930').textContent = getT('09:30');
-    document.getElementById('t1201').textContent = getT('12:01');
-    document.getElementById('t1400').textContent = getT('15:00');
-    document.getElementById('t1630').textContent = getT('16:30');
-
-    const today = new Date().toLocaleDateString('en-GB');
-    document.getElementById('pred-date').textContent = today;
-
-    const { main5, other5 } = smartPredict(results, live);
-    document.getElementById('main5').innerHTML  = main5.map(n  => `<span class="chip-main">${n}</span>`).join('');
-    document.getElementById('other5').innerHTML = other5.map(n => `<span class="chip-other">${n}</span>`).join('');
-
-  } catch(e) {
-    document.getElementById('live-num').textContent = '⚠️';
-    document.getElementById('live-time').textContent = 'API Error: ' + e.message;
-  }
-}
-
-// ══════════════════════════════════════════
-//  THAI 3D DISPLAY
-// ══════════════════════════════════════════
-let _thaiData = null;
-
-async function loadThai3D() {
-  document.getElementById('thai-card').innerHTML = "<div class='loading'>Loading...</div>";
-  try {
-    const res  = await fetch(API_3D);
-    const data = await res.json();
-    _thaiData = data.response;
-
-    const prizes  = _thaiData.prizes;
-    const runNums = _thaiData.runningNumbers;
-    const first   = prizes[0].number[0];
-    const front3  = runNums[0].number;
-    const last3   = runNums[1].number;
-    const last2   = runNums[2].number[0];
-
-    document.getElementById('thai-card').innerHTML = `
-      <p style="font-size:12px;font-weight:700;letter-spacing:1px;margin:0;">
-        🇹🇭 ผลสลากกินแบ่งรัฐบาล / ထိုင်းထီရလဒ်</p>
-      <div class="thai-first">${first}</div>
-      <div class="thai-grid">
-        <div class="sub-box">
-          <div class="lbl2">เลขหน้า 3 ตัว / အရှေ့ ၃ လုံး</div>
-          ${front3.join(', ')}
-        </div>
-        <div class="sub-box">
-          <div class="lbl2">เลขท้าย 3 ตัว / အနောက် ၃ လုံး</div>
-          ${last3.join(', ')}
-        </div>
+<!-- CHAT PANEL -->
+<div id="chat-panel">
+  <div class="chat-handle"></div>
+  <div class="chat-live-banner">
+    <div class="clb-left">
+      <div class="clb-dot" id="clb-dot"></div>
+      <div class="clb-label">
+        <strong id="clb-num">--</strong>
+        LIVE 2D / မြန်မာ ၂ဂဏန်း
       </div>
-      <div class="sub-box">
-        <div class="lbl2">เลขท้าย 2 ตัว / အောက် ၂ လုံး</div>
-        <span class="last2-num">${last2}</span>
-      </div>`;
-  } catch(e) {
-    document.getElementById('thai-card').innerHTML =
-      `<p style="color:#ffcdd2;">⚠️ ထိုင်းထီ ဒေတာ ရယူမရပါ<br><small>${e.message}</small></p>`;
-  }
-}
+    </div>
+    <div style="display:flex;align-items:center;">
+      <div class="clb-num-big" id="clb-big">--</div>
+    </div>
+    <div class="clb-results">
+      <div class="clb-r"><div class="t">12:01</div><div class="n" id="clb-1201">--</div></div>
+      <div class="clb-r"><div class="t">16:30</div><div class="n" id="clb-1630">--</div></div>
+    </div>
+  </div>
+  <div class="chat-header">
+    <div class="chat-header-title">
+      💬 Live Chat
+      <span class="online-count" id="online-count">● online</span>
+    </div>
+    <button id="chat-close" onclick="toggleChat()">✕</button>
+  </div>
+  <div id="chat-messages">
+    <div class="msg-system">— psonline.shop live chat —</div>
+  </div>
+  <div class="chat-input-bar">
+    <input id="chat-name-input" type="text" placeholder="နာမည်" maxlength="12">
+    <input id="chat-msg-input"  type="text" placeholder="စာရိုက်ပါ..." maxlength="120">
+    <button id="chat-send" onclick="sendMsg()">➤</button>
+  </div>
+</div>
 
-// ══════════════════════════════════════════
-//  THAI 3D CHECK
-// ══════════════════════════════════════════
-function checkThai() {
-  const myNum = document.getElementById('check-input').value.trim();
-  const out   = document.getElementById('check-result');
-  out.innerHTML = '';
-
-  if (!myNum || myNum.length < 2) {
-    out.innerHTML = '<div class="result-lose"><h3>⚠️ ဂဏန်း ရိုက်ထည့်ပါ</h3></div>';
-    return;
-  }
-  if (!_thaiData) {
-    out.innerHTML = '<div class="result-lose"><h3>⚠️ ဒေတာ မရသေးပါ — ခဏစောင့်ပါ</h3></div>';
-    loadThai3D();
-    return;
-  }
-
-  const prizes  = _thaiData.prizes;
-  const runNums = _thaiData.runningNumbers;
-  const front3  = runNums[0].number;
-  const last3   = runNums[1].number;
-  const last2   = runNums[2].number[0];
-
-  let winMsg = ''; let prizeAmt = '';
-
-  // Full number prizes
-  for (const p of prizes) {
-    if ((p.number || []).includes(myNum)) {
-      const lbl = PRIZE_LABELS[p.id] || p.id;
-      const amt = parseInt(p.reward||0).toLocaleString();
-      winMsg   = `🎊 ${lbl} ပေါက်ပါတယ်! / ถูกรางวัล!`;
-      prizeAmt = `💰 ฿${amt} / ဆုငွေ`;
-      break;
-    }
-  }
-
-  const getRR = i => { try { return parseInt(runNums[i].reward||0).toLocaleString(); } catch{ return '4,000'; } };
-
-  if (!winMsg) {
-    if (myNum.length >= 3 && last3.includes(myNum.slice(-3))) {
-      winMsg   = '🎉 เลขท้าย 3 ตัว / အနောက် ၃ လုံး ပေါက်!';
-      prizeAmt = `💰 ฿${getRR(1)}`;
-    } else if (myNum.length >= 3 && front3.includes(myNum.slice(0,3))) {
-      winMsg   = '🎉 เลขหน้า 3 ตัว / အရှေ့ ၃ လုံး ပေါက်!';
-      prizeAmt = `💰 ฿${getRR(0)}`;
-    } else if (myNum.length >= 2 && myNum.slice(-2) === last2) {
-      winMsg   = '🎉 เลขท้าย 2 ตัว / အောက် ၂ လုံး ပေါက်!';
-      prizeAmt = `💰 ฿${getRR(2)}`;
-    } else {
-      winMsg = '😢 ไม่ถูกรางวัล / မပေါက်ပါဘူး';
-    }
-  }
-
-  const won = !winMsg.includes('မပေါက်');
-  out.innerHTML = `
-    <div class="${won ? 'result-win' : 'result-lose'}">
-      <h3>${winMsg}</h3>
-      ${prizeAmt ? `<div class="prize-amt">${prizeAmt}</div>` : ''}
-    </div>`;
-}
-
-// Enter key support
-document.getElementById('check-input').addEventListener('keydown', e => {
-  if (e.key === 'Enter') checkThai();
-});
-
-// ══════════════════════════════════════════
-//  INIT
-// ══════════════════════════════════════════
-load2D();
-setInterval(load2D, 5000);   // 5s auto-refresh
-</script>
-
-<!-- Google tag (gtag.js) — Consent update for CMP -->
+<!-- gtag -->
 <script async src="https://www.googletagmanager.com/gtag/js?id=ca-pub-1188893611988786"></script>
 <script>
   window.dataLayer = window.dataLayer || [];
   function gtag(){dataLayer.push(arguments);}
   gtag('js', new Date());
   gtag('config', 'ca-pub-1188893611988786');
+</script>
+
+<!-- ════════════════════════════════════════════
+     MAIN SCRIPT
+════════════════════════════════════════════ -->
+<script>
+// ── APIs ──
+const API_2D = 'https://api.thaistock2d.com/live';
+const API_3D = 'https://lotto.api.rayriffy.com/latest';
+
+const PRIZE_LABELS = {
+  prizeFirst:'รางวัลที่ 1 / ပထမဆုကြီး',
+  prizeFirstNear:'รางวัลข้างเคียง / ပထမနီးဆု',
+  prizeSecond:'รางวัลที่ 2 / ဒုတိယဆု',
+  prizeThrid:'รางวัลที่ 3 / တတိယဆု',
+  prizeForth:'รางวัลที่ 4 / စတုတ္ထဆု',
+  prizeFifth:'รางวัลที่ 5 / ပဉ္စမဆု',
+};
+
+// ── Myanmar Time UTC+6:30 ──
+function mmNow(){
+  return new Date(Date.now() + new Date().getTimezoneOffset()*60000 + 6.5*3600000);
+}
+function mmT(){ const m=mmNow(); return m.getHours()*60+m.getMinutes(); }
+function mmDate(){
+  const m=mmNow();
+  return String(m.getDate()).padStart(2,'0')+'/'+String(m.getMonth()+1).padStart(2,'0')+'/'+m.getFullYear();
+}
+function isStockOpen(){ const t=mmT(); return (t>=570&&t<=722)||(t>=780&&t<=991); }
+function showPred(){ return mmNow().getHours()>=8; }
+
+// ── Tabs ──
+function switchTab(id,btn){
+  document.querySelectorAll('.tab-pane').forEach(p=>p.classList.remove('active'));
+  document.querySelectorAll('.tab-btn').forEach(b=>b.classList.remove('active'));
+  document.getElementById('tab-'+id).classList.add('active');
+  btn.classList.add('active');
+  if(id==='3d'&&!window._3dLoaded){ loadThai3D(); window._3dLoaded=true; }
+}
+
+// ── Live Flicker ──
+let _real='--', _flickTimer=null;
+
+function startFlicker(){
+  if(_flickTimer) return;
+  const el=document.getElementById('live-num');
+  let tick=0;
+  _flickTimer=setInterval(()=>{
+    tick++;
+    if(tick%20<18){
+      el.textContent=String(Math.floor(Math.random()*100)).padStart(2,'0');
+      el.style.color='rgba(255,255,255,0.3)';
+      el.style.textShadow='none';
+    } else {
+      el.textContent=_real;
+      el.style.color='#00d2ff';
+      el.style.textShadow='0 0 24px rgba(0,210,255,.5)';
+    }
+  },100);
+}
+
+function stopFlicker(){
+  if(_flickTimer){ clearInterval(_flickTimer); _flickTimer=null; }
+  const el=document.getElementById('live-num');
+  el.textContent=_real;
+  el.style.color='#00d2ff';
+  el.style.textShadow='0 0 24px rgba(0,210,255,.5)';
+}
+
+// ── AI Prediction ──
+function smartPredict(results, liveNum){
+  const history=results.map(r=>r.twod).filter(n=>n&&n!=='--'&&/^\d{2}$/.test(n));
+  const base=parseInt(liveNum)||64;
+  const total=history.length||1;
+  const score={};
+  for(let i=0;i<100;i++) score[String(i).padStart(2,'0')]=0;
+
+  const freq={};
+  history.forEach(n=>{ freq[n]=(freq[n]||0)+1; });
+  for(let i=0;i<100;i++){
+    const n=String(i).padStart(2,'0');
+    score[n]+=(1-(freq[n]||0)/total)*40;
+  }
+  const r30=new Set(history.slice(-30)), r10=new Set(history.slice(-10));
+  for(const n of Object.keys(score)){
+    if(!r10.has(n)) score[n]+=25;
+    else if(!r30.has(n)) score[n]+=10;
+    const s=+n[0]+ +n[1];
+    if([7,8,9].includes(s)) score[n]+=20;
+    else if([6,10,11].includes(s)) score[n]+=12;
+    else if([16,17,18].includes(s)) score[n]+=15;
+  }
+  [7,11,13,17,23,29].forEach((st,i)=>{
+    const n=String((base+st)%100).padStart(2,'0');
+    score[n]+=(6-i)*5;
+  });
+  const mirror=String(base).padStart(2,'0');
+  const rev=mirror[1]+mirror[0];
+  if(score[rev]!==undefined) score[rev]+=15;
+
+  const ranked=Object.entries(score).sort((a,b)=>b[1]-a[1]);
+  const main5=ranked.slice(0,5).map(e=>e[0]);
+  const other5=ranked.slice(5,10).map(e=>e[0]);
+  const maxS=ranked[0][1];
+  const conf5=main5.map(n=>Math.round((score[n]/maxS)*100));
+  return {main5,other5,conf5};
+}
+
+function renderPrediction(main5,other5,conf5){
+  document.getElementById('main5-bars').innerHTML=main5.map((n,i)=>`
+    <div class="conf-row">
+      <div class="conf-num">${n}</div>
+      <div class="conf-bar-bg"><div class="conf-bar" style="width:${conf5[i]}%"></div></div>
+      <div class="conf-pct">${conf5[i]}%</div>
+    </div>`).join('');
+  document.getElementById('other5').innerHTML=other5.map(n=>`<span class="chip-other">${n}</span>`).join('');
+}
+
+// ── 2D Live ──
+let _lastPredDay='', _lastLive='';
+
+async function load2D(){
+  try{
+    const res=await fetch(API_2D,{cache:'no-store'});
+    const data=await res.json();
+    const results=data.result||[];
+
+    let live=(data.live&&data.live.twod)||'';
+    if(!live||live==='--'){
+      const v=results.filter(r=>r.twod&&r.twod!=='--'&&/^\d{2}$/.test(r.twod));
+      live=v.length?v[v.length-1].twod:'--';
+    }
+    _real=live;
+
+    const open=isStockOpen()&&live!=='--';
+    const sdot=document.getElementById('sdot');
+    if(open){ sdot.className='status-dot open'; startFlicker(); }
+    else { sdot.className='status-dot'; stopFlicker(); }
+
+    const mm=mmNow();
+    document.getElementById('live-time').textContent=
+      mm.toLocaleTimeString('en-US',{hour:'2-digit',minute:'2-digit',second:'2-digit'})+' (MMT)';
+
+    function getR(t){
+      let r=results.find(x=>(x.open_time||'')===t);
+      if(!r) r=results.find(x=>(x.open_time||'').includes(t));
+      return (r&&r.twod&&r.twod!=='--')?r.twod:'--';
+    }
+    const r0930=getR('09:30'), r1201=getR('12:01'),
+          r1400=getR('15:00'), r1630=getR('16:30');
+
+    document.getElementById('t0930').textContent=r0930;
+    document.getElementById('t1201').textContent=r1201;
+    document.getElementById('t1400').textContent=r1400;
+    document.getElementById('t1630').textContent=r1630;
+
+    const t=mmT();
+    const hl=(id,cls,cond)=>{
+      const b=document.getElementById(id);
+      if(cond) b.classList.add(cls); else b.classList.remove(cls);
+    };
+    hl('box0930','hl-cyan',t>=570&&r0930!=='--');
+    hl('box1201','hl-cyan',t>=721&&r1201!=='--');
+    hl('box1400','hl-gold',t>=900&&r1400!=='--');
+    hl('box1630','hl-gold',t>=990&&r1630!=='--');
+
+    // Prediction
+    const ps=document.getElementById('predict-section');
+    const today=mmDate();
+    if(showPred()){
+      ps.style.display='block';
+      if(_lastPredDay!==today||_lastLive!==live){
+        _lastPredDay=today; _lastLive=live;
+        document.getElementById('pred-date').textContent=today;
+        const {main5,other5,conf5}=smartPredict(results,live);
+        renderPrediction(main5,other5,conf5);
+      }
+      // Show locked/unlocked state
+      checkUnlockState();
+    } else {
+      ps.style.display='block';
+      const mm8=new Date(mm); mm8.setHours(8,0,0,0);
+      const diff=Math.max(0,mm8-mm);
+      const hh=Math.floor(diff/3600000), mn=Math.floor((diff%3600000)/60000);
+      document.getElementById('pred-date').textContent='မနက် ၈ နာရီ မှ ပေါ်မည်';
+      showLocked();
+    }
+
+    updateChatBanner();
+  }catch(e){
+    stopFlicker();
+    document.getElementById('live-num').textContent='⚠️';
+    document.getElementById('live-time').textContent='Error: '+e.message;
+  }
+}
+
+// ── Thai 3D ──
+let _thaiData=null;
+
+async function loadThai3D(){
+  document.getElementById('thai-card').innerHTML="<div class='loading'>Loading...</div>";
+  try{
+    const res=await fetch(API_3D,{cache:'no-store'});
+    const data=await res.json();
+    _thaiData=data.response;
+    const prizes=_thaiData.prizes, rn=_thaiData.runningNumbers;
+    const first=prizes[0].number[0],front3=rn[0].number,last3=rn[1].number,last2=rn[2].number[0];
+    document.getElementById('thai-card').innerHTML=`
+      <p style="font-size:12px;font-weight:700;letter-spacing:1px;margin:0;">
+        🇹🇭 ผลสลากกินแบ่งรัฐบาล / ထိုင်းထီရလဒ်</p>
+      <div class="thai-first">${first}</div>
+      <div class="thai-grid">
+        <div class="sub-box"><div class="lbl2">เลขหน้า 3 ตัว / အရှေ့ ၃ လုံး</div>${front3.join(', ')}</div>
+        <div class="sub-box"><div class="lbl2">เลขท้าย 3 ตัว / အနောက် ၃ လုံး</div>${last3.join(', ')}</div>
+      </div>
+      <div class="sub-box"><div class="lbl2">เลขท้าย 2 ตัว / အောက် ၂ လုံး</div>
+        <span class="last2-num">${last2}</span></div>`;
+  }catch(e){
+    document.getElementById('thai-card').innerHTML=
+      `<div class="loading">⚠️ ဒေတာ ရယူမရပါ<br><small>${e.message}</small></div>`;
+  }
+}
+
+function checkThai(){
+  const myNum=String(document.getElementById('check-input').value).trim();
+  const out=document.getElementById('check-result');
+  out.innerHTML='';
+  if(!myNum||myNum.length<2){out.innerHTML='<div class="result-lose"><h3>⚠️ ဂဏန်း ရိုက်ထည့်ပါ</h3></div>';return;}
+  if(!_thaiData){out.innerHTML='<div class="result-lose"><h3>⚠️ ဒေတာ မရသေးပါ</h3></div>';loadThai3D();return;}
+
+  const prizes=_thaiData.prizes, rn=_thaiData.runningNumbers;
+  const front3=rn[0].number, last3=rn[1].number, last2=rn[2].number[0];
+  let winMsg='', prizeAmt='';
+
+  for(const p of prizes){
+    if((p.number||[]).includes(myNum)){
+      winMsg=`🎊 ${PRIZE_LABELS[p.id]||p.id} ပေါက်ပါတယ်!`;
+      prizeAmt=`💰 ฿${parseInt(p.reward||0).toLocaleString()}`;
+      break;
+    }
+  }
+  const rr=i=>{try{return parseInt(rn[i].reward||0).toLocaleString();}catch{return '4,000';}};
+  if(!winMsg){
+    if(myNum.length>=3&&last3.includes(myNum.slice(-3))){winMsg='🎉 เลขท้าย 3 ตัว ပေါက်!';prizeAmt=`💰 ฿${rr(1)}`;}
+    else if(myNum.length>=3&&front3.includes(myNum.slice(0,3))){winMsg='🎉 เลขหน้า 3 ตัว ပေါက်!';prizeAmt=`💰 ฿${rr(0)}`;}
+    else if(myNum.length>=2&&myNum.slice(-2)===last2){winMsg='🎉 เลขท้าย 2 ตัว ပေါက်!';prizeAmt=`💰 ฿${rr(2)}`;}
+    else winMsg='😢 မပေါက်ပါဘူး / ไม่ถูกรางวัล';
+  }
+  const won=winMsg.includes('ပေါက်');
+  out.innerHTML=`<div class="${won?'result-win':'result-lose'}">
+    <h3>${winMsg}</h3>${prizeAmt?`<div class="prize-amt">${prizeAmt}</div>`:''}</div>`;
+}
+
+document.getElementById('check-input').addEventListener('keydown',e=>{ if(e.key==='Enter') checkThai(); });
+
+// ── Chat ──
+let _chatOpen=false, _unread=0, _myName='';
+
+function toggleChat(){
+  _chatOpen=!_chatOpen;
+  document.getElementById('chat-panel').classList.toggle('open',_chatOpen);
+  if(_chatOpen){
+    updateBadge(0);
+    setTimeout(()=>{
+      const b=document.getElementById('chat-messages');
+      b.scrollTop=b.scrollHeight;
+      document.getElementById('chat-msg-input').focus();
+    },320);
+  }
+}
+
+function updateBadge(n){
+  _unread=n;
+  document.getElementById('chat-badge').textContent=n>0?n:'●';
+}
+
+function escH(s){
+  return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
+}
+function fmtT(ts){
+  const d=new Date(ts);
+  return d.getHours().toString().padStart(2,'0')+':'+d.getMinutes().toString().padStart(2,'0');
+}
+
+function renderMsgs(msgs){
+  const box=document.getElementById('chat-messages');
+  const atBot=box.scrollHeight-box.scrollTop-box.clientHeight<80;
+  box.innerHTML='<div class="msg-system">— psonline.shop live chat —</div>';
+  (msgs||[]).forEach(m=>{
+    if(m.type==='system'){box.innerHTML+=`<div class="msg-system">${escH(m.text)}</div>`;return;}
+    const mine=_myName&&m.name===_myName;
+    box.innerHTML+=`
+      <div class="msg-row ${mine?'mine':''}">
+        <div class="msg-avatar ${mine?'mine-av':''}">${escH((m.name||'?')[0]).toUpperCase()}</div>
+        <div>
+          ${!mine?`<div class="msg-name">${escH(m.name)}</div>`:''}
+          <div class="msg-bubble">${escH(m.text)}</div>
+          <div class="msg-time">${fmtT(m.ts)}</div>
+        </div>
+      </div>`;
+  });
+  if(atBot) box.scrollTop=box.scrollHeight;
+}
+
+async function sendMsg(){
+  const nameEl=document.getElementById('chat-name-input');
+  const msgEl=document.getElementById('chat-msg-input');
+  const name=(nameEl.value.trim()||'Guest').slice(0,12);
+  const text=msgEl.value.trim();
+  if(!text) return;
+  _myName=name;
+  if(!window._fbDB){
+    document.getElementById('chat-messages').innerHTML+=
+      `<div class="msg-system" style="color:#e74c3c;">⚠️ Chat မချိတ်ရသေး</div>`;
+    return;
+  }
+  try{
+    await window._fbDB.ref('psonline_chat').push({name,text,ts:Date.now()});
+    msgEl.value=''; msgEl.focus();
+  }catch(e){ console.error('send error',e); }
+}
+
+document.getElementById('chat-msg-input').addEventListener('keydown',e=>{ if(e.key==='Enter') sendMsg(); });
+document.getElementById('chat-name-input').addEventListener('keydown',e=>{ if(e.key==='Enter') document.getElementById('chat-msg-input').focus(); });
+
+// swipe down to close
+(()=>{
+  let sy=0;
+  const p=document.getElementById('chat-panel');
+  p.addEventListener('touchstart',e=>{ sy=e.touches[0].clientY; },{passive:true});
+  p.addEventListener('touchend',e=>{ if(e.changedTouches[0].clientY-sy>80) toggleChat(); },{passive:true});
+})();
+
+function updateChatBanner(){
+  const ln=document.getElementById('live-num');
+  const sd=document.getElementById('sdot');
+  const t1=document.getElementById('t1201');
+  const t2=document.getElementById('t1630');
+  if(ln){ document.getElementById('clb-num').textContent=ln.textContent;
+          document.getElementById('clb-big').textContent=ln.textContent; }
+  if(sd){ document.getElementById('clb-dot').className='clb-dot'+(sd.classList.contains('open')?' open':''); }
+  if(t1) document.getElementById('clb-1201').textContent=t1.textContent;
+  if(t2) document.getElementById('clb-1630').textContent=t2.textContent;
+}
+
+
+// ═══════════════════════════════════════
+//  WATCH AD → UNLOCK PREDICTION
+// ═══════════════════════════════════════
+const UNLOCK_DURATION = 24 * 60 * 60 * 1000; // 24 hours in ms
+let _unlockExpiry = 0;   // timestamp when unlock expires
+let _adTimer = null;
+
+function isUnlocked(){
+  return Date.now() < _unlockExpiry;
+}
+
+function checkUnlockState(){
+  if(isUnlocked()){
+    showUnlocked();
+  } else {
+    showLocked();
+  }
+}
+
+function showLocked(){
+  document.getElementById('pred-locked').style.display     = 'block';
+  document.getElementById('pred-ad-playing').style.display = 'none';
+  document.getElementById('pred-unlocked').style.display   = 'none';
+}
+
+function showUnlocked(){
+  document.getElementById('pred-locked').style.display     = 'none';
+  document.getElementById('pred-ad-playing').style.display = 'none';
+  document.getElementById('pred-unlocked').style.display   = 'block';
+  // Show expiry time
+  const exp = new Date(_unlockExpiry);
+  const hh  = exp.getHours().toString().padStart(2,'0');
+  const mm  = exp.getMinutes().toString().padStart(2,'0');
+  const el  = document.getElementById('unlock-expires');
+  if(el) el.textContent = '🔓 Unlock ' + hh + ':' + mm + ' အထိ';
+}
+
+function watchAdUnlock(){
+  // Show ad playing state
+  document.getElementById('pred-locked').style.display     = 'none';
+  document.getElementById('pred-ad-playing').style.display = 'block';
+  document.getElementById('pred-unlocked').style.display   = 'none';
+
+  // Countdown 15s
+  let sec = 15;
+  const secEl  = document.getElementById('ad-sec');
+  const progEl = document.getElementById('ad-progress');
+  if(secEl) secEl.textContent = sec;
+
+  _adTimer = setInterval(() => {
+    sec--;
+    if(secEl)  secEl.textContent = sec;
+    if(progEl) progEl.style.width = ((15 - sec) / 15 * 100) + '%';
+
+    if(sec <= 0){
+      clearInterval(_adTimer);
+      _adTimer = null;
+      // Unlock for 24h
+      _unlockExpiry = Date.now() + UNLOCK_DURATION;
+      showUnlocked();
+    }
+  }, 1000);
+}
+
+// ── Init ──
+load2D();
+setInterval(load2D, 5000);
+</script>
+
+<!-- Firebase v12 ES Module — separate script tag -->
+<script type="module">
+import { initializeApp }    from 'https://www.gstatic.com/firebasejs/12.10.0/firebase-app.js';
+import { getDatabase, ref, push, query, limitToLast, onValue, remove } from 'https://www.gstatic.com/firebasejs/12.10.0/firebase-database.js';
+
+const FB = {
+  apiKey:            "AIzaSyCt3CRVasQpmOaEf3DfyJYddSRR7ZFTtDU",
+  authDomain:        "psonline-chat.firebaseapp.com",
+  databaseURL:       "https://psonline-chat-default-rtdb.asia-southeast1.firebasedatabase.app",
+  projectId:         "psonline-chat",
+  storageBucket:     "psonline-chat.firebasestorage.app",
+  messagingSenderId: "671892297928",
+  appId:             "1:671892297928:web:b3a77b6863a8c09ec6adfd"
+};
+
+const app = initializeApp(FB);
+const db  = getDatabase(app);
+const MAX = 80;
+const CHAT_REF = 'psonline_chat';
+
+// Expose db to main script via window for sendMsg()
+window._fbDB = {
+  ref: (path) => ({
+    push: (data) => push(ref(db, path), data)
+  })
+};
+
+// Listen realtime
+const chatQ = query(ref(db, CHAT_REF), limitToLast(MAX));
+onValue(chatQ, (snap) => {
+  const data = snap.val() || {};
+  const msgs = Object.values(data).sort((a,b) => a.ts - b.ts);
+  // Call renderMsgs from main script
+  if(typeof renderMsgs === 'function') renderMsgs(msgs);
+  // Unread badge
+  if(msgs.length > 0){
+    const last = msgs[msgs.length-1];
+    if(typeof _chatOpen !== 'undefined' && !_chatOpen){
+      if(typeof _myName !== 'undefined' && last.name !== _myName){
+        if(typeof updateBadge === 'function'){
+          const cur = parseInt(document.getElementById('chat-badge').textContent)||0;
+          updateBadge(isNaN(cur)?1:cur+1);
+        }
+      }
+    }
+    // Show online count (unique names in last 5 mins)
+    const now = Date.now();
+    const recent = msgs.filter(m => now - m.ts < 5*60*1000);
+    const names  = new Set(recent.map(m=>m.name));
+    const el = document.getElementById('online-count');
+    if(el) el.textContent = `● ${names.size} online`;
+  }
+});
+
+console.log('✅ Firebase v12 chat ready');
 </script>
 
 </body>
