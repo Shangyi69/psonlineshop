@@ -1,902 +1,514 @@
 <!DOCTYPE html>
 <html lang="my">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>AI Recap Dashboard</title>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <style>
-        * { margin: 0; padding: 0; box-sizing: border-box; }
-        body { font-family: 'Inter', system-ui, -apple-system, sans-serif; background: #0f172a; color: white; height: 100vh; overflow: hidden; }
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+  <title>Myanmar 2D & Thai 3D | psonline.shop</title>
+  <meta name="description" content="Myanmar 2D Live Results, Thai 3D Lottery Check - psonline.shop">
 
-        /* Main App Layout */
-        .app-wrapper { display: flex; flex-direction: column; height: 100vh; }
+  <!-- Google AdSense -->
+  <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-XXXXXXXXXXXXXXXX" crossorigin="anonymous"></script>
 
-        /* Navigation Bar */
-        .nav-tabs { 
-            display: flex; 
-            background: #1e293b; 
-            padding: 10px; 
-            gap: 10px; 
-            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
-        }
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
 
-        .tab-btn {
-            flex: 1;
-            padding: 12px;
-            border: none;
-            border-radius: 8px;
-            background: transparent;
-            color: #94a3b8;
-            font-weight: 600;
-            cursor: pointer;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 8px;
-            transition: 0.3s;
-        }
+    :root {
+      --bg:       #0d0d1a;
+      --card1:    #1a1a2e;
+      --card2:    #16213e;
+      --accent:   #00d2ff;
+      --red:      #e74c3c;
+      --gold:     #ffd700;
+      --orange:   #e67e22;
+      --text:     #ffffff;
+      --muted:    #aaaaaa;
+      --radius:   16px;
+    }
 
-        .tab-btn.active {
-            background: #6366f1;
-            color: white;
-        }
+    body {
+      background: var(--bg);
+      color: var(--text);
+      font-family: 'Segoe UI', sans-serif;
+      min-height: 100vh;
+      padding-bottom: 30px;
+    }
 
-        /* Content Area */
-        .content-area { flex: 1; position: relative; width: 100%; }
-        iframe {
-            position: absolute;
-            top: 0; left: 0;
-            width: 100%; height: 100%;
-            border: none;
-            display: none;
-        }
-        iframe.active { display: block; }
+    /* ── HEADER ── */
+    .header {
+      background: linear-gradient(90deg, #1a1a2e, #c0392b);
+      padding: 14px 16px;
+      text-align: center;
+      font-size: 16px;
+      font-weight: 900;
+      letter-spacing: 2px;
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      box-shadow: 0 2px 12px rgba(0,0,0,.5);
+    }
 
-        /* Mobile Header */
-        .header {
-            padding: 15px;
-            text-align: center;
-            background: #0f172a;
-            border-bottom: 1px solid #334155;
-            font-size: 18px;
-            font-weight: bold;
-            color: #6366f1;
-        }
-    </style>
+    .container { max-width: 480px; margin: 0 auto; padding: 12px 12px 0; }
+
+    /* ── TABS ── */
+    .tabs { display: flex; gap: 6px; margin-bottom: 14px; }
+    .tab-btn {
+      flex: 1; padding: 10px 6px; border: none; border-radius: 10px;
+      font-size: 13px; font-weight: 700; cursor: pointer;
+      background: #1e1e30; color: var(--muted);
+      transition: all .2s;
+    }
+    .tab-btn.active { background: var(--red); color: #fff; }
+
+    .tab-pane { display: none; }
+    .tab-pane.active { display: block; }
+
+    /* ── CARDS ── */
+    .dark-card {
+      background: linear-gradient(135deg, var(--card1), var(--card2));
+      border-radius: var(--radius);
+      padding: 20px 16px;
+      text-align: center;
+      box-shadow: 0 6px 24px rgba(0,0,0,.4);
+      margin-bottom: 12px;
+    }
+
+    .red-card {
+      background: linear-gradient(135deg, #c0392b, #e74c3c);
+      border-radius: var(--radius);
+      padding: 20px 16px;
+      text-align: center;
+      box-shadow: 0 6px 20px rgba(231,76,60,.4);
+      margin-bottom: 12px;
+    }
+
+    .live-num {
+      font-size: 90px; font-weight: 900; color: var(--accent);
+      text-shadow: 0 0 24px rgba(0,210,255,.5);
+      line-height: 1; margin: 6px 0 4px;
+    }
+    .live-label { color: var(--accent); font-size: 11px; letter-spacing: 2px; }
+    .live-time  { color: var(--muted); font-size: 11px; margin-top: 2px; }
+
+    /* ── RESULT GRID ── */
+    .result-grid {
+      display: grid; grid-template-columns: 1fr 1fr;
+      gap: 10px; margin-bottom: 12px;
+    }
+    .result-box {
+      background: rgba(255,255,255,.07);
+      border-radius: 12px; padding: 12px 8px; text-align: center;
+    }
+    .result-box .lbl { font-size: 10px; color: var(--muted); margin-bottom: 4px; }
+    .result-box .num { font-size: 24px; font-weight: 900; color: var(--gold); }
+    .result-box.sm .num { font-size: 18px; color: #ccc; }
+
+    /* ── PREDICT ── */
+    .predict-card {
+      background: linear-gradient(135deg, #141e30, #243b55);
+      border-radius: var(--radius);
+      padding: 14px;
+      border: 1px solid rgba(0,210,255,.2);
+      margin-bottom: 12px;
+    }
+    .predict-title { color: var(--accent); font-weight: 700; font-size: 13px; margin-bottom: 10px; }
+    .predict-sub   { color: #ffcdd2; font-size: 11px; margin-bottom: 6px; }
+    .predict-sub2  { color: #ffe0b2; font-size: 11px; margin-bottom: 6px; }
+    .num-chips { display: flex; flex-wrap: wrap; gap: 4px; margin-bottom: 10px; }
+    .chip-main {
+      background: var(--red); color: #fff;
+      padding: 7px 12px; border-radius: 8px;
+      font-size: 18px; font-weight: 900;
+      box-shadow: 0 2px 6px rgba(231,76,60,.4);
+    }
+    .chip-other {
+      background: var(--orange); color: #fff;
+      padding: 5px 10px; border-radius: 7px; font-size: 15px;
+    }
+    .predict-note { color: #444; font-size: 10px; margin-top: 4px; }
+
+    /* ── THAI CARD ── */
+    .thai-first { font-size: 48px; font-weight: 900; color: var(--gold); margin: 8px 0; }
+    .thai-grid  { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; margin-bottom: 8px; }
+    .sub-box {
+      background: rgba(255,255,255,.15);
+      border-radius: 10px; padding: 8px;
+      font-size: 16px; font-weight: 700;
+    }
+    .sub-box .lbl2 { font-size: 10px; opacity: .75; margin-bottom: 3px; }
+    .last2-num { font-size: 30px; font-weight: 900; color: var(--gold); }
+
+    /* ── CHECK FORM ── */
+    .check-form { margin-bottom: 12px; }
+    .check-form input {
+      width: 100%; padding: 12px 14px;
+      background: #1e1e30; border: 1px solid #333;
+      border-radius: 10px; color: #fff;
+      font-size: 16px; letter-spacing: 2px;
+      outline: none;
+    }
+    .check-form input:focus { border-color: var(--red); }
+    .check-form label { color: var(--muted); font-size: 12px; margin-bottom: 6px; display: block; }
+    .btn-check {
+      width: 100%; padding: 13px; margin-top: 8px;
+      background: var(--red); color: #fff; border: none;
+      border-radius: 10px; font-size: 15px; font-weight: 700;
+      cursor: pointer; transition: opacity .2s;
+    }
+    .btn-check:hover { opacity: .85; }
+    .btn-check:active { opacity: .7; }
+
+    .result-win  { background: #d4edda; color: #155724; border: 1px solid #c3e6cb; border-radius: 12px; padding: 16px; text-align: center; margin-top: 10px; }
+    .result-lose { background: #f8d7da; color: #721c24; border: 1px solid #f5c6cb; border-radius: 12px; padding: 16px; text-align: center; margin-top: 10px; }
+    .result-win h3, .result-lose h3 { font-size: 15px; }
+    .prize-amt { font-size: 13px; margin-top: 5px; font-weight: 600; }
+
+    /* ── AD SLOT ── */
+    .ad-slot {
+      background: #1a1a2a; border-radius: 10px;
+      margin: 10px 0; min-height: 90px;
+      text-align: center; overflow: hidden;
+    }
+    .ad-label { font-size: 9px; color: #444; padding-top: 4px; letter-spacing: 1px; }
+
+    /* ── STATUS ── */
+    .status-dot { display: inline-block; width: 8px; height: 8px; border-radius: 50%; background: #2ecc71; margin-right: 6px; animation: blink 1s infinite; }
+    @keyframes blink { 0%,100%{opacity:1} 50%{opacity:.3} }
+
+    /* ── LOADING ── */
+    .loading { color: var(--muted); text-align: center; padding: 40px; font-size: 14px; }
+
+    /* ── FOOTER ── */
+    .site-footer { text-align: center; color: #333; font-size: 10px; margin-top: 20px; padding: 10px; }
+  </style>
 </head>
 <body>
 
-    <div class="app-wrapper">
-        <div class="header">
-            <i class="fa-solid fa-robot"></i> RECAP CENTER
-        </div>
+<div class="header">
+  🎰 MYANMAR 2D &amp; THAI 3D PRO
+</div>
 
-        <div class="nav-tabs">
-            <button class="tab-btn active" onclick="showSpace('shan', this)">
-                <i class="fa-solid fa-language"></i> Shan
-            </button>
-            <button class="tab-btn" onclick="showSpace('animal', this)">
-                <i class="fa-solid fa-paw"></i> Animal
-            </button>
-        </div>
+<!-- ── AdSense Top Banner ── -->
+<div class="container">
+  <div class="ad-slot">
+    <div class="ad-label">ADVERTISEMENT</div>
+    <ins class="adsbygoogle"
+         style="display:block;width:100%;height:90px;"
+         data-ad-client="ca-pub-XXXXXXXXXXXXXXXX"
+         data-ad-slot="1111111111"
+         data-ad-format="auto"
+         data-full-width-responsive="true"
+         data-adtest="on"></ins>
+    <script>(adsbygoogle = window.adsbygoogle || []).push({});</script>
+  </div>
+</div>
 
-        <div class="content-area">
-            <iframe id="shan-frame" class="active" src="https://phoe2004-recap-shan.hf.space"></iframe>
-            <iframe id="animal-frame" src="https://phoe2004-animal-recap.hf.space"></iframe>
-        </div>
+<div class="container">
+
+  <!-- TABS -->
+  <div class="tabs">
+    <button class="tab-btn active" onclick="switchTab('2d')">📡 2D Live</button>
+    <button class="tab-btn"        onclick="switchTab('3d')">🇹🇭 ထိုင်းထီ</button>
+  </div>
+
+  <!-- ════════════ TAB: 2D LIVE ════════════ -->
+  <div class="tab-pane active" id="tab-2d">
+
+    <div id="live-card" class="dark-card">
+      <div class="live-label"><span class="status-dot"></span>LIVE 2D REAL-TIME / မြန်မာ ၂ဂဏန်း</div>
+      <div class="live-num" id="live-num">--</div>
+      <div class="live-time" id="live-time">Loading...</div>
     </div>
 
-    <script>
-        function showSpace(type, btn) {
-            // Hide all iframes
-            document.querySelectorAll('iframe').forEach(f => f.classList.remove('active'));
-            // Remove active from all buttons
-            document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+    <div class="result-grid">
+      <div class="result-box">
+        <div class="lbl">🕛 12:01 PM / နေ့လည် / เที่ยง</div>
+        <div class="num" id="t1201">--</div>
+      </div>
+      <div class="result-box">
+        <div class="lbl">🕟 04:30 PM / ညနေ / บ่าย</div>
+        <div class="num" id="t1630">--</div>
+      </div>
+      <div class="result-box sm">
+        <div class="lbl">🕘 09:30 AM / မနက် / เช้า</div>
+        <div class="num" id="t0930">--</div>
+      </div>
+      <div class="result-box sm">
+        <div class="lbl">🕑 02:00 PM / နေ့ / กลางวัน</div>
+        <div class="num" id="t1400">--</div>
+      </div>
+    </div>
 
-            // Show selected
-            document.getElementById(type + '-frame').classList.add('active');
-            btn.classList.add('active');
-        }
-    </script>
+    <!-- AdSense Mid -->
+    <div class="ad-slot">
+      <div class="ad-label">ADVERTISEMENT</div>
+      <ins class="adsbygoogle"
+           style="display:block;width:100%;height:90px;"
+           data-ad-client="ca-pub-XXXXXXXXXXXXXXXX"
+           data-ad-slot="2222222222"
+           data-ad-format="auto"
+           data-full-width-responsive="true"
+           data-adtest="on"></ins>
+      <script>(adsbygoogle = window.adsbygoogle || []).push({});</script>
+    </div>
+
+    <div class="predict-card">
+      <div class="predict-title">🤖 AI Smart Prediction — <span id="pred-date">--/--/----</span></div>
+      <div class="predict-sub">🔥 MAIN 5 — อันดับหลัก / အဓိကဂဏန်း</div>
+      <div class="num-chips" id="main5"></div>
+      <div class="predict-sub2">📌 Other 5 — เลขรอง / ဖြည့်စွက်</div>
+      <div class="num-chips" id="other5"></div>
+      <div class="predict-note">* History cold-number + pattern analysis</div>
+    </div>
+
+  </div>
+
+  <!-- ════════════ TAB: THAI 3D ════════════ -->
+  <div class="tab-pane" id="tab-3d">
+
+    <div id="thai-card" class="red-card">
+      <div class="loading">Loading Thai lottery...</div>
+    </div>
+
+    <div class="check-form">
+      <label>ตรวจหวย / ဂဏန်း ၆ လုံး ရိုက်ပါ</label>
+      <input type="number" id="check-input" placeholder="ဥပမာ / เช่น: 603456" maxlength="6">
+      <button class="btn-check" onclick="checkThai()">🎯 ตรวจรางวัล / တိုက်မည်</button>
+    </div>
+
+    <div id="check-result"></div>
+
+    <!-- AdSense Bottom -->
+    <div class="ad-slot">
+      <div class="ad-label">ADVERTISEMENT</div>
+      <ins class="adsbygoogle"
+           style="display:block;width:100%;height:90px;"
+           data-ad-client="ca-pub-XXXXXXXXXXXXXXXX"
+           data-ad-slot="3333333333"
+           data-ad-format="auto"
+           data-full-width-responsive="true"
+           data-adtest="on"></ins>
+      <script>(adsbygoogle = window.adsbygoogle || []).push({});</script>
+    </div>
+
+  </div>
+
+  <div class="site-footer">© psonline.shop — Myanmar 2D &amp; Thai 3D Pro</div>
+</div>
+
+<script>
+// ══════════════════════════════════════════
+//  CONFIG
+// ══════════════════════════════════════════
+const API_2D  = 'https://api.thaistock2d.com/live';
+const API_3D  = 'https://lotto.api.rayriffy.com/latest';
+
+const PRIZE_LABELS = {
+  prizeFirst:     'รางวัลที่ 1 / ပထမဆုကြီး',
+  prizeFirstNear: 'รางวัลข้างเคียง / ပထမနီးဆု',
+  prizeSecond:    'รางวัลที่ 2 / ဒုတိယဆု',
+  prizeThrid:     'รางวัลที่ 3 / တတိယဆု',
+  prizeForth:     'รางวัลที่ 4 / စတုတ္ထဆု',
+  prizeFifth:     'รางวัลที่ 5 / ပဉ္စမဆု',
+};
+
+// ══════════════════════════════════════════
+//  TABS
+// ══════════════════════════════════════════
+function switchTab(t) {
+  document.querySelectorAll('.tab-pane').forEach(p => p.classList.remove('active'));
+  document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+  document.getElementById('tab-' + t).classList.add('active');
+  event.currentTarget.classList.add('active');
+  if (t === '3d' && !window._3dLoaded) { loadThai3D(); window._3dLoaded = true; }
+}
+
+// ══════════════════════════════════════════
+//  PREDICTION (same logic as Python)
+// ══════════════════════════════════════════
+function smartPredict(results, liveNum) {
+  const base = parseInt(liveNum) || 64;
+  const history = results.map(r => r.twod).filter(n => n && n !== '--');
+  const recent20 = history.slice(-20);
+  const freq = {};
+  history.slice(-50).forEach(n => { freq[n] = (freq[n]||0)+1; });
+
+  const allNums = Array.from({length:100}, (_,i) => String(i).padStart(2,'0'));
+  const recentSet = new Set(recent20);
+  let cold = allNums.filter(n => !recentSet.has(n)).sort((a,b) => (freq[a]||0)-(freq[b]||0)).slice(0,15);
+
+  const pattern = [7,11,13,17,23,29,33].map(s => String((base+s)%100).padStart(2,'0'));
+
+  function dw(n) { return [7,8,9,16,17,18].includes(+n[0]+ +n[1]) ? 1 : 0; }
+  let candidates = [];
+  cold.forEach(n => pattern.includes(n) ? candidates.unshift(n) : candidates.push(n));
+  candidates.sort((a,b) => dw(b)-dw(a));
+
+  const final = []; const seen = new Set();
+  [...candidates, ...pattern, ...cold].forEach(n => {
+    if (!seen.has(n) && final.length < 10) { final.push(n); seen.add(n); }
+  });
+  let i = 0;
+  while (final.length < 10) {
+    const n = String((base + i*7)%100).padStart(2,'0');
+    if (!seen.has(n)) { final.push(n); seen.add(n); }
+    i++;
+  }
+  return { main5: final.slice(0,5), other5: final.slice(5,10) };
+}
+
+// ══════════════════════════════════════════
+//  2D LIVE
+// ══════════════════════════════════════════
+async function load2D() {
+  try {
+    const res  = await fetch(API_2D);
+    const data = await res.json();
+    const results = data.result || [];
+
+    let live = data.live && data.live.twod;
+    if (!live || live === '--') {
+      const valid = results.filter(r => r.twod && r.twod !== '--');
+      live = valid.length ? valid[valid.length-1].twod : '64';
+    }
+
+    document.getElementById('live-num').textContent = live;
+    document.getElementById('live-time').textContent = new Date().toLocaleTimeString('en-US', {hour:'2-digit',minute:'2-digit',second:'2-digit'});
+
+    const getT = t => (results.find(r => (r.open_time||'').includes(t)) || {twod:'--'}).twod;
+    document.getElementById('t0930').textContent = getT('09:30');
+    document.getElementById('t1201').textContent = getT('12:01');
+    document.getElementById('t1400').textContent = getT('15:00');
+    document.getElementById('t1630').textContent = getT('16:30');
+
+    const today = new Date().toLocaleDateString('en-GB');
+    document.getElementById('pred-date').textContent = today;
+
+    const { main5, other5 } = smartPredict(results, live);
+    document.getElementById('main5').innerHTML  = main5.map(n  => `<span class="chip-main">${n}</span>`).join('');
+    document.getElementById('other5').innerHTML = other5.map(n => `<span class="chip-other">${n}</span>`).join('');
+
+  } catch(e) {
+    document.getElementById('live-num').textContent = '⚠️';
+    document.getElementById('live-time').textContent = 'API Error: ' + e.message;
+  }
+}
+
+// ══════════════════════════════════════════
+//  THAI 3D DISPLAY
+// ══════════════════════════════════════════
+let _thaiData = null;
+
+async function loadThai3D() {
+  document.getElementById('thai-card').innerHTML = "<div class='loading'>Loading...</div>";
+  try {
+    const res  = await fetch(API_3D);
+    const data = await res.json();
+    _thaiData = data.response;
+
+    const prizes  = _thaiData.prizes;
+    const runNums = _thaiData.runningNumbers;
+    const first   = prizes[0].number[0];
+    const front3  = runNums[0].number;
+    const last3   = runNums[1].number;
+    const last2   = runNums[2].number[0];
+
+    document.getElementById('thai-card').innerHTML = `
+      <p style="font-size:12px;font-weight:700;letter-spacing:1px;margin:0;">
+        🇹🇭 ผลสลากกินแบ่งรัฐบาล / ထိုင်းထီရလဒ်</p>
+      <div class="thai-first">${first}</div>
+      <div class="thai-grid">
+        <div class="sub-box">
+          <div class="lbl2">เลขหน้า 3 ตัว / အရှေ့ ၃ လုံး</div>
+          ${front3.join(', ')}
+        </div>
+        <div class="sub-box">
+          <div class="lbl2">เลขท้าย 3 ตัว / အနောက် ၃ လုံး</div>
+          ${last3.join(', ')}
+        </div>
+      </div>
+      <div class="sub-box">
+        <div class="lbl2">เลขท้าย 2 ตัว / အောက် ၂ လုံး</div>
+        <span class="last2-num">${last2}</span>
+      </div>`;
+  } catch(e) {
+    document.getElementById('thai-card').innerHTML =
+      `<p style="color:#ffcdd2;">⚠️ ထိုင်းထီ ဒေတာ ရယူမရပါ<br><small>${e.message}</small></p>`;
+  }
+}
+
+// ══════════════════════════════════════════
+//  THAI 3D CHECK
+// ══════════════════════════════════════════
+function checkThai() {
+  const myNum = document.getElementById('check-input').value.trim();
+  const out   = document.getElementById('check-result');
+  out.innerHTML = '';
+
+  if (!myNum || myNum.length < 2) {
+    out.innerHTML = '<div class="result-lose"><h3>⚠️ ဂဏန်း ရိုက်ထည့်ပါ</h3></div>';
+    return;
+  }
+  if (!_thaiData) {
+    out.innerHTML = '<div class="result-lose"><h3>⚠️ ဒေတာ မရသေးပါ — ခဏစောင့်ပါ</h3></div>';
+    loadThai3D();
+    return;
+  }
+
+  const prizes  = _thaiData.prizes;
+  const runNums = _thaiData.runningNumbers;
+  const front3  = runNums[0].number;
+  const last3   = runNums[1].number;
+  const last2   = runNums[2].number[0];
+
+  let winMsg = ''; let prizeAmt = '';
+
+  // Full number prizes
+  for (const p of prizes) {
+    if ((p.number || []).includes(myNum)) {
+      const lbl = PRIZE_LABELS[p.id] || p.id;
+      const amt = parseInt(p.reward||0).toLocaleString();
+      winMsg   = `🎊 ${lbl} ပေါက်ပါတယ်! / ถูกรางวัล!`;
+      prizeAmt = `💰 ฿${amt} / ဆုငွေ`;
+      break;
+    }
+  }
+
+  const getRR = i => { try { return parseInt(runNums[i].reward||0).toLocaleString(); } catch{ return '4,000'; } };
+
+  if (!winMsg) {
+    if (myNum.length >= 3 && last3.includes(myNum.slice(-3))) {
+      winMsg   = '🎉 เลขท้าย 3 ตัว / အနောက် ၃ လုံး ပေါက်!';
+      prizeAmt = `💰 ฿${getRR(1)}`;
+    } else if (myNum.length >= 3 && front3.includes(myNum.slice(0,3))) {
+      winMsg   = '🎉 เลขหน้า 3 ตัว / အရှေ့ ၃ လုံး ပေါက်!';
+      prizeAmt = `💰 ฿${getRR(0)}`;
+    } else if (myNum.length >= 2 && myNum.slice(-2) === last2) {
+      winMsg   = '🎉 เลขท้าย 2 ตัว / အောက် ၂ လုံး ပေါက်!';
+      prizeAmt = `💰 ฿${getRR(2)}`;
+    } else {
+      winMsg = '😢 ไม่ถูกรางวัล / မပေါက်ပါဘူး';
+    }
+  }
+
+  const won = !winMsg.includes('မပေါက်');
+  out.innerHTML = `
+    <div class="${won ? 'result-win' : 'result-lose'}">
+      <h3>${winMsg}</h3>
+      ${prizeAmt ? `<div class="prize-amt">${prizeAmt}</div>` : ''}
+    </div>`;
+}
+
+// Enter key support
+document.getElementById('check-input').addEventListener('keydown', e => {
+  if (e.key === 'Enter') checkThai();
+});
+
+// ══════════════════════════════════════════
+//  INIT
+// ══════════════════════════════════════════
+load2D();
+setInterval(load2D, 5000);   // 5s auto-refresh
+</script>
+
 </body>
 </html>
-    <div class="main-content">
-        <div class="top-bar" id="current-title">
-            Shan Recap Interface
-        </div>
-        
-        <div class="iframe-container">
-            <iframe id="shan-frame" src="https://phoe2004-recap-shan.hf.space"></iframe>
-            <iframe id="animal-frame" src="https://phoe2004-animal-recap.hf.space" class="hidden"></iframe>
-        </div>
-    </div>
-
-    <script>
-        function switchSpace(type) {
-            const shan = document.getElementById('shan-frame');
-            const animal = document.getElementById('animal-frame');
-            const title = document.getElementById('current-title');
-            const navItems = document.querySelectorAll('.nav-item');
-
-            // Reset active state
-            navItems.forEach(item => item.classList.remove('active'));
-
-            if (type === 'shan') {
-                shan.classList.remove('hidden');
-                animal.classList.add('hidden');
-                title.innerText = "Shan Recap Interface";
-                navItems[0].classList.add('active');
-            } else {
-                shan.classList.add('hidden');
-                animal.classList.remove('hidden');
-                title.innerText = "Animal Recap Interface";
-                navItems[1].classList.add('active');
-            }
-        }
-    </script>
-</body>
-</html>            padding: 20px;
-        }
-
-        /* Individual App Panel */
-        .app-panel {
-            flex: 1;
-            display: flex;
-            flex-direction: column;
-            background: rgba(255, 255, 255, 0.03);
-            border-radius: 20px;
-            overflow: hidden;
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            transition: all 0.3s ease;
-            position: relative;
-        }
-
-        .app-panel:hover {
-            border-color: rgba(255, 255, 255, 0.3);
-        }
-
-        .app-header {
-            padding: 20px 25px;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
-        }
-
-        .app-title {
-            display: flex;
-            align-items: center;
-            gap: 15px;
-        }
-
-        .app-icon {
-            width: 50px;
-            height: 50px;
-            border-radius: 12px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 1.5rem;
-        }
-
-        .animal-icon {
-            background: linear-gradient(135deg, var(--animal-primary), var(--animal-secondary));
-        }
-
-        .shangpt-icon {
-            background: linear-gradient(135deg, var(--shangpt-primary), var(--shangpt-secondary));
-        }
-
-        .app-info h2 {
-            font-size: 1.5rem;
-            margin-bottom: 5px;
-        }
-
-        .app-info p {
-            font-size: 0.9rem;
-            opacity: 0.7;
-        }
-
-        .app-status {
-            display: flex;
-            align-items: center;
-            gap: 10px;
-        }
-
-        .status-indicator {
-            width: 12px;
-            height: 12px;
-            border-radius: 50%;
-            background: #00FF88;
-            animation: pulse 2s infinite;
-        }
-
-        @keyframes pulse {
-            0% { opacity: 1; }
-            50% { opacity: 0.5; }
-            100% { opacity: 1; }
-        }
-
-        .status-text {
-            font-size: 0.9rem;
-            color: #00FF88;
-        }
-
-        /* App Frame */
-        .app-frame-container {
-            flex: 1;
-            position: relative;
-            overflow: hidden;
-        }
-
-        .app-frame {
-            width: 100%;
-            height: 100%;
-            border: none;
-            background: white;
-        }
-
-        /* Resize Handle */
-        .resize-handle {
-            width: 10px;
-            background: rgba(255, 255, 255, 0.1);
-            cursor: col-resize;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            position: relative;
-        }
-
-        .resize-dots {
-            display: flex;
-            flex-direction: column;
-            gap: 5px;
-        }
-
-        .resize-dots span {
-            width: 4px;
-            height: 4px;
-            background: rgba(255, 255, 255, 0.3);
-            border-radius: 50%;
-        }
-
-        /* Stats Bar */
-        .stats-bar {
-            display: flex;
-            padding: 15px 30px;
-            gap: 30px;
-            background: rgba(255, 255, 255, 0.03);
-            border-top: 1px solid rgba(255, 255, 255, 0.1);
-        }
-
-        .stat-item {
-            display: flex;
-            align-items: center;
-            gap: 10px;
-        }
-
-        .stat-value {
-            font-family: 'Orbitron', sans-serif;
-            font-size: 1.2rem;
-            font-weight: bold;
-        }
-
-        .animal-stat { color: var(--animal-primary); }
-        .shangpt-stat { color: var(--shangpt-primary); }
-
-        /* Layout Variations */
-        .vertical-split {
-            flex-direction: column;
-        }
-
-        .vertical-split .split-container {
-            flex-direction: column;
-        }
-
-        .vertical-split .app-panel {
-            flex-direction: row;
-        }
-
-        .vertical-split .app-header {
-            width: 250px;
-            border-right: 1px solid rgba(255, 255, 255, 0.1);
-            border-bottom: none;
-            flex-direction: column;
-            justify-content: flex-start;
-            align-items: flex-start;
-            gap: 20px;
-        }
-
-        .vertical-split .app-frame-container {
-            flex: 1;
-        }
-
-        /* Fullscreen Mode */
-        .fullscreen {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100vw;
-            height: 100vh;
-            z-index: 1000;
-            background: var(--dark);
-            padding: 20px;
-        }
-
-        /* Responsive */
-        @media (max-width: 1200px) {
-            .split-container {
-                flex-direction: column;
-                height: auto;
-            }
-            
-            .app-panel {
-                height: 50vh;
-            }
-            
-            .resize-handle {
-                width: 100%;
-                height: 10px;
-                cursor: row-resize;
-            }
-            
-            .resize-dots {
-                flex-direction: row;
-            }
-        }
-    </style>
-</head>
-<body>
-    <!-- Control Bar -->
-    <div class="control-bar">
-        <div class="logo">
-            <i class="fas fa-desktop"></i>
-            <h1>DUAL AI DASHBOARD</h1>
-        </div>
-        
-        <div class="controls">
-            <button class="control-btn" onclick="toggleFullscreen('animal')">
-                <i class="fas fa-expand"></i>
-                Animal Fullscreen
-            </button>
-            <button class="control-btn" onclick="toggleFullscreen('shangpt')">
-                <i class="fas fa-expand"></i>
-                ShanGPT Fullscreen
-            </button>
-            
-            <div class="layout-toggle">
-                <button class="layout-btn active" onclick="setLayout('horizontal')" title="Horizontal Split">
-                    <i class="fas fa-columns"></i>
-                </button>
-                <button class="layout-btn" onclick="setLayout('vertical')" title="Vertical Split">
-                    <i class="fas fa-rows"></i>
-                </button>
-            </div>
-            
-            <button class="control-btn" onclick="refreshAll()">
-                <i class="fas fa-sync-alt"></i>
-                Refresh All
-            </button>
-        </div>
-    </div>
-
-    <!-- Split Screen Container -->
-    <div class="split-container" id="splitContainer">
-        <!-- Animal Recap Panel -->
-        <div class="app-panel" id="animalPanel">
-            <div class="app-header">
-                <div class="app-title">
-                    <div class="app-icon animal-icon">
-                        <i class="fas fa-paw"></i>
-                    </div>
-                    <div class="app-info">
-                        <h2>Animal Viral Pro</h2>
-                        <p>AI Video Editor • 70-Second Format • Myanmar Voice</p>
-                    </div>
-                </div>
-                <div class="app-status">
-                    <div class="status-indicator"></div>
-                    <span class="status-text">LIVE</span>
-                </div>
-            </div>
-            <div class="app-frame-container">
-                <iframe 
-                    class="app-frame" 
-                    id="animalFrame"
-                    src="https://phoe2004-Animal-recap.hf.space" 
-                    title="Animal Viral Pro Editor"
-                    allow="microphone; camera"
-                ></iframe>
-            </div>
-        </div>
-
-        <!-- Resize Handle -->
-        <div class="resize-handle" id="resizeHandle">
-            <div class="resize-dots">
-                <span></span>
-                <span></span>
-                <span></span>
-            </div>
-        </div>
-
-        <!-- ShanGPT Panel -->
-        <div class="app-panel" id="shangptPanel">
-            <div class="app-header">
-                <div class="app-title">
-                    <div class="app-icon shangpt-icon">
-                        <i class="fas fa-mountain"></i>
-                    </div>
-                    <div class="app-info">
-                        <h2>ShanGPT Assistant</h2>
-                        <p>Regional AI • Cultural Insights • Language Processing</p>
-                    </div>
-                </div>
-                <div class="app-status">
-                    <div class="status-indicator"></div>
-                    <span class="status-text">LIVE</span>
-                </div>
-            </div>
-            <div class="app-frame-container">
-                <iframe 
-                    class="app-frame" 
-                    id="shangptFrame"
-                    src="https://phoe2004-recap-shan.hf.space" 
-                    title="ShanGPT Assistant"
-                ></iframe>
-            </div>
-        </div>
-    </div>
-
-    <!-- Stats Bar -->
-    <div class="stats-bar">
-        <div class="stat-item">
-            <i class="fas fa-microchip animal-stat"></i>
-            <div>
-                <div class="stat-value animal-stat">AI Processing</div>
-                <div style="font-size: 0.8rem; opacity: 0.7;">Animal Video Editor</div>
-            </div>
-        </div>
-        
-        <div class="stat-item">
-            <i class="fas fa-brain shangpt-stat"></i>
-            <div>
-                <div class="stat-value shangpt-stat">Cultural AI</div>
-                <div style="font-size: 0.8rem; opacity: 0.7;">Shan Region Assistant</div>
-            </div>
-        </div>
-        
-        <div class="stat-item">
-            <i class="fas fa-sync"></i>
-            <div>
-                <div class="stat-value">Dual Processing</div>
-                <div style="font-size: 0.8rem; opacity: 0.7;">Both Apps Running</div>
-            </div>
-        </div>
-    </div>
-
-    <script>
-        // Layout Management
-        let currentLayout = 'horizontal';
-        let fullscreenMode = null;
-
-        function setLayout(layout) {
-            currentLayout = layout;
-            const container = document.getElementById('splitContainer');
-            const layoutBtns = document.querySelectorAll('.layout-btn');
-            
-            layoutBtns.forEach(btn => btn.classList.remove('active'));
-            event.target.classList.add('active');
-            
-            if (layout === 'vertical') {
-                container.classList.add('vertical-split');
-            } else {
-                container.classList.remove('vertical-split');
-            }
-        }
-
-        // Fullscreen Toggle
-        function toggleFullscreen(app) {
-            const panel = document.getElementById(app + 'Panel');
-            
-            if (fullscreenMode === app) {
-                // Exit fullscreen
-                panel.classList.remove('fullscreen');
-                document.getElementById('splitContainer').style.display = 'flex';
-                document.querySelector('.stats-bar').style.display = 'flex';
-                fullscreenMode = null;
-            } else {
-                // Enter fullscreen
-                panel.classList.add('fullscreen');
-                document.getElementById('splitContainer').style.display = 'none';
-                document.querySelector('.stats-bar').style.display = 'none';
-                fullscreenMode = app;
-            }
-        }
-
-        // Refresh All Frames
-        function refreshAll() {
-            const frames = document.querySelectorAll('.app-frame');
-            frames.forEach(frame => {
-                const currentSrc = frame.src;
-                frame.src = currentSrc;
-            });
-            
-            // Show refresh animation
-            event.target.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Refreshing';
-            setTimeout(() => {
-                event.target.innerHTML = '<i class="fas fa-sync-alt"></i> Refresh All';
-            }, 1000);
-        }
-
-        // Resize Functionality
-        const resizeHandle = document.getElementById('resizeHandle');
-        const animalPanel = document.getElementById('animalPanel');
-        const shangptPanel = document.getElementById('shangptPanel');
-        
-        let isResizing = false;
-        
-        resizeHandle.addEventListener('mousedown', function(e) {
-            isResizing = true;
-            document.body.style.cursor = currentLayout === 'horizontal' ? 'col-resize' : 'row-resize';
-            e.preventDefault();
-        });
-        
-        document.addEventListener('mousemove', function(e) {
-            if (!isResizing) return;
-            
-            if (currentLayout === 'horizontal') {
-                const containerWidth = document.getElementById('splitContainer').offsetWidth;
-                const animalWidth = (e.clientX / containerWidth) * 100;
-                
-                animalPanel.style.flex = `0 0 ${animalWidth}%`;
-                shangptPanel.style.flex = `0 0 ${100 - animalWidth}%`;
-            } else {
-                const containerHeight = document.getElementById('splitContainer').offsetHeight;
-                const animalHeight = (e.clientY / containerHeight) * 100;
-                
-                animalPanel.style.flex = `0 0 ${animalHeight}%`;
-                shangptPanel.style.flex = `0 0 ${100 - animalHeight}%`;
-            }
-        });
-        
-        document.addEventListener('mouseup', function() {
-            isResizing = false;
-            document.body.style.cursor = 'default';
-        });
-
-        // Auto-refresh every 30 minutes
-        setInterval(() => {
-            refreshAll();
-        }, 30 * 60 * 1000);
-
-        // Status Monitoring
-        setInterval(() => {
-            const indicators = document.querySelectorAll('.status-indicator');
-            indicators.forEach(indicator => {
-                indicator.style.animation = 'none';
-                setTimeout(() => {
-                    indicator.style.animation = 'pulse 2s infinite';
-                }, 10);
-            });
-        }, 5000);
-
-        // Keyboard Shortcuts
-        document.addEventListener('keydown', function(e) {
-            // F1 for Animal fullscreen
-            if (e.key === 'F1') {
-                e.preventDefault();
-                toggleFullscreen('animal');
-            }
-            
-            // F2 for ShanGPT fullscreen
-            if (e.key === 'F2') {
-                e.preventDefault();
-                toggleFullscreen('shangpt');
-            }
-            
-            // F5 to refresh all
-            if (e.key === 'F5') {
-                e.preventDefault();
-                refreshAll();
-            }
-            
-            // Escape to exit fullscreen
-            if (e.key === 'Escape' && fullscreenMode) {
-                toggleFullscreen(fullscreenMode);
-            }
-        });
-
-        // Initialize with default layout
-        setLayout('horizontal');
-    </script>
-</body>
-    </html>
-        .app-card:nth-child(2) .app-icon {
-            background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
-        }
-
-        .app-title {
-            font-size: 1.8rem;
-            color: white;
-            margin-bottom: 15px;
-            font-weight: 600;
-        }
-
-        .app-description {
-            color: rgba(255, 255, 255, 0.85);
-            font-size: 1rem;
-            line-height: 1.6;
-            margin-bottom: 25px;
-            flex-grow: 1;
-        }
-
-        .launch-btn {
-            display: inline-flex;
-            align-items: center;
-            justify-content: center;
-            gap: 10px;
-            background: rgba(255, 255, 255, 0.25);
-            border: 1px solid rgba(255, 255, 255, 0.4);
-            color: white;
-            padding: 14px 28px;
-            border-radius: 50px;
-            font-weight: 600;
-            font-size: 1rem;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            text-decoration: none;
-            backdrop-filter: blur(5px);
-            width: fit-content;
-            margin-top: auto;
-        }
-
-        .launch-btn:hover {
-            background: rgba(255, 255, 255, 0.35);
-            transform: scale(1.05);
-            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
-        }
-
-        /* Frame Container */
-        .frame-container {
-            background: rgba(255, 255, 255, 0.1);
-            backdrop-filter: blur(12px);
-            border-radius: 24px;
-            padding: 30px;
-            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.25);
-            border: 1px solid rgba(255, 255, 255, 0.2);
-            margin-bottom: 30px;
-            display: none;
-        }
-
-        .frame-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 25px;
-        }
-
-        .frame-title {
-            color: white;
-            font-size: 1.8rem;
-            font-weight: 600;
-        }
-
-        .back-btn {
-            display: inline-flex;
-            align-items: center;
-            gap: 8px;
-            background: rgba(255, 255, 255, 0.15);
-            border: 1px solid rgba(255, 255, 255, 0.3);
-            color: white;
-            padding: 12px 24px;
-            border-radius: 50px;
-            font-weight: 500;
-            cursor: pointer;
-            transition: all 0.3s ease;
-        }
-
-        .back-btn:hover {
-            background: rgba(255, 255, 255, 0.25);
-            transform: translateX(-5px);
-        }
-
-        .app-frame {
-            width: 100%;
-            height: 75vh;
-            border-radius: 16px;
-            border: none;
-            background: white;
-            box-shadow: inset 0 2px 10px rgba(0, 0, 0, 0.1);
-        }
-
-        /* Footer */
-        .footer {
-            text-align: center;
-            color: rgba(255, 255, 255, 0.7);
-            font-size: 0.9rem;
-            padding: 20px;
-            margin-top: 20px;
-        }
-
-        /* Responsive */
-        @media (max-width: 768px) {
-            .header h1 {
-                font-size: 2.5rem;
-            }
-            
-            .app-card {
-                max-width: 100%;
-                padding: 25px;
-            }
-            
-            .frame-container {
-                padding: 20px;
-            }
-            
-            .app-frame {
-                height: 60vh;
-            }
-        }
-
-        /* Floating elements for aesthetics */
-        .floating-element {
-            position: fixed;
-            border-radius: 50%;
-            background: rgba(255, 255, 255, 0.1);
-            z-index: -1;
-        }
-
-        .floating-element:nth-child(1) {
-            width: 200px;
-            height: 200px;
-            top: 10%;
-            left: 5%;
-            animation: float 20s infinite linear;
-        }
-
-        .floating-element:nth-child(2) {
-            width: 150px;
-            height: 150px;
-            bottom: 10%;
-            right: 5%;
-            animation: float 25s infinite linear reverse;
-        }
-
-        @keyframes float {
-            0% { transform: translateY(0) rotate(0deg); }
-            100% { transform: translateY(-20px) rotate(360deg); }
-        }
-    </style>
-</head>
-<body>
-    <!-- Floating background elements -->
-    <div class="floating-element"></div>
-    <div class="floating-element"></div>
-
-    <div class="container">
-        <!-- Header -->
-        <div class="header">
-            <h1>✨ My AI Portfolio</h1>
-            <p>Explore my interactive AI applications built with cutting-edge technology</p>
-        </div>
-
-        <!-- Apps Container -->
-        <div class="apps-container" id="appsContainer">
-            <!-- Recap Shan App -->
-            <div class="app-card">
-                <div class="app-icon">
-                    <i class="fas fa-mountain"></i>
-                </div>
-                <h2 class="app-title">Recap Shan</h2>
-                <p class="app-description">
-                    An interactive application for exploring and analyzing Shan region data. 
-                    Features include cultural insights, demographic visualizations, and regional analytics 
-                    presented in an engaging user interface.
-                </p>
-                <a class="launch-btn" onclick="openApp('recapShan')">
-                    <i class="fas fa-rocket"></i>
-                    Launch Application
-                </a>
-            </div>
-
-            <!-- Animal Recap App -->
-            <div class="app-card">
-                <div class="app-icon">
-                    <i class="fas fa-paw"></i>
-                </div>
-                <h2 class="app-title">Animal Recap</h2>
-                <p class="app-description">
-                    Discover fascinating information about animals from around the world. 
-                    This application provides detailed profiles, conservation status, 
-                    and interactive features to learn about wildlife in an engaging way.
-                </p>
-                <a class="launch-btn" onclick="openApp('animalRecap')">
-                    <i class="fas fa-rocket"></i>
-                    Launch Application
-                </a>
-            </div>
-        </div>
-
-        <!-- Frame Container (hidden by default) -->
-        <div class="frame-container" id="frameContainer">
-            <div class="frame-header">
-                <h2 class="frame-title" id="frameTitle">Application</h2>
-                <button class="back-btn" onclick="goBack()">
-                    <i class="fas fa-arrow-left"></i>
-                    Back to Dashboard
-                </button>
-            </div>
-            <iframe class="app-frame" id="appFrame" allow="camera; microphone"></iframe>
-        </div>
-
-        <!-- Footer -->
-        <div class="footer">
-            <p>© 2023 My Portfolio | Built with ❤️ using modern web technologies</p>
-        </div>
-    </div>
-
-    <script>
-        // Application URLs
-        const apps = {
-            recapShan: {
-                title: "Recap Shan",
-                url: "https://phoe2004-recap-shan.hf.space",
-                icon: "fas fa-mountain"
-            },
-            animalRecap: {
-                title: "Animal Recap",
-                url: "https://phoe2004-Animal-recap.hf.space",
-                icon: "fas fa-paw"
-            }
-        };
-
-        // Open application in frame
-        function openApp(appName) {
-            const app = apps[appName];
-            if (!app) return;
-
-            // Update frame content
-            document.getElementById('frameTitle').textContent = app.title;
-            document.getElementById('appFrame').src = app.url;
-            
-            // Show frame, hide apps
-            document.getElementById('frameContainer').style.display = 'block';
-            document.getElementById('appsContainer').style.display = 'none';
-            
-            // Smooth scroll to top
-            window.scrollTo({ top: 0, behavior: 'smooth' });
-        }
-
-        // Go back to dashboard
-        function goBack() {
-            // Hide frame, show apps
-            document.getElementById('frameContainer').style.display = 'none';
-            document.getElementById('appsContainer').style.display = 'flex';
-            
-            // Reset frame src
-            document.getElementById('appFrame').src = '';
-            
-            // Smooth scroll to top
-            window.scrollTo({ top: 0, behavior: 'smooth' });
-        }
-
-        // Handle browser back button
-        window.addEventListener('popstate', function(event) {
-            goBack();
-        });
-
-        // Add click animations to cards
-        document.querySelectorAll('.app-card').forEach(card => {
-            card.addEventListener('click', function(e) {
-                if (!e.target.closest('.launch-btn')) {
-                    this.style.transform = 'scale(0.98)';
-                    setTimeout(() => {
-                        this.style.transform = '';
-                    }, 150);
-                }
-            });
-        });
-    </script>
-</body>
-    </html>
