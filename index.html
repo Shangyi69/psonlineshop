@@ -49,8 +49,14 @@
     /* LIVE */
     .live-label{color:var(--accent);font-size:11px;letter-spacing:2px;}
     #live-num{font-size:96px;font-weight:900;color:var(--accent);
-      text-shadow:0 0 24px rgba(0,210,255,.5);line-height:1;margin:4px 0 2px;}
+      text-shadow:0 0 24px rgba(0,210,255,.5);line-height:1;margin:4px 0 2px;
+      transition:color .1s, text-shadow .1s, transform .1s;
+      display:block;}
     .live-time{color:var(--muted);font-size:11px;}
+    .live-main-card{
+      background:linear-gradient(160deg,#0d1b2a,#1a2a4a);
+      border:1px solid rgba(0,210,255,.15);
+    }
 
     /* RESULTS */
     .result-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:12px;}
@@ -195,20 +201,57 @@
       padding:8px 14px;font-size:16px;cursor:pointer;flex-shrink:0;}
     #chat-send:active{opacity:.7;}
 
-    /* ── WATCH AD UNLOCK ── */
-    .btn-watch-ad{
-      background:linear-gradient(135deg,#e74c3c,#e67e22);
-      color:#fff;border:none;border-radius:12px;
-      padding:13px 28px;font-size:15px;font-weight:800;
-      cursor:pointer;letter-spacing:1px;
-      box-shadow:0 4px 16px rgba(231,76,60,.4);
-      width:100%;
+
+    /* ── SCRATCH CARD ── */
+    .scratch-section{margin-bottom:12px;}
+    .scratch-title{color:var(--gold);font-weight:700;font-size:13px;
+      margin-bottom:10px;display:flex;align-items:center;gap:6px;}
+    .scratch-grid{display:grid;grid-template-columns:repeat(5,1fr);gap:8px;}
+    .scratch-cell{
+      position:relative;border-radius:10px;overflow:hidden;
+      aspect-ratio:1;cursor:pointer;user-select:none;
     }
-    .btn-watch-ad:active{opacity:.8;}
-    #pred-unlocked-badge{
-      display:inline-block;background:#2ecc71;color:#fff;
-      font-size:10px;font-weight:700;padding:2px 8px;
-      border-radius:20px;margin-left:6px;vertical-align:middle;
+    .scratch-hidden{
+      position:absolute;inset:0;
+      background:linear-gradient(135deg,#2a2a4a,#1a1a3e);
+      border:1px solid #333;border-radius:10px;
+      display:flex;align-items:center;justify-content:center;
+      font-size:20px;transition:opacity .3s;
+      z-index:2;
+    }
+    .scratch-reveal{
+      position:absolute;inset:0;
+      display:flex;align-items:center;justify-content:center;
+      font-size:22px;font-weight:900;
+      border-radius:10px;
+      z-index:1;
+    }
+    .scratch-reveal.gold{background:linear-gradient(135deg,#f39c12,#ffd700);color:#1a1a2e;}
+    .scratch-reveal.red{background:linear-gradient(135deg,#c0392b,#e74c3c);color:#fff;}
+    .scratch-reveal.blue{background:linear-gradient(135deg,#0070a8,#00d2ff);color:#fff;}
+    .scratch-cell.scratched .scratch-hidden{opacity:0;pointer-events:none;}
+    .scratch-cell.scratching .scratch-hidden{
+      background:linear-gradient(135deg,#3a3a5a,#2a2a4a);
+    }
+    .scratch-btn{
+      width:100%;padding:10px;margin-top:10px;
+      background:linear-gradient(135deg,#2c3e50,#3d5166);
+      color:#aaa;border:1px solid #333;border-radius:10px;
+      font-size:12px;cursor:pointer;
+    }
+    .scratch-btn:active{opacity:.8;}
+    .scratch-result{
+      text-align:center;padding:8px;margin-top:8px;
+      border-radius:10px;font-size:13px;font-weight:700;
+      display:none;
+    }
+    .scratch-result.show{display:block;}
+    .scratch-result.lucky{background:rgba(255,215,0,.15);color:var(--gold);border:1px solid #ffd70033;}
+    .scratch-result.normal{background:rgba(255,255,255,.05);color:#666;}
+    /* Scratch canvas overlay */
+    .scratch-canvas{
+      position:absolute;inset:0;z-index:3;border-radius:10px;
+      cursor:crosshair;
     }
 
   </style>
@@ -227,12 +270,13 @@
   <!-- TAB 2D -->
   <div class="tab-pane active" id="tab-2d">
 
-    <div class="dark-card">
+    <div class="dark-card live-main-card">
       <div class="live-label">
         <span class="status-dot" id="sdot"></span>
-        LIVE 2D REAL-TIME / မြန်မာ ၂ဂဏန်း
+        <span id="stock-status-txt">LIVE 2D REAL-TIME / မြန်မာ ၂ဂဏန်း</span>
       </div>
       <div id="live-num">--</div>
+      <div id="live-set-val" style="color:#555;font-size:11px;margin:2px 0;"></div>
       <div class="live-time" id="live-time">Loading...</div>
     </div>
 
@@ -246,13 +290,21 @@
         <div class="num" id="t1630">--</div>
       </div>
       <div class="result-box sm" id="box0930">
-        <div class="lbl">🕘 09:30 AM / မနက်</div>
+        <div class="lbl">🕚 11:00 AM / မနက်</div>
         <div class="num" id="t0930">--</div>
       </div>
       <div class="result-box sm" id="box1400">
         <div class="lbl">🕑 02:00 PM / နေ့</div>
         <div class="num" id="t1400">--</div>
       </div>
+    </div>
+
+    <!-- Lucky Number Scratch Card -->
+    <div class="scratch-section" id="scratch-section" style="display:none;">
+      <div class="scratch-title">🎰 Lucky ဂဏန်း ကြည့်ရန် — ခဲခြစ်ပါ</div>
+      <div class="scratch-grid" id="scratch-grid"></div>
+      <div class="scratch-result" id="scratch-result"></div>
+      <button class="scratch-btn" onclick="resetScratch()">🔄 သစ်ဖျက် (New Cards)</button>
     </div>
 
     <!-- Mid Ad -->
@@ -267,61 +319,14 @@
       <script>(adsbygoogle = window.adsbygoogle || []).push({});</script>
     </div>
 
-    <!-- AI Prediction — Watch Ad to Unlock -->
+    <!-- AI Prediction -->
     <div class="predict-card" id="predict-section" style="display:none;">
       <div class="predict-title">🤖 AI Prediction — <span id="pred-date">--/--/----</span></div>
-
-      <!-- LOCKED STATE -->
-      <div id="pred-locked">
-        <div style="text-align:center;padding:18px 10px;">
-          <div style="font-size:36px;margin-bottom:8px;">🔒</div>
-          <p style="color:#aaa;font-size:13px;margin-bottom:14px;">
-            AI ဂဏန်းကြည့်ရန် ကြော်ငြာတစ်ပုဒ် ကြည့်ပါ
-          </p>
-          <button class="btn-watch-ad" onclick="watchAdUnlock()">
-            ▶ Watch Ad — ဂဏန်းကြည့်မည်
-          </button>
-          <p style="color:#444;font-size:10px;margin-top:8px;">
-            * ၁ ကြိမ် ကြည့်ရင် ဒီနေ့တစ်နေ့လုံး unlock ဖြစ်မည်
-          </p>
-        </div>
-      </div>
-
-      <!-- AD PLAYING STATE -->
-      <div id="pred-ad-playing" style="display:none;">
-        <div style="text-align:center;padding:20px 10px;">
-          <div style="font-size:28px;margin-bottom:8px;">📺</div>
-          <p style="color:#00d2ff;font-size:13px;margin-bottom:12px;">ကြော်ငြာ ကြည့်နေသည်...</p>
-          <!-- AdSense / rewarded ad placeholder -->
-          <div id="ad-countdown-bar" style="background:#1a1a2e;border-radius:8px;height:6px;margin:0 20px 10px;overflow:hidden;">
-            <div id="ad-progress" style="width:0%;height:100%;background:linear-gradient(90deg,#e74c3c,#e67e22);transition:width .1s;border-radius:8px;"></div>
-          </div>
-          <p id="ad-countdown-txt" style="color:#aaa;font-size:12px;">⏳ <span id="ad-sec">15</span> စက္ကန့် ကျန်သည်</p>
-          <!-- Real AdSense inline ad shown during countdown -->
-          <div style="margin-top:10px;">
-            <ins class="adsbygoogle"
-                 style="display:block"
-                 data-ad-client="ca-pub-1188893611988786"
-                 data-ad-slot="4661284094"
-                 data-ad-format="auto"
-                 data-full-width-responsive="true"
-                 data-adtest="on"></ins>
-            <script>(adsbygoogle = window.adsbygoogle || []).push({});</script>
-          </div>
-        </div>
-      </div>
-
-      <!-- UNLOCKED STATE -->
-      <div id="pred-unlocked" style="display:none;">
-        <div class="predict-sub">🔥 MAIN 5 — အဓိကဂဏန်း</div>
-        <div id="main5-bars"></div>
-        <div class="predict-sub2" style="margin-top:8px;">📌 Other 5 — ဖြည့်စွက်</div>
-        <div class="num-chips" id="other5"></div>
-        <div class="predict-note">* Hot/Cold + Digit-sum + Pattern analysis</div>
-        <div style="text-align:right;margin-top:6px;">
-          <span style="font-size:10px;color:#333;" id="unlock-expires"></span>
-        </div>
-      </div>
+      <div class="predict-sub">🔥 MAIN 5 — အဓိကဂဏန်း (confidence)</div>
+      <div id="main5-bars"></div>
+      <div class="predict-sub2" style="margin-top:8px;">📌 Other 5 — ဖြည့်စွက်</div>
+      <div class="num-chips" id="other5"></div>
+      <div class="predict-note" id="pred-note">* Hot/Cold + Digit-sum + Pattern analysis</div>
     </div>
 
   </div>
@@ -433,8 +438,12 @@ function mmDate(){
   const m=mmNow();
   return String(m.getDate()).padStart(2,'0')+'/'+String(m.getMonth()+1).padStart(2,'0')+'/'+m.getFullYear();
 }
-function isStockOpen(){ const t=mmT(); return (t>=570&&t<=722)||(t>=780&&t<=991); }
-function showPred(){ return mmNow().getHours()>=8; }
+function isStockOpen(){
+  // Thai SET hours: 10:00-12:30 and 14:30-17:00 (Thai time UTC+7)
+  const th=thaiNow(), t=th.getHours()*60+th.getMinutes();
+  return (t>=600&&t<=750)||(t>=870&&t<=1020);
+}
+// showPred defined above with Thai 8AM logic
 
 // ── Tabs ──
 function switchTab(id,btn){
@@ -445,86 +454,280 @@ function switchTab(id,btn){
   if(id==='3d'&&!window._3dLoaded){ loadThai3D(); window._3dLoaded=true; }
 }
 
+// Thai time = UTC+7
+function thaiNow(){ return new Date(Date.now() + new Date().getTimezoneOffset()*60000 + 7*3600000); }
+function thaiTimeStr(){
+  const t=thaiNow();
+  return t.getHours().toString().padStart(2,'0')+':'+t.getMinutes().toString().padStart(2,'0');
+}
+
+// Auto refresh Thai 3D at 10:00 AM Thai time
+let _lastThaiDay='', _thaiAutoRefreshed=false;
+function checkThaiAutoRefresh(){
+  const t   = thaiNow();
+  const day = t.toDateString();
+  const h   = t.getHours(), m = t.getMinutes();
+  // Refresh once after 10:00 AM Thai time each day
+  if(h >= 10 && day !== _lastThaiDay){
+    _lastThaiDay        = day;
+    _thaiAutoRefreshed  = false;
+  }
+  if(h >= 10 && !_thaiAutoRefreshed && window._3dLoaded){
+    _thaiAutoRefreshed = true;
+    loadThai3D();
+    console.log('[Thai3D] Auto-refreshed at Thai time', thaiTimeStr());
+  }
+}
+setInterval(checkThaiAutoRefresh, 30000);  // check every 30s
+
 // ── Live Flicker ──
 let _real='--', _flickTimer=null;
 
+// ── Myanmar 2D app style flicker ──
+// Phase 1 (0-1.2s): rapid random numbers, bright green like real app
+// Phase 2 (1.2-1.6s): slowing down, numbers change slower
+// Phase 3 (1.6-2.0s): land on real number, cyan glow
+
+let _flickPhase = 0;
+let _flickTick  = 0;
+
 function startFlicker(){
   if(_flickTimer) return;
-  const el=document.getElementById('live-num');
-  let tick=0;
-  _flickTimer=setInterval(()=>{
-    tick++;
-    if(tick%20<18){
-      el.textContent=String(Math.floor(Math.random()*100)).padStart(2,'0');
-      el.style.color='rgba(255,255,255,0.3)';
-      el.style.textShadow='none';
+  const el = document.getElementById('live-num');
+  _flickTick = 0;
+
+  _flickTimer = setInterval(()=>{
+    _flickTick++;
+    const cycle = _flickTick % 40;  // 40 ticks = 2 seconds at 50ms
+
+    if(cycle < 24){
+      // Phase 1: Fast random (50ms each) — bright white like rolling
+      el.textContent = String(Math.floor(Math.random()*100)).padStart(2,'0');
+      el.style.color = '#ffffff';
+      el.style.textShadow = '0 0 20px rgba(255,255,255,0.6)';
+      el.style.transform = 'scale(1.0)';
+    } else if(cycle < 32){
+      // Phase 2: Slowing (every 2nd tick changes)
+      if(cycle % 2 === 0){
+        el.textContent = String(Math.floor(Math.random()*100)).padStart(2,'0');
+      }
+      el.style.color = '#00ff88';
+      el.style.textShadow = '0 0 20px rgba(0,255,136,0.5)';
+      el.style.transform = 'scale(1.02)';
     } else {
-      el.textContent=_real;
-      el.style.color='#00d2ff';
-      el.style.textShadow='0 0 24px rgba(0,210,255,.5)';
+      // Phase 3: Land on real number — cyan glow
+      el.textContent = _real;
+      el.style.color = '#00d2ff';
+      el.style.textShadow = '0 0 30px rgba(0,210,255,0.8)';
+      el.style.transform = 'scale(1.05)';
     }
-  },100);
+  }, 50);  // 50ms = 20 fps — smooth
 }
 
 function stopFlicker(){
   if(_flickTimer){ clearInterval(_flickTimer); _flickTimer=null; }
-  const el=document.getElementById('live-num');
-  el.textContent=_real;
-  el.style.color='#00d2ff';
-  el.style.textShadow='0 0 24px rgba(0,210,255,.5)';
+  const el = document.getElementById('live-num');
+  el.textContent = _real;
+  el.style.color = '#00d2ff';
+  el.style.textShadow = '0 0 24px rgba(0,210,255,.5)';
+  el.style.transform = 'scale(1)';
 }
 
-// ── AI Prediction ──
-function smartPredict(results, liveNum){
-  const history=results.map(r=>r.twod).filter(n=>n&&n!=='--'&&/^\d{2}$/.test(n));
-  const base=parseInt(liveNum)||64;
-  const total=history.length||1;
-  const score={};
-  for(let i=0;i<100;i++) score[String(i).padStart(2,'0')]=0;
+// ── AI Prediction — Thai Stock 2D ──
+// API: /2d_result (last 10 days) + /history (intraday moves)
+// Reset: Thai time 8:00 AM daily
 
-  const freq={};
-  history.forEach(n=>{ freq[n]=(freq[n]||0)+1; });
+const API_2D_RESULT  = 'https://api.thaistock2d.com/2d_result';
+const API_2D_HISTORY = 'https://api.thaistock2d.com/history';
+
+// ── Fetch rich history from API ──
+async function fetchPredictionData(){
+  try {
+    const [resResult, resHistory] = await Promise.all([
+      fetch(API_2D_RESULT,  {cache:'no-store'}),
+      fetch(API_2D_HISTORY, {cache:'no-store'}),
+    ]);
+    const results = await resResult.json();   // last 10 days final results
+    const history = await resHistory.json();  // intraday movements
+    return { results, history };
+  } catch(e){
+    console.warn('[Pred] API fetch failed:', e.message);
+    return { results:[], history:[] };
+  }
+}
+
+// ── Extract all final result numbers ──
+// results = [{child:[{time,twod,...},...]}]
+function extractFinals(results){
+  const finals = { '11:00':[], '12:01':[], '15:00':[], '16:30':[] };
+  const all = [];
+  for(const day of results){
+    for(const r of (day.child||[])){
+      const t = (r.time||'').slice(0,5);
+      const n = r.twod;
+      if(!n || !/^\d{2}$/.test(n)) continue;
+      all.push(n);
+      for(const key of Object.keys(finals)){
+        if(t.startsWith(key.slice(0,2)) && t.slice(3,5)===key.slice(3,5)) finals[key].push(n);
+        else if(t === key) finals[key].push(n);
+      }
+    }
+  }
+  return { all, sessions: finals };
+}
+
+// ── Markov: after X what comes next ──
+function markov(seq){
+  const m = {};
+  for(let i=0;i<seq.length-1;i++){
+    const a=seq[i], b=seq[i+1];
+    if(!m[a]) m[a]={};
+    m[a][b]=(m[a][b]||0)+1;
+  }
+  return m;
+}
+
+// ── Main prediction engine ──
+async function smartPredict(liveNum){
+  const { results, history } = await fetchPredictionData();
+
+  const base   = parseInt(liveNum)||64;
+  const liveStr= String(base).padStart(2,'0');
+
+  // Build sequences from 10-day result history
+  const { all: allFinals, sessions } = extractFinals(results);
+
+  // Build intraday sequence from history
+  const intradaySeq = [];
+  for(const day of history){
+    for(const r of (day.child||[])){
+      if(r.twod && /^\d{2}$/.test(r.twod)) intradaySeq.push(r.twod);
+    }
+  }
+
+  const combined = [...allFinals, ...intradaySeq];
+  const N = combined.length || 1;
+
+  // Score map
+  const score = {};
+  for(let i=0;i<100;i++) score[String(i).padStart(2,'0')] = 0;
+
+  // ── [1] MARKOV TRANSITION (35pts) ──
+  const trans = markov(combined);
+  if(trans[liveStr]){
+    const tot = Object.values(trans[liveStr]).reduce((a,b)=>a+b,0);
+    for(const [n,cnt] of Object.entries(trans[liveStr])){
+      score[n] += Math.round((cnt/tot)*35);
+    }
+  }
+
+  // ── [2] OVERDUE GAP (30pts) ──
   for(let i=0;i<100;i++){
     const n=String(i).padStart(2,'0');
-    score[n]+=(1-(freq[n]||0)/total)*40;
+    let last=-1;
+    for(let j=combined.length-1;j>=0;j--){
+      if(combined[j]===n){last=j;break;}
+    }
+    const gap = last===-1 ? N : N-1-last;
+    const avg = N/100;
+    if(gap > avg*3)      score[n]+=30;
+    else if(gap > avg*2) score[n]+=20;
+    else if(gap > avg)   score[n]+=10;
+    else if(gap < 3)     score[n]-=20;
   }
-  const r30=new Set(history.slice(-30)), r10=new Set(history.slice(-10));
-  for(const n of Object.keys(score)){
-    if(!r10.has(n)) score[n]+=25;
-    else if(!r30.has(n)) score[n]+=10;
-    const s=+n[0]+ +n[1];
-    if([7,8,9].includes(s)) score[n]+=20;
-    else if([6,10,11].includes(s)) score[n]+=12;
-    else if([16,17,18].includes(s)) score[n]+=15;
-  }
-  [7,11,13,17,23,29].forEach((st,i)=>{
-    const n=String((base+st)%100).padStart(2,'0');
-    score[n]+=(6-i)*5;
-  });
-  const mirror=String(base).padStart(2,'0');
-  const rev=mirror[1]+mirror[0];
-  if(score[rev]!==undefined) score[rev]+=15;
 
-  const ranked=Object.entries(score).sort((a,b)=>b[1]-a[1]);
-  const main5=ranked.slice(0,5).map(e=>e[0]);
-  const other5=ranked.slice(5,10).map(e=>e[0]);
-  const maxS=ranked[0][1];
-  const conf5=main5.map(n=>Math.round((score[n]/maxS)*100));
-  return {main5,other5,conf5};
+  // ── [3] SESSION AFTERNOON BIAS (20pts) ──
+  // 12:01 and 16:30 sessions combined frequency
+  const afNums = [...(sessions['12:01']||[]), ...(sessions['16:30']||[])];
+  if(afNums.length > 0){
+    const afFreq={};
+    afNums.forEach(n=>{ afFreq[n]=(afFreq[n]||0)+1; });
+    const afMax = Math.max(...Object.values(afFreq));
+    for(const [n,f] of Object.entries(afFreq)){
+      score[n] += Math.round((f/afMax)*20);
+    }
+  }
+
+  // ── [4] DIGIT SUM LUCKY (15pts) ──
+  const lucky = {7:15,8:15,9:12,16:13,17:13,6:8,10:8,5:5,11:5};
+  for(let i=0;i<100;i++){
+    const n=String(i).padStart(2,'0');
+    const s=parseInt(n[0])+parseInt(n[1]);
+    if(lucky[s]) score[n]+=lucky[s];
+  }
+
+  // ── [5] MIRROR + NEIGHBOUR (10pts) ──
+  const mirror=liveStr[1]+liveStr[0];
+  score[mirror]=(score[mirror]||0)+10;
+  [-2,-1,1,2].forEach(d=>{
+    const n=String((base+d+100)%100).padStart(2,'0');
+    score[n]+=(Math.abs(d)===1)?7:3;
+  });
+
+  // ── [6] INTRADAY TREND — last 10 intraday moves ──
+  // Numbers appearing in recent intraday but NOT as final = "building up"
+  const recentIntra  = intradaySeq.slice(-30);
+  const recentFinals = new Set(allFinals.slice(-10));
+  const intraFreq={};
+  recentIntra.forEach(n=>{ intraFreq[n]=(intraFreq[n]||0)+1; });
+  for(const [n,f] of Object.entries(intraFreq)){
+    if(!recentFinals.has(n)) score[n]+=Math.min(f*3,15);  // building up
+  }
+
+  // ── [7] PENALISE LAST 5 FINALS ──
+  allFinals.slice(-5).forEach((n,i)=>{
+    score[n]-=(5-i)*6;
+  });
+
+  // Sort
+  const ranked = Object.entries(score).sort((a,b)=>b[1]-a[1]);
+
+  // MAIN 5 — highest score
+  const main5  = ranked.slice(0,5).map(e=>e[0]);
+  // RESERVE 5 — next 5
+  const other5 = ranked.slice(5,10).map(e=>e[0]);
+
+  const maxS  = Math.max(ranked[0][1],1);
+  const conf5 = main5.map(n=>Math.max(35,Math.min(99,Math.round((score[n]/maxS)*100))));
+
+  // Session hint for display
+  const recentNoon = (sessions['12:01']||[]).slice(-3).join(', ')||'--';
+  const recentEve  = (sessions['16:30']||[]).slice(-3).join(', ')||'--';
+  const sessionHint = { noon: recentNoon, eve: recentEve };
+
+  return { main5, other5, conf5, sessionHint };
 }
 
-function renderPrediction(main5,other5,conf5){
-  document.getElementById('main5-bars').innerHTML=main5.map((n,i)=>`
+function renderPrediction(main5, other5, conf5, sessionHint){
+  document.getElementById('main5-bars').innerHTML = main5.map((n,i)=>`
     <div class="conf-row">
       <div class="conf-num">${n}</div>
-      <div class="conf-bar-bg"><div class="conf-bar" style="width:${conf5[i]}%"></div></div>
+      <div class="conf-bar-bg">
+        <div class="conf-bar" style="width:${conf5[i]}%"></div>
+      </div>
       <div class="conf-pct">${conf5[i]}%</div>
     </div>`).join('');
-  document.getElementById('other5').innerHTML=other5.map(n=>`<span class="chip-other">${n}</span>`).join('');
+
+  document.getElementById('other5').innerHTML =
+    other5.map(n=>`<span class="chip-other">${n}</span>`).join('');
+
+  const noteEl = document.getElementById('pred-note');
+  if(noteEl && sessionHint){
+    noteEl.innerHTML =
+      `📊 Markov + Gap + Session + Intraday trend<br>`+
+      `<span style="color:#555;font-size:10px;">`+
+      `Recent noon: ${sessionHint.noon} &nbsp;|&nbsp; Recent eve: ${sessionHint.eve}</span>`;
+  }
+  // Init scratch
+  initScratchFromPred(main5);
 }
 
-// ── 2D Live ──
-let _lastPredDay='', _lastLive='';
+
+// Show prediction only from Thai 8AM onwards
+function showPred(){
+  const t = thaiNow();
+  return t.getHours() >= 8;
+}
 
 async function load2D(){
   try{
@@ -537,12 +740,28 @@ async function load2D(){
       const v=results.filter(r=>r.twod&&r.twod!=='--'&&/^\d{2}$/.test(r.twod));
       live=v.length?v[v.length-1].twod:'--';
     }
-    _real=live;
+    _real = live;
+    // Show SET/Value from live data
+    const lvSet = document.getElementById('live-set-val');
+    if(lvSet && data.live){
+      const s = data.live.set||'', v = data.live.value||'';
+      lvSet.textContent = s ? `SET ${s}  |  Vol ${v}` : '';
+    }
+
+    // Update status text
+    const stTxt = document.getElementById('stock-status-txt');
 
     const open=isStockOpen()&&live!=='--';
     const sdot=document.getElementById('sdot');
-    if(open){ sdot.className='status-dot open'; startFlicker(); }
-    else { sdot.className='status-dot'; stopFlicker(); }
+    if(open){
+      sdot.className='status-dot open';
+      if(stTxt) stTxt.textContent = '🟢 STOCK OPEN — Live ကြည့်နေသည်';
+      startFlicker();
+    } else {
+      sdot.className='status-dot';
+      if(stTxt) stTxt.textContent = '🔴 STOCK CLOSED / ပိတ်ပြီ';
+      stopFlicker();
+    }
 
     const mm=mmNow();
     document.getElementById('live-time').textContent=
@@ -553,44 +772,71 @@ async function load2D(){
       if(!r) r=results.find(x=>(x.open_time||'').includes(t));
       return (r&&r.twod&&r.twod!=='--')?r.twod:'--';
     }
-    const r0930=getR('09:30'), r1201=getR('12:01'),
+    // API returns open_time as "11:00:00" / "12:01:00" / "15:00:00" / "16:30:00"
+    const r1100=getR('11:00'), r1201=getR('12:01'),
           r1400=getR('15:00'), r1630=getR('16:30');
 
-    document.getElementById('t0930').textContent=r0930;
+    document.getElementById('t0930').textContent=r1100;
     document.getElementById('t1201').textContent=r1201;
     document.getElementById('t1400').textContent=r1400;
     document.getElementById('t1630').textContent=r1630;
 
-    const t=mmT();
+    // Thai stock hours (Thai time UTC+7): 10:00–12:30 and 14:30–17:00
+    // Convert to Myanmar time (UTC+6:30): -30min from Thai
+    // 11:00 Thai = 10:30 MMT, 12:01 Thai = 11:31 MMT
+    // Use Thai time for highlight check
+    const th = thaiNow();
+    const thT = th.getHours()*60+th.getMinutes();
     const hl=(id,cls,cond)=>{
       const b=document.getElementById(id);
       if(cond) b.classList.add(cls); else b.classList.remove(cls);
     };
-    hl('box0930','hl-cyan',t>=570&&r0930!=='--');
-    hl('box1201','hl-cyan',t>=721&&r1201!=='--');
-    hl('box1400','hl-gold',t>=900&&r1400!=='--');
-    hl('box1630','hl-gold',t>=990&&r1630!=='--');
+    hl('box0930','hl-cyan', thT>=11*60   && r1100!=='--');
+    hl('box1201','hl-cyan', thT>=12*60+1 && r1201!=='--');
+    hl('box1400','hl-gold', thT>=15*60   && r1400!=='--');
+    hl('box1630','hl-gold', thT>=16*60+30 && r1630!=='--');
 
-    // Prediction
-    const ps=document.getElementById('predict-section');
-    const today=mmDate();
+    // Prediction — reset daily at Thai 8AM
+    const ps      = document.getElementById('predict-section');
+    const thaiDay = thaiDateStr();
+    const thaiH   = thaiNow().getHours();
+    const thaiM   = thaiNow().getMinutes();
+
     if(showPred()){
-      ps.style.display='block';
-      if(_lastPredDay!==today||_lastLive!==live){
-        _lastPredDay=today; _lastLive=live;
-        document.getElementById('pred-date').textContent=today;
-        const {main5,other5,conf5}=smartPredict(results,live);
-        renderPrediction(main5,other5,conf5);
+      ps.style.display = 'block';
+      // Recalculate once per Thai day
+      if(_lastPredDay !== thaiDay){
+        _lastPredDay = thaiDay;
+        _lastLive    = live;
+        // Show Thai date
+        const td = thaiNow();
+        const dispDate = String(td.getDate()).padStart(2,'0')+'/'+
+                         String(td.getMonth()+1).padStart(2,'0')+'/'+
+                         td.getFullYear();
+        document.getElementById('pred-date').textContent = dispDate;
+        document.getElementById('main5-bars').innerHTML =
+          `<p style="color:#aaa;font-size:12px;padding:8px 0;">⏳ တွက်နေသည်...</p>`;
+        // async fetch + calculate
+        smartPredict(live).then(({main5,other5,conf5,sessionHint})=>{
+          renderPrediction(main5,other5,conf5,sessionHint);
+        }).catch(e=>{
+          document.getElementById('main5-bars').innerHTML=
+            `<p style="color:#e74c3c;font-size:12px;">⚠️ Error: ${e.message}</p>`;
+        });
       }
-      // Show locked/unlocked state
-      checkUnlockState();
     } else {
-      ps.style.display='block';
-      const mm8=new Date(mm); mm8.setHours(8,0,0,0);
-      const diff=Math.max(0,mm8-mm);
-      const hh=Math.floor(diff/3600000), mn=Math.floor((diff%3600000)/60000);
-      document.getElementById('pred-date').textContent='မနက် ၈ နာရီ မှ ပေါ်မည်';
-      showLocked();
+      // Before Thai 8AM
+      ps.style.display = 'block';
+      const minsLeft = (8*60) - (thaiH*60 + thaiM);
+      const hh = Math.floor(minsLeft/60), mn = minsLeft%60;
+      document.getElementById('pred-date').textContent = 'မနက် ၈ နာရီ မှ ပေါ်မည်';
+      document.getElementById('main5-bars').innerHTML =
+        `<p style="color:#555;font-size:13px;padding:10px 0;">
+          ⏳ ${hh>0?hh+'h ':''}${mn}m ကျန်သည်
+         </p>`;
+      document.getElementById('other5').innerHTML = '';
+      const ss = document.getElementById('scratch-section');
+      if(ss) ss.style.display = 'none';
     }
 
     updateChatBanner();
@@ -662,6 +908,14 @@ document.getElementById('check-input').addEventListener('keydown',e=>{ if(e.key=
 
 // ── Chat ──
 let _chatOpen=false, _unread=0, _myName='';
+
+// ── Random default name ──
+const MM_NAMES = ['မောင်ကြီး','မောင်လေး','မသင်းသင်း','မနှင်းဆီ',
+  'မောင်ထွေး','မောင်သန်း','မနှင်းနှင်း','မောင်အောင်',
+  'မောင်မျိုး','မသီတာ','မောင်ဇော်','မရွှေ','Player'+Math.floor(Math.random()*999)];
+function getDefaultName(){
+  return MM_NAMES[Math.floor(Math.random()*MM_NAMES.length)];
+}
 
 function toggleChat(){
   _chatOpen=!_chatOpen;
@@ -751,71 +1005,114 @@ function updateChatBanner(){
 }
 
 
-// ═══════════════════════════════════════
-//  WATCH AD → UNLOCK PREDICTION
-// ═══════════════════════════════════════
-const UNLOCK_DURATION = 24 * 60 * 60 * 1000; // 24 hours in ms
-let _unlockExpiry = 0;   // timestamp when unlock expires
-let _adTimer = null;
 
-function isUnlocked(){
-  return Date.now() < _unlockExpiry;
+
+// ═══════════════════════════════════════════
+//  SCRATCH CARD — Lucky Number
+// ═══════════════════════════════════════════
+let _scratchNums   = [];
+let _scratchDone   = [];
+let _allScratched  = false;
+
+function genScratchNums(predMain5){
+  // 10 cells: 5 from AI prediction + 5 random near-range
+  const nums = [...predMain5];
+  const used = new Set(nums);
+  while(nums.length < 10){
+    const n = String(Math.floor(Math.random()*100)).padStart(2,'0');
+    if(!used.has(n)){ nums.push(n); used.add(n); }
+  }
+  // Shuffle
+  for(let i=nums.length-1;i>0;i--){
+    const j=Math.floor(Math.random()*(i+1));
+    [nums[i],nums[j]]=[nums[j],nums[i]];
+  }
+  return nums;
 }
 
-function checkUnlockState(){
-  if(isUnlocked()){
-    showUnlocked();
+function getCellColor(n){
+  const s = parseInt(n[0])+parseInt(n[1]);
+  if([7,8,9,16,17].includes(s)) return 'gold';
+  if([6,10,11,15].includes(s))  return 'red';
+  return 'blue';
+}
+
+function buildScratchGrid(nums){
+  const grid = document.getElementById('scratch-grid');
+  if(!grid) return;
+  _scratchNums  = nums;
+  _scratchDone  = new Array(nums.length).fill(false);
+  _allScratched = false;
+  const res = document.getElementById('scratch-result');
+  if(res){ res.className='scratch-result'; res.textContent=''; }
+
+  grid.innerHTML = nums.map((n,i)=>`
+    <div class="scratch-cell" id="sc-${i}" onclick="scratchCell(${i})">
+      <div class="scratch-reveal ${getCellColor(n)}">${n}</div>
+      <div class="scratch-hidden">🪙</div>
+    </div>`).join('');
+}
+
+function scratchCell(i){
+  const cell = document.getElementById('sc-'+i);
+  if(!cell || _scratchDone[i]) return;
+  _scratchDone[i] = true;
+
+  // Scratch animation
+  cell.classList.add('scratching');
+  setTimeout(()=>{
+    cell.classList.remove('scratching');
+    cell.classList.add('scratched');
+    checkAllScratched();
+  }, 250);
+}
+
+function checkAllScratched(){
+  const allDone = _scratchDone.every(v=>v);
+  if(!allDone) return;
+  _allScratched = true;
+
+  // Find lucky numbers (gold colored)
+  const luckyNums = _scratchNums.filter(n=>{
+    const s=parseInt(n[0])+parseInt(n[1]);
+    return [7,8,9,16,17].includes(s);
+  });
+
+  const res = document.getElementById('scratch-result');
+  if(!res) return;
+  res.classList.add('show');
+  if(luckyNums.length > 0){
+    res.className = 'scratch-result show lucky';
+    res.innerHTML = `🌟 Lucky ဂဏန်း: <strong>${luckyNums.join(', ')}</strong><br>
+      <span style="font-size:11px;opacity:.7;">ဒီဂဏန်းများ ဒီနေ့ ကံကောင်းမည်</span>`;
   } else {
-    showLocked();
+    res.className = 'scratch-result show normal';
+    res.textContent = '✨ အားလုံး ကြည့်ပြီးပါပြီ — AI ဂဏန်းများ စစ်ဆေးပါ';
   }
 }
 
-function showLocked(){
-  document.getElementById('pred-locked').style.display     = 'block';
-  document.getElementById('pred-ad-playing').style.display = 'none';
-  document.getElementById('pred-unlocked').style.display   = 'none';
+function resetScratch(){
+  // Regenerate with latest prediction numbers
+  const bars = document.querySelectorAll('.conf-num');
+  const latest = bars.length >= 5
+    ? Array.from(bars).slice(0,5).map(el=>el.textContent)
+    : ['07','11','23','34','56'];
+  buildScratchGrid(genScratchNums(latest));
 }
 
-function showUnlocked(){
-  document.getElementById('pred-locked').style.display     = 'none';
-  document.getElementById('pred-ad-playing').style.display = 'none';
-  document.getElementById('pred-unlocked').style.display   = 'block';
-  // Show expiry time
-  const exp = new Date(_unlockExpiry);
-  const hh  = exp.getHours().toString().padStart(2,'0');
-  const mm  = exp.getMinutes().toString().padStart(2,'0');
-  const el  = document.getElementById('unlock-expires');
-  if(el) el.textContent = '🔓 Unlock ' + hh + ':' + mm + ' အထိ';
-}
-
-function watchAdUnlock(){
-  // Show ad playing state
-  document.getElementById('pred-locked').style.display     = 'none';
-  document.getElementById('pred-ad-playing').style.display = 'block';
-  document.getElementById('pred-unlocked').style.display   = 'none';
-
-  // Countdown 15s
-  let sec = 15;
-  const secEl  = document.getElementById('ad-sec');
-  const progEl = document.getElementById('ad-progress');
-  if(secEl) secEl.textContent = sec;
-
-  _adTimer = setInterval(() => {
-    sec--;
-    if(secEl)  secEl.textContent = sec;
-    if(progEl) progEl.style.width = ((15 - sec) / 15 * 100) + '%';
-
-    if(sec <= 0){
-      clearInterval(_adTimer);
-      _adTimer = null;
-      // Unlock for 24h
-      _unlockExpiry = Date.now() + UNLOCK_DURATION;
-      showUnlocked();
-    }
-  }, 1000);
+// Expose so renderPrediction can init scratch
+function initScratchFromPred(main5){
+  const ss = document.getElementById('scratch-section');
+  if(ss) ss.style.display = 'block';
+  buildScratchGrid(genScratchNums(main5));
 }
 
 // ── Init ──
+// Set default chat name
+(function(){
+  const ni = document.getElementById('chat-name-input');
+  if(ni && !ni.value) ni.value = getDefaultName();
+})();
 load2D();
 setInterval(load2D, 5000);
 </script>
