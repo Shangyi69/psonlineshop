@@ -1,388 +1,151 @@
 <!DOCTYPE html>
 <html lang="my">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width,initial-scale=1">
-<title>2D Live · AI Smart Cycle</title>
-<link href="https://fonts.googleapis.com/css2?family=Share+Tech+Mono&family=Noto+Sans+Myanmar:wght@400;700;900&display=swap" rel="stylesheet">
-<style>
-:root{
-  --bg:#070b0f;--panel:#0d1117;--border:#1a2535;
-  --gold:#f5c842;--green:#00e676;--red:#ff3d57;
-  --blue:#29b6f6;--purple:#a78bfa;--muted:#4a5568;--text:#e2e8f0;
-  --mono:'Share Tech Mono',monospace;--my:'Noto Sans Myanmar',sans-serif;
-}
-*{box-sizing:border-box;margin:0;padding:0}
-body{background:var(--bg);color:var(--text);font-family:var(--my);min-height:100vh;overflow-x:hidden}
-body::before{content:'';position:fixed;inset:0;
-  background-image:linear-gradient(rgba(245,200,66,.025)1px,transparent 1px),
-  linear-gradient(90deg,rgba(245,200,66,.025)1px,transparent 1px);
-  background-size:40px 40px;pointer-events:none;z-index:0}
-.wrap{position:relative;z-index:1;max-width:680px;margin:0 auto;padding:16px 14px 48px}
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+  <title>2D/3D MYANMAR AI PRO</title>
+  <style>
+    *{box-sizing:border-box;margin:0;padding:0;font-family:'Pyidaungsu','Segoe UI',Arial;}
+    :root{ --bg:#0f172a; --card:#1e293b; --accent:#38bdf8; --gold:#fbbf24; --red:#ef4444; --text:#f8fafc; }
+    body{background:var(--bg);color:var(--text);padding-bottom:50px;}
+    .container{max-width:480px;margin:0 auto;padding:12px;}
+    
+    /* Live Section */
+    .live-card{background:linear-gradient(135deg,#1e293b,#0f172a);border-radius:20px;padding:30px 10px;text-align:center;margin-bottom:20px;border:2px solid #334155;box-shadow:0 10px 25px rgba(0,0,0,0.4);}
+    #live-num{font-size:90px;font-weight:900;color:var(--accent);line-height:1;text-shadow:0 0 15px rgba(56,189,248,0.5);}
+    .live-label{font-size:12px;color:#94a3b8;letter-spacing:3px;margin-bottom:10px;text-transform:uppercase;}
 
-/* ── Header ── */
-.hdr{text-align:center;padding:20px 0 14px;border-bottom:1px solid var(--border);margin-bottom:18px}
-.badge-top{display:inline-block;font-family:var(--mono);font-size:9px;letter-spacing:4px;color:var(--gold);
-  border:1px solid rgba(245,200,66,.3);padding:3px 12px;border-radius:2px;margin-bottom:8px}
-.hdr h1{font-size:22px;font-weight:900;color:#fff}.hdr h1 span{color:var(--gold)}
+    /* Results Table */
+    .res-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:20px;}
+    .res-item{background:var(--card);padding:15px;border-radius:15px;text-align:center;border:1px solid #334155;}
+    .res-time{font-size:11px;color:#94a3b8;margin-bottom:5px;}
+    .res-num{font-size:24px;font-weight:900;color:var(--gold);}
 
-/* ── Live card ── */
-.live-card{background:linear-gradient(135deg,rgba(245,200,66,.07),rgba(245,200,66,.02));
-  border:1px solid rgba(245,200,66,.22);border-radius:16px;padding:20px;margin-bottom:14px;
-  position:relative;overflow:hidden}
-.live-card::after{content:'';position:absolute;top:-50px;right:-50px;width:180px;height:180px;
-  background:radial-gradient(circle,rgba(245,200,66,.06)0%,transparent 70%);pointer-events:none}
-.live-label{display:flex;align-items:center;gap:8px;font-family:var(--mono);font-size:10px;
-  letter-spacing:3px;color:var(--gold);text-transform:uppercase;margin-bottom:12px}
-.pulse{width:7px;height:7px;background:var(--green);border-radius:50%;animation:pu 1.5s ease-in-out infinite}
-@keyframes pu{0%{box-shadow:0 0 0 0 rgba(0,230,118,.4)}70%{box-shadow:0 0 0 8px rgba(0,230,118,0)}100%{box-shadow:0 0 0 0 rgba(0,230,118,0)}}
-.live-main{display:flex;align-items:flex-end;justify-content:space-between;gap:12px;flex-wrap:wrap}
-.big2d{font-family:var(--mono);font-size:88px;line-height:1;font-weight:700;color:var(--gold);
-  text-shadow:0 0 40px rgba(245,200,66,.4);letter-spacing:-3px}
-.live-right .row{margin-bottom:8px;text-align:right}
-.live-right .lbl{font-family:var(--mono);font-size:10px;color:var(--muted);letter-spacing:1px}
-.live-right .v{font-family:var(--mono);font-size:14px}.live-right .v.g{color:var(--green)}
-.live-time{font-family:var(--mono);font-size:11px;color:var(--muted);margin-top:10px;
-  padding-top:10px;border-top:1px solid var(--border)}
-
-/* ── Session tabs ── */
-.tabs{display:grid;grid-template-columns:repeat(3,1fr);gap:6px;margin-bottom:14px}
-.tab{background:var(--panel);border:1px solid var(--border);border-radius:10px;
-  padding:10px 8px;text-align:center;user-select:none}
-.tab .t{font-family:var(--mono);font-size:9px;color:var(--muted);letter-spacing:1px;margin-bottom:4px}
-.tab .n{font-family:var(--mono);font-size:18px;font-weight:700;color:var(--gold)}
-.tab .s{font-size:10px;color:var(--muted);margin-top:2px;font-family:var(--mono)}
-
-/* ── Results ── */
-.sec-title{font-family:var(--mono);font-size:10px;letter-spacing:3px;color:var(--muted);
-  text-transform:uppercase;margin-bottom:10px;display:flex;align-items:center;gap:10px}
-.sec-title::after{content:'';flex:1;height:1px;background:var(--border)}
-.results{display:flex;flex-direction:column;gap:7px;margin-bottom:18px}
-.res-row{background:var(--panel);border:1px solid var(--border);border-radius:11px;
-  padding:11px 15px;display:grid;grid-template-columns:68px 1fr 1fr 56px;
-  align-items:center;gap:10px;animation:si .3s ease both}
-@keyframes si{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:translateY(0)}}
-.r-time{font-family:var(--mono);font-size:11px;color:var(--blue);
-  background:rgba(41,182,246,.08);border:1px solid rgba(41,182,246,.15);
-  border-radius:5px;padding:3px 5px;text-align:center}
-.r-set{font-family:var(--mono);font-size:12px}
-.r-set small{display:block;font-size:10px;color:var(--muted);margin-bottom:1px}
-.r-val{font-family:var(--mono);font-size:12px;color:var(--green);text-align:right}
-.r-val small{display:block;font-size:10px;color:var(--muted);margin-bottom:1px}
-.r-2d{font-family:var(--mono);font-size:28px;font-weight:700;color:var(--gold);text-align:center;
-  text-shadow:0 0 12px rgba(245,200,66,.3)}
-
-/* ── AI Predict card ── */
-.ai-card{background:linear-gradient(135deg,rgba(88,166,255,.06),rgba(88,166,255,.02));
-  border:1px solid rgba(88,166,255,.22);border-radius:16px;padding:20px;margin-bottom:14px}
-.ai-eng-badge{display:inline-block;font-family:var(--mono);font-size:9px;letter-spacing:3px;
-  color:var(--blue);border:1px solid rgba(88,166,255,.3);padding:3px 10px;border-radius:20px;margin-bottom:10px}
-.ai-for-title{font-family:var(--mono);font-size:12px;color:var(--blue);margin-bottom:14px;
-  display:flex;align-items:center;gap:6px}
-.ai-for-title::before{content:'';width:3px;height:12px;background:var(--blue);border-radius:2px}
-
-/* 2D grid */
-.sub-lbl{font-family:var(--mono);font-size:10px;color:var(--muted);letter-spacing:1px;margin-bottom:8px}
-.nums-grid{display:grid;grid-template-columns:repeat(5,1fr);gap:8px;margin-bottom:18px}
-.num-cell{background:rgba(255,255,255,.03);border:1px solid var(--border);
-  border-radius:10px;padding:12px 4px;text-align:center;animation:si .35s ease both}
-.num-cell .n{font-family:var(--mono);font-size:24px;font-weight:700;color:#fff}
-.num-cell .c{font-size:9px;color:var(--muted);margin-top:2px;font-family:var(--mono)}
-.num-cell.sp{border-color:var(--gold);background:rgba(245,200,66,.06)}
-.num-cell.sp .n{color:var(--gold);text-shadow:0 0 14px rgba(245,200,66,.4)}
-.num-cell.sp .c{color:var(--gold)}
-
-/* 3D grid */
-.threed-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:10px}
-.threed-cell{background:rgba(167,139,250,.06);border:1px solid rgba(167,139,250,.25);
-  border-radius:12px;padding:16px 4px;text-align:center;animation:si .4s ease both}
-.threed-cell .n{font-family:var(--mono);font-size:26px;font-weight:900;color:var(--purple);
-  text-shadow:0 0 12px rgba(167,139,250,.3)}
-.threed-cell .c{font-size:9px;color:var(--muted);margin-top:2px;font-family:var(--mono)}
-
-/* ── Refresh ── */
-.refresh-bar{display:flex;align-items:center;justify-content:space-between;margin-bottom:14px}
-.ref-btn{display:flex;align-items:center;gap:7px;background:transparent;border:1px solid var(--border);
-  color:var(--text);font-family:var(--mono);font-size:11px;padding:7px 13px;border-radius:8px;
-  cursor:pointer;transition:all .2s;letter-spacing:1px}
-.ref-btn:hover{border-color:var(--gold);color:var(--gold)}
-.ref-btn.spin svg{animation:sp .5s linear infinite}
-@keyframes sp{to{transform:rotate(360deg)}}
-.auto-lbl{font-family:var(--mono);font-size:11px;color:var(--muted)}
-.cd{color:var(--gold)}
-
-.err{display:none;background:rgba(255,61,87,.07);border:1px solid rgba(255,61,87,.2);
-  border-radius:9px;padding:10px 14px;font-family:var(--mono);font-size:11px;color:var(--red);margin-bottom:12px}
-
-.footer{text-align:center;font-family:var(--mono);font-size:9px;color:var(--muted);
-  letter-spacing:2px;margin-top:24px;padding-top:12px;border-top:1px solid var(--border)}
-
-@media(max-width:460px){
-  .big2d{font-size:64px}
-  .res-row{grid-template-columns:58px 1fr 50px}.r-val{display:none}
-}
-</style>
+    /* AI Prediction Section */
+    .section-title{font-size:15px;font-weight:bold;margin:25px 0 12px;padding-left:12px;border-left:5px solid var(--red);color:#fff;}
+    .predict-box{background:var(--card);border-radius:18px;padding:20px;border:1px solid #334155;box-shadow:0 4px 6px rgba(0,0,0,0.1);}
+    
+    .grid-10{display:grid;grid-template-columns:repeat(5, 1fr);gap:10px;}
+    .num-chip{background:rgba(56,189,248,0.1);border:1px solid rgba(56,189,248,0.3);padding:12px 0;text-align:center;border-radius:10px;font-weight:bold;color:#fff;font-size:18px;}
+    
+    .threed-row{display:flex;justify-content:space-between;gap:12px;margin-top:15px;}
+    .threed-chip{flex:1;background:rgba(251,191,36,0.1);border:1px solid var(--gold);color:var(--gold);padding:15px;text-align:center;border-radius:12px;font-weight:900;font-size:22px;}
+    
+    .ai-badge{display:inline-block;background:var(--red);color:#fff;font-size:10px;padding:2px 8px;border-radius:50px;margin-bottom:10px;}
+    .wait-msg{font-size:13px;color:#64748b;text-align:center;padding:30px 0;}
+  </style>
 </head>
 <body>
-<div class="wrap">
 
-<div class="hdr">
-  <div class="badge-top">AI Smart Cycle v3.0</div>
-  <h1>မြန်မာ <span>2D</span> Live</h1>
-</div>
-
-<div class="err" id="errBox"></div>
-
-<!-- Live -->
-<div class="live-card">
-  <div class="live-label"><div class="pulse"></div>လက်ရှိ Live</div>
-  <div class="live-main">
-    <div>
-      <div style="font-family:var(--mono);font-size:10px;color:var(--muted);margin-bottom:4px;letter-spacing:2px">2D</div>
-      <div class="big2d" id="live2d">--</div>
-    </div>
-    <div class="live-right">
-      <div class="row"><div class="lbl">SET</div><div class="v" id="liveSet">--</div></div>
-      <div class="row"><div class="lbl">VALUE</div><div class="v g" id="liveVal">--</div></div>
-    </div>
+<div class="container">
+  <div class="live-card">
+    <div class="live-label">Thai 2D Real-time</div>
+    <div id="live-num">--</div>
+    <div id="live-time" style="font-size:11px;color:#475569;margin-top:10px;">Connecting...</div>
   </div>
-  <div class="live-time" id="liveTime">⏱ ချိတ်ဆက်နေသည်...</div>
-</div>
 
-<!-- Session tabs -->
-<div class="tabs">
-  <div class="tab" id="tab-1100">
-    <div class="t">SESSION 1</div><div class="n" id="n-1100">--</div><div class="s">11:00 AM</div>
+  <div class="res-grid">
+    <div class="res-item"><div class="res-time">11:00 AM</div><div class="res-num" id="t1100">--</div></div>
+    <div class="res-item"><div class="res-time">12:01 PM</div><div class="res-num" id="t1201">--</div></div>
+    <div class="res-item"><div class="res-time">03:00 PM</div><div class="res-num" id="t1500">--</div></div>
+    <div class="res-item"><div class="res-time">04:30 PM</div><div class="res-num" id="t1630">--</div></div>
   </div>
-  <div class="tab" id="tab-1201">
-    <div class="t">SESSION 2</div><div class="n" id="n-1201">--</div><div class="s">12:01 PM</div>
+
+  <div class="section-title">☀️ MORNING (12:01) AI + TRADITION</div>
+  <div class="predict-box">
+    <div class="ai-badge">Daily Rotation</div>
+    <div class="grid-10" id="m2d-ui"></div>
+    <div class="threed-row" id="m3d-ui"></div>
   </div>
-  <div class="tab" id="tab-1500">
-    <div class="t">SESSION 3</div><div class="n" id="n-1500">--</div><div class="s">03:00 PM</div>
-  </div>
-</div>
 
-<!-- Results -->
-<div class="sec-title">ကြေညာချက်မှတ်တမ်း</div>
-<div class="results" id="resultList">
-  <div style="text-align:center;padding:18px;font-size:11px;color:var(--muted);font-family:var(--mono)">⏳ Loading...</div>
-</div>
-
-<!-- AI Predict -->
-<div class="ai-card" id="aiCard">
-  <div class="ai-eng-badge">AI CYCLE ENGINE v3.0</div>
-  <div class="ai-for-title" id="aiTitle">ခန့်မှန်းချက် ထွက်ပေါ်ရန် စောင့်နေသည်...</div>
-
-  <div class="sub-lbl">2D &nbsp;· &nbsp;၁၀ ကွက် &nbsp;<span style="color:var(--gold)">★ = အထူးကွက်</span></div>
-  <div class="nums-grid" id="numsGrid">
-    <div style="grid-column:1/-1;text-align:center;padding:16px;font-size:11px;color:var(--muted);font-family:var(--mono)">
-      ဒေတာ ရောက်သည်နှင့် အလိုအလျောက် တွက်မည်
+  <div class="section-title">🌙 EVENING (04:30) AI + TRADITION</div>
+  <div class="predict-box" id="evening-box">
+    <div id="e-wait" class="wait-msg">မနက် ၁၂:၀၁ ထွက်ဂဏန်းကို AI က ဗေဒင်တွက်နည်းဖြင့် စစ်ဆေးနေသည်...</div>
+    <div id="e-content" style="display:none;">
+        <div class="ai-badge" style="background:var(--gold);color:#000;">Power & Natkhat Sync</div>
+        <div class="grid-10" id="e2d-ui"></div>
+        <div class="threed-row" id="e3d-ui"></div>
     </div>
   </div>
-
-  <div class="sub-lbl">3D &nbsp;· &nbsp;၃ ကွက်</div>
-  <div class="threed-grid" id="threedGrid">
-    <div style="grid-column:1/-1;text-align:center;padding:12px;font-size:11px;color:var(--muted);font-family:var(--mono)">
-      --
-    </div>
-  </div>
-</div>
-
-<!-- Refresh -->
-<div class="refresh-bar">
-  <button class="ref-btn" id="refBtn" onclick="fetchData()">
-    <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
-      <polyline points="23 4 23 10 17 10"/>
-      <path d="M20.49 15a9 9 0 1 1-2.12-9.36L23 10"/>
-    </svg>REFRESH
-  </button>
-  <div class="auto-lbl">AUTO <span class="cd" id="cdNum">30</span>s</div>
-</div>
-
-<div class="footer">11:00 AM &nbsp;·&nbsp; 12:01 PM &nbsp;·&nbsp; 03:00 PM &nbsp;·&nbsp; AI Cycle Engine</div>
 </div>
 
 <script>
-// ══════════════════════════════════════════════
-// Config
-// ══════════════════════════════════════════════
-const API_URL = 'https://api.thaistock2d.com/live';
-const PX = [
-  u => `https://corsproxy.io/?${encodeURIComponent(u)}`,
-  u => `https://api.allorigins.win/raw?url=${encodeURIComponent(u)}`,
-];
-const ALLOWED = ['11:00:00','12:01:00','15:00:00'];
-const SESS = {
-  '11:00:00':{key:'1100',lbl:'11:00 AM'},
-  '12:01:00':{key:'1201',lbl:'12:01 PM'},
-  '15:00:00':{key:'1500',lbl:'03:00 PM'},
-};
-// ညနေ 3:00 ထွက် → မနက် 11:00 ခန့်မှန်း
-// မနက် 11:00 ထွက် → နေ့လည် 12:01 ခန့်မှန်း
-// နေ့လည် 12:01 ထွက် → ညနေ 3:00 ခန့်မှန်း
-const PRED_FOR = {
-  '1500': 'မနက် 11:00 AM',
-  '1100': 'နေ့လည် 12:01 PM',
-  '1201': 'ညနေ 3:00 PM',
-};
+  const API = 'https://api.thaistock2d.com/live';
+  function mmNow(){ return new Date(Date.now() + new Date().getTimezoneOffset()*60000 + 6.5*3600000); }
 
-let cdTimer;
-
-// ══════════════════════════════════════════════
-// AI Smart Cycle Logic (from original engine)
-// ══════════════════════════════════════════════
-function getMMDay() {
-  return new Date(Date.now() + new Date().getTimezoneOffset()*60000 + 6.5*3600000).getDate();
-}
-
-function calculateSmartAI(lastNum, set, val) {
-  const n   = parseInt(lastNum);
-  const day = getMMDay();
-
-  // Power mapping tables
-  const pMap = {0:5,1:6,2:7,3:8,4:9,5:0,6:1,7:2,8:3,9:4};
-  const nMap = {0:7,1:8,2:9,3:5,4:6,5:3,6:4,7:0,8:1,9:2};
-
-  // ── 2D Cycle ──
-  const pVal = parseInt(`${pMap[Math.floor(n/10)]}${pMap[n%10]}`);
-  const nVal = parseInt(`${nMap[Math.floor(n/10)]}${nMap[n%10]}`);
-  let ai2d = new Set([pVal, nVal]);
-  for (let i = 1; ai2d.size < 10; i++) {
-    ai2d.add((n * (i + 4) + (day * 3)) % 100);
-  }
-  const sorted2d = Array.from(ai2d).sort((a, b) => a - b);
-
-  // ── 3D Cycle ──
-  const setStr = (set||'').toString().replace(/,/g,'');
-  const valStr = (val||'').toString().replace(/,/g,'');
-  const sL = setStr.includes('.') ? (setStr.split('.')[1]?.charAt(1)||'0') : '0';
-  const vL = valStr.includes('.') ? (valStr.split('.')[0]?.slice(-1)||'0') : (valStr.slice(-1)||'0');
-  const mSuffix = n % 10;
-  const ai3d = [
-    `${sL}${vL}${mSuffix}`,
-    `${pMap[parseInt(sL)]}${vL}${mSuffix}`,
-    `${sL}${pMap[parseInt(vL)]}${mSuffix}`,
-  ];
-
-  return { sorted2d, pVal, nVal, ai3d };
-}
-
-// ══════════════════════════════════════════════
-// Render
-// ══════════════════════════════════════════════
-function fmtT(s) {
-  if (!s) return '--';
-  const t = s.includes(' ') ? s.split(' ')[1] : s;
-  const [h, m] = t.split(':');
-  const hr = parseInt(h);
-  return `${String(hr%12||12).padStart(2,'0')}:${m} ${hr>=12?'PM':'AM'}`;
-}
-
-function renderLive(d) {
-  document.getElementById('live2d').textContent  = d.twod  || '--';
-  document.getElementById('liveSet').textContent = d.set   || '--';
-  document.getElementById('liveVal').textContent = d.value || '--';
-  document.getElementById('liveTime').textContent = '⏱ ' + fmtT(d.time);
-}
-
-function renderResults(results) {
-  const f = (results||[]).filter(r => ALLOWED.includes(r.open_time));
-
-  // Update tabs
-  f.forEach(r => {
-    const s = SESS[r.open_time];
-    if (s) document.getElementById('n-'+s.key).textContent = r.twod || '--';
-  });
-
-  // Table
-  const el = document.getElementById('resultList');
-  if (!f.length) {
-    el.innerHTML = '<div style="text-align:center;padding:18px;font-size:11px;color:var(--muted);font-family:var(--mono)">ကြေညာချက် မရှိသေးပါ</div>';
-    return;
-  }
-  el.innerHTML = f.map((r,i) => `
-    <div class="res-row" style="animation-delay:${i*.06}s">
-      <div class="r-time">${fmtT(r.open_time)}</div>
-      <div class="r-set"><small>SET</small>${r.set||'--'}</div>
-      <div class="r-val"><small>VALUE</small>${r.value||'--'}</div>
-      <div class="r-2d">${r.twod||'--'}</div>
-    </div>`).join('');
-
-  // ── Run AI on latest result ──
-  const last = f[f.length - 1];
-  if (last && last.twod && last.twod !== '--') {
-    const srcKey = SESS[last.open_time]?.key;
-    const forLbl = srcKey ? PRED_FOR[srcKey] : '--';
-    const liveSet = document.getElementById('liveSet').textContent;
-    const liveVal = document.getElementById('liveVal').textContent;
-    const res = calculateSmartAI(last.twod, liveSet, liveVal);
-    renderPredict(res, forLbl);
-  }
-}
-
-function renderPredict(res, forLbl) {
-  document.getElementById('aiTitle').textContent = `${forLbl} အတွက် AI ခန့်မှန်းချက်`;
-
-  // 2D
-  document.getElementById('numsGrid').innerHTML = res.sorted2d.map((v,i) => {
-    const isSp = (v === res.pVal || v === res.nVal);
-    return `<div class="num-cell ${isSp?'sp':''}" style="animation-delay:${i*.04}s">
-      <div class="n">${v.toString().padStart(2,'0')}</div>
-      <div class="c">${isSp ? '★ HOT' : '#'+(i+1)}</div>
-    </div>`;
-  }).join('');
-
-  // 3D
-  document.getElementById('threedGrid').innerHTML = res.ai3d.map((v,i) => `
-    <div class="threed-cell" style="animation-delay:${i*.06}s">
-      <div class="n">${v}</div>
-      <div class="c">#${i+1}</div>
-    </div>`).join('');
-}
-
-// ══════════════════════════════════════════════
-// Fetch
-// ══════════════════════════════════════════════
-async function fetchData() {
-  const btn = document.getElementById('refBtn');
-  btn.classList.add('spin');
-  document.getElementById('errBox').style.display = 'none';
-  let ok = false;
-  for (const px of PX) {
+  async function sync(){
     try {
-      const r = await fetch(px(API_URL), {cache:'no-store'});
-      if (!r.ok) continue;
-      const d = await r.json();
-      if (d.live) renderLive(d.live);
-      if (d.result) renderResults(d.result);
-      ok = true; break;
-    } catch(e) { continue; }
-  }
-  if (!ok) {
-    document.getElementById('errBox').style.display = 'block';
-    document.getElementById('errBox').textContent = '⚠ API မချိတ်နိုင်ပါ — Demo data';
-    renderLive({twod:'76',set:'1,622.37',value:'67,016.57',time:'2021-11-04 15:00:00'});
-    renderResults([
-      {open_time:'11:00:00',set:'1,623.03',value:'42,311.39',twod:'31'},
-      {open_time:'12:01:00',set:'1,621.55',value:'53,762.32',twod:'52'},
-      {open_time:'15:00:00',set:'1,622.37',value:'67,016.57',twod:'76'},
-    ]);
-  }
-  btn.classList.remove('spin');
-  resetCD();
-}
+      const res = await fetch(API);
+      const data = await res.json();
+      document.getElementById('live-num').textContent = data.live.twod;
+      document.getElementById('live-time').textContent = "Updated: " + mmNow().toLocaleTimeString();
+      
+      const mResult = data.result.find(r => r.open_time.includes("12:01"))?.twod || null;
+      
+      data.result.forEach(r => {
+        if(r.open_time.includes("11:00")) document.getElementById('t1100').textContent = r.twod;
+        if(r.open_time.includes("12:01")) document.getElementById('t1201').textContent = r.twod;
+        if(r.open_time.includes("15:00")) document.getElementById('t1500').textContent = r.twod;
+        if(r.open_time.includes("16:30")) document.getElementById('t1630').textContent = r.twod;
+      });
 
-function resetCD() {
-  clearInterval(cdTimer);
-  let s = 30;
-  document.getElementById('cdNum').textContent = s;
-  cdTimer = setInterval(() => {
-    document.getElementById('cdNum').textContent = --s;
-    if (s <= 0) fetchData();
-  }, 1000);
-}
+      runAI(data.live.set, data.live.value, mResult);
+    } catch(e) { console.error(e); }
+  }
 
-fetchData();
+  function runAI(set, val, morningOut) {
+    const d = mmNow().getDate(), m = mmNow().getMonth()+1, y = mmNow().getFullYear();
+    const dateSeed = d + m + y;
+
+    // --- Morning AI ---
+    let m2d = [];
+    for(let i=0; i<10; i++) m2d.push((dateSeed * (i+7) + 14) % 100);
+    document.getElementById('m2d-ui').innerHTML = m2d.map(n => `<div class="num-chip">${n.toString().padStart(2,'0')}</div>`).join('');
+    
+    let m3d = [(dateSeed*11)%900+100, (dateSeed*13)%900+100, (dateSeed*17)%900+100];
+    document.getElementById('m3d-ui').innerHTML = m3d.map(n => `<div class="threed-chip">${n}</div>`).join('');
+
+    // --- Evening AI (Tradition + AI) ---
+    if(morningOut && morningOut !== '--') {
+      document.getElementById('e-wait').style.display = 'none';
+      document.getElementById('e-content').style.display = 'block';
+
+      const mNum = parseInt(morningOut);
+      
+      // မြန်မာ့အယူအစ (ပါဝါ၊ နက္ခတ် နှင့် နေ့နံ တွက်ချက်မှု)
+      const powers = {0:5, 1:6, 2:7, 3:8, 4:9, 5:0, 6:1, 7:2, 8:3, 9:4};
+      const natkhats = {0:7, 1:8, 2:9, 3:5, 4:6, 5:3, 6:4, 7:0, 8:1, 9:2};
+
+      let e2d = new Set();
+      // ၁။ မနက်ထွက်ဂဏန်း၏ ပါဝါ နှင့် နက္ခတ်ကို အခြေခံ
+      const m1 = Math.floor(mNum/10), m2 = mNum%10;
+      e2d.add(parseInt(`${powers[m1]}${powers[m2]}`)); 
+      e2d.add(parseInt(`${natkhats[m1]}${natkhats[m2]}`));
+      
+      // ၂။ နေ့နံ Seed နှင့် AI Randomness ပေါင်းစပ်ခြင်း (မနက်ဖြန် မနက်ပိုင်း Logic လိုမျိုး)
+      for(let i=0; e2d.size < 10; i++) {
+        let n = ((mNum + i + d) * 19 + 27) % 100;
+        e2d.add(n);
+      }
+
+      document.getElementById('e2d-ui').innerHTML = Array.from(e2d).map(n => `<div class="num-chip">${n.toString().padStart(2,'0')}</div>`).join('');
+
+      // 3D Evening (Myanmar Style: SET+Value+MorningSuffix)
+      const sL = set ? set.toString().split('.')[1]?.charAt(1) || '0' : '0';
+      const vL = val ? val.toString().split('.')[0]?.slice(-1) || '0' : '0';
+      const mSuffix = mNum % 10;
+      
+      let e3d = [
+        `${sL}${vL}${mSuffix}`,
+        `${powers[sL]}${vL}${mSuffix}`,
+        `${sL}${powers[vL]}${mSuffix}`
+      ];
+      document.getElementById('e3d-ui').innerHTML = e3d.map(n => `<div class="threed-chip">${n}</div>`).join('');
+    }
+  }
+
+  sync();
+  setInterval(sync, 5000);
 </script>
 </body>
 </html>
