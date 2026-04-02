@@ -1,7 +1,19 @@
+<!-- Option 1: For desktop — fixed width, auto height -->
 <iframe
 	src="https://phoe2004-recap-shan.hf.space"
-	frameborder="0"
-	width="850"
-	height="450"
+	style="width:100%; max-width:400px; height:700px; border:none; border-radius:16px; box-shadow:0 8px 32px rgba(0,0,0,0.2);"
+	allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+	allowfullscreen
 ></iframe>
 
+<!-- Option 2: Responsive (recommended) -->
+<div style="position:relative; width:100%; max-width:400px; margin:0 auto;">
+	<div style="position:relative; padding-bottom:177.77%; /* 9:16 = 100/9*16 = 177.77% */ height:0; overflow:hidden; border-radius:20px; box-shadow:0 12px 40px rgba(0,0,0,0.25);">
+		<iframe
+			src="https://phoe2004-recap-shan.hf.space"
+			style="position:absolute; top:0; left:0; width:100%; height:100%; border:none;"
+			allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+			allowfullscreen
+		></iframe>
+	</div>
+</div>
